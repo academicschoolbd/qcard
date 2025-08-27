@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>বাংলা পোস্টকার্ড – চূড়ান্ত সংস্করণ</title>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <!-- Bangla Fonts -->
+  <link href="https://fonts.maateen.me/solaiman-lipi/font.css" rel="stylesheet">
+  <link href="https://fonts.maateen.me/bensen-handwriting/font.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #4a6fa5;
+      --text: #333;
+    }
+
+    body {
+      font-family: 'Hind Siliguri', sans-serif;
+      background: #f0f4f8;
+      margin: 0;
+      padding: 40px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      color: var(--text);
+      transition: background 0.4s ease;
+    }
+
+    /* Background Themes */
+    body.bg-1 { background: #e3f2fd; }
+    body.bg-2 { background: #f3e5f5; }
+    body.bg-3 { background: #e8f5e8; }
+    body.bg-4 { background: #fff3e0; }
+    body.bg-5 { background: #fff8e1; }
+
+    .card-wrapper {
+      width: 400px;
+      height: 400px;
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .card {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 16px;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+      box-sizing: border-box;
+      background: #ffffff;
+      border: 6px solid #ffffff;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+    }
+
+    .quote {
+      font-size: 28px;
+      font-weight: 600;
+      margin: 0 0 12px;
+      line-height: 1.55;
+      padding: 0 10px;
+      min-height: 150px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #1a237e;
+    }
+
+    .author-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 18px;
+      font-weight: 600;
+      min-height: 40px;
+      color: #c62828;
+    }
+
+    .author-container i {
+      font-size: 18px;
+      transition: transform 0.3s ease;
+    }
+
+    .author-container:hover i {
+      transform: rotate(-10deg);
+    }
+
+    /* Control Panel */
+    .control-panel {
+      margin-top: 30px;
+      width: 400px;
+      max-width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .control-group {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .control-group select,
+    .control-group input[type="color"] {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px;
+      background-color: #4a6fa5;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      margin-top: 10px;
+    }
+
+    .btn.download {
+      background-color: #2e7d32;
+    }
+
+    .btn:hover {
+      opacity: 0.9;
+    }
+
+    /* Font Classes */
+    .font-default {
+      font-family: 'Hind Siliguri', sans-serif !important;
+    }
+    .font-solaiman {
+      font-family: 'SolaimanLipi', serif !important;
+    }
+    .font-bensen {
+      font-family: 'BenSen Handwriting', cursive, sans-serif !important;
+    }
+  </style>
+</head>
+<body id="body">
+
+  <!-- Postcard -->
+  <div class="card-wrapper" id="postcard">
+    <div class="card">
+      <p class="quote font-default" id="quoteText">"জীবন সংগ্রামে হার মানো না, চেষ্টা চালিয়ে যাও।"</p>
+      <div class="author-container font-default" id="authorContainer">
+        <i class="fas fa-feather" id="iconDisplay"></i>
+        <span id="authorText">বঙ্কিমচন্দ্র চট্টোপাধ্যায়</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Control Panel -->
+  <div class="control-panel">
+    <div class="material-input">
+      <input type="text" id="quoteInput" placeholder=" " />
+      <label for="quoteInput">উদ্ধৃতি লিখুন</label>
+    </div>
+    <div class="material-input">
+      <input type="text" id="authorInput" placeholder=" " />
+      <label for="authorInput">লেখকের নাম লিখুন</label>
+    </div>
+
+    <!-- Font Selection -->
+    <div class="control-group">
+      <select id="fontSelect" onchange="changeFont()">
+        <option value="default">Hind Siliguri</option>
+        <option value="solaiman">Solaiman Lipi</option>
+        <option value="bensen">Bensen Handwriting</option>
+      </select>
+    </div>
+
+    <!-- Icon Selection -->
+    <div class="control-group">
+      <select id="iconSelect" onchange="changeIcon()">
+        <option value="feather">🖋️ কলম (Feather)</option>
+        <option value="pen">✏️ পেন</option>
+        <option value="edit">✍️ লেখা</option>
+        <option value="feather-alt">🖋️ ফাউন্টেন পেন</option>
+      </select>
+    </div>
+
+    <!-- Page Background -->
+    <div class="control-group">
+      <select id="bgSelect" onchange="changeBackground()">
+        <option value="1">Light Blue</option>
+        <option value="2">Lavender</option>
+        <option value="3">Mint Green</option>
+        <option value="4">Warm Peach</option>
+        <option value="5">Soft Yellow</option>
+      </select>
+    </div>
+
+    <!-- Card Background -->
+    <div class="control-group">
+      <input type="color" id="cardBgPicker" value="#ffffff" onchange="changeCardBg()">
+      <label>কার্ড রং</label>
+    </div>
+
+    <!-- Quote Color -->
+    <div class="control-group">
+      <input type="color" id="quoteColorPicker" value="#1a237e" onchange="changeQuoteColor()">
+      <label>উদ্ধৃতি রং</label>
+    </div>
+
+    <!-- Author Color -->
+    <div class="control-group">
+      <input type="color" id="authorColorPicker" value="#c62828" onchange="changeAuthorColor()">
+      <label>লেখক রং</label>
+    </div>
+
+    <!-- Buttons -->
+    <button class="btn" onclick="updatePostcard()">
+      <i class="fas fa-sync-alt"></i> আপডেট করুন
+    </button>
+    <button class="btn download" onclick="saveAsPNG()">
+      <i class="fas fa-download"></i> ডাউনলোড করুন
+    </button>
+  </div>
+
+  <!-- Hidden Canvas -->
+  <canvas id="canvas" style="display:none;"></canvas>
+
+  <!-- html2canvas -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  <script>
+    const body = document.getElementById('body');
+    const card = document.querySelector('.card');
+    const quoteText = document.getElementById('quoteText');
+    const authorContainer = document.getElementById('authorContainer');
+    const iconDisplay = document.getElementById('iconDisplay');
+
+    function updatePostcard() {
+      const quote = document.getElementById('quoteInput').value.trim();
+      const author = document.getElementById('authorInput').value.trim();
+
+      quoteText.innerText = quote ? `"${quote}"` : '"জীবন সংগ্রামে হার মানো না, চেষ্টা চালিয়ে যাও।"';
+      document.getElementById('authorText').innerText = author ? author : 'বঙ্কিমচন্দ্র চট্টোপাধ্যায়';
+
+      changeFont();
+      changeIcon();
+      changeCardBg();
+      changeQuoteColor();
+      changeAuthorColor();
+    }
+
+    function changeFont() {
+      const font = document.getElementById('fontSelect').value;
+
+      quoteText.className = 'quote';
+      authorContainer.className = 'author-container';
+
+      if (font === 'solaiman') {
+        quoteText.classList.add('font-solaiman');
+        authorContainer.classList.add('font-solaiman');
+      } else if (font === 'bensen') {
+        quoteText.classList.add('font-bensen');
+        authorContainer.classList.add('font-bensen');
+      } else {
+        quoteText.classList.add('font-default');
+        authorContainer.classList.add('font-default');
+      }
+    }
+
+    function changeIcon() {
+      const icon = document.getElementById('iconSelect').value;
+      iconDisplay.className = '';
+      iconDisplay.classList.add('fas', `fa-${icon}`);
+    }
+
+    function changeBackground() {
+      body.className = `bg-${document.getElementById('bgSelect').value}`;
+    }
+
+    function changeCardBg() {
+      card.style.background = document.getElementById('cardBgPicker').value;
+    }
+
+    function changeQuoteColor() {
+      quoteText.style.color = document.getElementById('quoteColorPicker').value;
+    }
+
+    function changeAuthorColor() {
+      const color = document.getElementById('authorColorPicker').value;
+      authorContainer.style.color = color;
+      iconDisplay.style.color = color;
+    }
+
+    function saveAsPNG() {
+      const element = document.getElementById('postcard');
+      const canvas = document.getElementById('canvas');
+      const scale = 3;
+
+      canvas.width = 400 * scale;
+      canvas.height = 400 * scale;
+
+      // No alert — silent processing
+      setTimeout(() => {
+        html2canvas(element, {
+          canvas: canvas,
+          scale: scale,
+          useCORS: true,
+          allowTaint: true,
+          backgroundColor: null,
+          logging: false,
+          width: 400,
+          height: 400
+        }).then(canvas => {
+          const link = document.createElement('a');
+          link.download = 'bangla-postcard.png';
+          link.href = canvas.toDataURL('image/png');
+          link.click(); // Auto-download
+        }).catch(() => {
+          // Fail silently
+          alert("ডাউনলোড করতে সমস্যা হয়েছে। পুনরায় চেষ্টা করুন।");
+        });
+      }, 1000); // Slight delay for rendering
+    }
+
+    // Initialize
+    changeFont();
+    changeIcon();
+    changeBackground();
+    changeCardBg();
+    changeQuoteColor();
+    changeAuthorColor();
+  </script>
+
+</body>
+</html>
