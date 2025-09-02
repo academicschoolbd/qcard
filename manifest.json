@@ -1,11 +1,12 @@
 {
-  "name": " Academic School",
-  "short_name": "Academic School",
-  "description": "Academic School, PDF , Daily ePapers BD, Jobs - এক জায়গায় সব",
+  "name": "আমার বাংলা অ্যাপ",
+  "short_name": "আমার বাংলা",
+  "description": "Academic School, PDF EducoxBd, Daily ePapers BD - এক জায়গায় সব",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#f5f5f5",
   "theme_color": "#4a6fa5",
+  "orientation": "portrait",
   "icons": [
     {
       "src": "icon-192.png",
