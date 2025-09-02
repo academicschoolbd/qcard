@@ -1,0 +1,15 @@
+CACHE MANIFEST
+# v1.0
+
+CACHE:
+/index.html
+/manifest.json
+/sw.js
+/icon-192.png
+/icon-512.png
+
+NETWORK:
+*
+
+FALLBACK:
+/ /index.html
