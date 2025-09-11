@@ -1,0 +1,244 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>NU Latest Published Result Portal</title>  
+    <link rel="shortcut icon" href="img/nulogo.ico" type="image/x-icon"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="Description" content="..." />
+    <meta name="Keywords" content="..." />
+    <meta name="robots" content="all,follow" />
+    <meta name="author" content="..." />
+    <!-- Javascript -->
+    <meta http-equiv="Content-Script-Type" content="text/javascript" />
+    <script type="text/javascript" src="http://result.nu.ac.bd/include/jquery-1.4.4.js"></script>
+    <script type="text/javascript" src="http://result.nu.ac.bd/include/functions.js"></script>
+	<script type="text/javascript" src="http://result.nu.ac.bd/pro_drop_1/stuHover.js"></script>
+    <script>
+	function load_url($url)
+	{
+	var contentarea = $("#contentarea").val();
+	$("#contentarea").html("<img src='img/loading.gif' alt='Loading...' />");
+	$.post($url,{"div":contentarea},function(data){
+		$("#contentarea").html(data);
+	},"text");
+	}
+	</script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen, projection, tv" />
+    <link rel="stylesheet" href="css/style-print.css" type="text/css" media="print" />
+    <link rel="stylesheet" type="text/css" href="pro_drop_1/pro_drop_1.css" />
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+</head>
+<body>
+<div id="wrapper"> 
+  <!-- Header -->
+  <div id="header"> 
+    <div id="header">
+
+    <!--<div id="header-logo">
+
+        <img src="img/nulogo.png"> 
+
+    </div>-->
+
+    <!-- Your website name  -->
+
+    <h1><a href="https://www.nu.ac.bd/">National University</a></h1>
+
+    <!-- Your website name end -->
+
+    
+
+    <!-- Your slogan -->
+
+    
+  <h2>Recent Published Results</h2>
+
+    <!-- Your slogan end -->
+
+    <div id="header-arrow">
+
+    
+
+    </div>
+
+</div>
+
+<!-- Header end -->
+
+<!-- Menu -->
+
+<div style="clear:both"> </div>      </div>
+  <!-- Header end -->
+  <!--content-->
+    <table width="100%" border="0" align="center" style="border-redious:2px;">
+      </table>
+  <div class="cleaner">&nbsp;</div>
+  <div id="content-box"> 
+    <!--		<div id="content-box-in">-->
+    <div id="contentarea" align="center"> 
+      <style>
+input[type=text], select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type=button] {
+  width: 100%;
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=submit] {
+  width: 100%;
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+input[type=button]:hover {
+  background-color: #45a049;
+}
+
+
+</style>
+<style>
+.block {
+  display: block;
+  width: 430px;
+  border: none;
+  background-color: #0073a6;
+  color: white;
+  padding: 6px 14px;
+  font-size: 14px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.block:hover {
+  background-color: #00D2FF;
+  color: black;
+}
+
+  a:link {
+      text-decoration: none;
+}
+  a:hover {
+  background-color: #00D2FF;
+  color: #FFFFFF;
+}
+</style>
+<style type="text/css">     
+    select {
+        width:467px;
+    }
+</style>
+<br />
+<br />
+<br />
+	<font color="#FF0000"><strong> </strong></font> 
+<br />			  
+<form name="myResult" method="post" action="http://result.nu.ac.bd/result_show.php">
+      <input type="hidden" name="csrf_token" value="a93b983089ff2c9ed2585505be6ca92c3fd80228dbcac89c36293dbbe88a1208">
+<table width="480" border="0" cellspacing="0" cellpadding="0" align="center" style="border: 0px #295874 solid; " class="tble">
+                    <tr> 
+                      <td >
+  <table width="480" border="0"   cellpadding="0" cellspacing="0" class="tble">
+            <tr>
+              <td align="center"></td>
+            </tr>
+            <tr > 
+              <td> <div id="indivisul" style="display:block;"> 
+                  <table width="480" height="429" border="0" cellpadding="1" cellspacing="1" class="tble">
+                    
+                    <tr>
+                      <td height="45" align="left"><strong>Examination Name</strong><br />
+					    <select name="exm_code" id="exm_code" required tabindex="1">
+					<!--	<option value="">Select a Examination Name</option>
+				      <option value="1101">Bachelor Degree (Pass) 1st Year</option>	
+				      <option value="1102">Bachelor Degree (Pass) 2nd Year</option>	
+				      <option value="1103">Bachelor Degree (Pass) 3rd Year</option>	
+				      <option value="1100">Bachelor Degree (Pass) Consolidated</option>						  					  					  
+					  <option value="2201">Bachelor Degree (Honours) 1st Year</option>	
+		  			  <option value="2202">Bachelor Degree (Honours) 2nd Year</option>-->	
+		  			  <option value="2203">Bachelor Degree (Honours) 3rd Year</option>	
+  		  			  <!--<option value="2204">Bachelor Degree (Honours) 4th Year</option>						  
+  		  			  <option value="2200">Bachelor Degree (Honours) Consolidated</option>-->						  					  
+					  <!--<option value="3302">Masters Final</option>	
+					  <option value="4301">Preliminary to Masters</option>						  
+					  <option value="8762">Bachelor of Law (LL.B)  Final</option>-->
+		              </select>                    </td>
+                    </tr>
+                 
+
+                    <tr>
+                      <td height="45" align="left"><strong>Exam.Roll</strong><br /><input type="text" name="roll"  id="roll"  maxlength="7" required tabindex="3" placeholder="Enter Your Exam.Roll"  value=""  /></td>
+                    </tr>
+
+
+                    <tr>
+                      <td height="45" align="left"><strong>Registration No.</strong><br /><input type="text" name="reg"  id="reg_no"  maxlength="11" required tabindex="4" placeholder="Enter Your Registration" value=""   /></td>
+                    </tr>
+                    <tr>
+                      <td height="45" align="left"><strong>Exam. Year</strong><br />
+                        <input type="text" name="exm_year"  id="exm_year"  maxlength="4" required tabindex="5" placeholder="Enter Your Exam.Year" value="" />
+                        <input type="hidden" name="code"  id="code"  value="vGL5ic3xu" />                    </td>
+                    </tr>
+                    <tr> 
+                      <td height="45"><input name="submit" type="submit" class="block" tabindex="6" value="Search Result"></td>
+                    </tr>
+                    
+                    <tr>
+                      <td height="21">&nbsp;</td>
+                    </tr>
+                    <tr>
+                      <td height="58"><a href="http://results.nu.ac.bd/" target="_self"><input name="button" type="button" class="block"  title="Click here for NU All Examinations Result" value="Results Archive">
+                      </a></td>
+                    </tr>
+                  </table>
+              </div></td>
+            </tr>
+            
+        
+          </table>
+	</td>
+                    </tr>
+</table></div>	
+ </div>
+</form>
+<center>
+</center>
+    </div>
+    <!-- Content right end -->
+    <div class="cleaner">&nbsp;</div>
+  </div>
+  <!--end content-->
+  <!-- Footer -->
+  <hr class="noscreen" />
+  <div id="footer"> 
+     <p class="left">&copy; <a href="http://results.nu.ac.bd/">Results Archive</a> </p>
+  <p class="right">Department of ICT, <a class="b" href="https://www.nu.ac.bd/" target="_blank" title="National University">National University</a></p>  </div>
+  <!-- Footer end -->
+</div>
+
+</body>
+
+</html>
+
