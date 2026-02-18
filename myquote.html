@@ -14,9 +14,7 @@
   <style>
     :root {
       --primary: #4a6fa5;
-      --accent: #ff6b6b;
       --text: #333;
-      --card-bg: #ffffff;
     }
 
     * { box-sizing: border-box; }
@@ -34,7 +32,6 @@
       gap: 30px;
     }
 
-    /* Layout for Desktop: Side by Side */
     @media (min-width: 900px) {
       body {
         flex-direction: row;
@@ -66,7 +63,7 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      text-align: center; /* Default */
+      text-align: center;
       background: #ffffff;
       border: 6px solid transparent; 
       position: relative;
@@ -76,34 +73,44 @@
       flex: 1;
       display: flex;
       align-items: center;
-      justify-content: center; /* Vertical center */
-      position: relative;
+      justify-content: center;
       padding: 10px;
     }
 
     .quote {
-      font-size: 26px; /* Base size, controlled by JS */
+      font-size: 26px;
       font-weight: 600;
       line-height: 1.6;
       color: #1a237e;
-      white-space: pre-wrap; /* Crucial for handling Enter key */
+      white-space: pre-wrap;
       word-wrap: break-word;
-      z-index: 2;
-      width: 100%;
+      position: relative;
+      display: inline-block; /* Ensures quotes stick to text block */
     }
 
-    /* Quotation Marks */
-    .quote-mark {
-      position: absolute;
-      font-size: 60px;
-      color: #4a6fa5;
-      opacity: 0.25;
-      font-family: 'Times New Roman', serif;
-      z-index: 1;
-      pointer-events: none;
+    /* --- NEW INVERTED COMMA STYLES --- */
+    .quote::before {
+      content: '❝';
+      font-family: sans-serif; /* Standard font for quotes */
+      font-size: 1.5em; /* Relative to text size */
+      line-height: 0;
+      vertical-align: -0.2em;
+      margin-right: 5px;
+      color: var(--quote-mark-color, #4a6fa5); /* Dynamic Color Variable */
+      opacity: 0.6;
     }
-    .quote-mark.start { top: 0; left: 0; }
-    .quote-mark.end { bottom: 0; right: 0; }
+
+    .quote::after {
+      content: '❞';
+      font-family: sans-serif;
+      font-size: 1.5em;
+      line-height: 0;
+      vertical-align: -0.2em;
+      margin-left: 5px;
+      color: var(--quote-mark-color, #4a6fa5);
+      opacity: 0.6;
+    }
+    /* --------------------------------- */
 
     .author-container {
       margin-top: auto;
@@ -140,43 +147,17 @@
       margin-top: 0;
     }
 
-    .input-group {
-      margin-bottom: 15px;
-    }
-
+    .input-group { margin-bottom: 15px; }
     .input-group label {
-      display: block;
-      font-size: 14px;
-      color: #666;
-      margin-bottom: 5px;
-      font-weight: 500;
+      display: block; font-size: 14px; color: #666; margin-bottom: 5px; font-weight: 500;
     }
 
     textarea, input[type="text"], select {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      font-family: inherit;
-      font-size: 15px;
-      transition: border 0.3s;
+      width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 15px;
     }
-
-    textarea:focus, input:focus, select:focus {
-      outline: none;
-      border-color: var(--primary);
-    }
-
-    textarea {
-      resize: vertical;
-      min-height: 80px;
-    }
-
-    /* Range Slider Styling */
-    input[type=range] {
-      width: 100%;
-      cursor: pointer;
-    }
+    textarea:focus, input:focus, select:focus { outline: none; border-color: var(--primary); }
+    textarea { resize: vertical; min-height: 80px; }
+    input[type=range] { width: 100%; cursor: pointer; }
 
     /* Color Pickers Grid */
     .color-grid {
@@ -184,74 +165,29 @@
       grid-template-columns: 1fr 1fr;
       gap: 10px;
     }
-    
     .color-input-wrapper {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      border: 1px solid #ddd;
-      padding: 5px;
-      border-radius: 6px;
+      display: flex; align-items: center; gap: 8px; border: 1px solid #ddd; padding: 5px; border-radius: 6px;
     }
-    
     input[type="color"] {
-      border: none;
-      width: 30px;
-      height: 30px;
-      cursor: pointer;
-      background: none;
-      padding: 0;
+      border: none; width: 30px; height: 30px; cursor: pointer; background: none; padding: 0;
     }
 
-    /* Action Buttons */
+    /* Buttons */
     .btn {
-      width: 100%;
-      padding: 14px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 16px;
-      font-weight: 600;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-      transition: all 0.2s;
+      width: 100%; padding: 14px; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 600; display: flex; justify-content: center; align-items: center; gap: 10px;
     }
+    .btn-download { background: #2e7d32; color: white; margin-top: 10px; }
+    .btn-download:hover { background: #1b5e20; }
 
-    .btn-download {
-      background: #2e7d32;
-      color: white;
-      margin-top: 10px;
-    }
-    .btn-download:hover { background: #1b5e20; box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3); }
+    /* Alignment */
+    .align-buttons { display: flex; gap: 5px; }
+    .align-btn { flex: 1; padding: 8px; border: 1px solid #ddd; background: #f9f9f9; cursor: pointer; border-radius: 4px; }
+    .align-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
 
-    /* Alignment Buttons */
-    .align-buttons {
-        display: flex;
-        gap: 5px;
-    }
-    .align-btn {
-        flex: 1;
-        padding: 8px;
-        border: 1px solid #ddd;
-        background: #f9f9f9;
-        cursor: pointer;
-        border-radius: 4px;
-    }
-    .align-btn.active {
-        background: var(--primary);
-        color: white;
-        border-color: var(--primary);
-    }
-
-    /* Font Classes */
+    /* Fonts */
     .font-default { font-family: 'Hind Siliguri', sans-serif !important; }
     .font-solaiman { font-family: 'SolaimanLipi', serif !important; }
     .font-bensen { font-family: 'BenSen Handwriting', cursive, sans-serif !important; }
-
-    /* Helper for html2canvas to hide elements */
-    .hidden { display: none; }
   </style>
 </head>
 <body id="body">
@@ -259,9 +195,7 @@
   <div class="preview-section">
     <div class="card-wrapper" id="postcard">
       <div class="card" id="cardInner">
-        <div class="quote-mark start">“</div>
-        <div class="quote-mark end">”</div>
-
+        
         <div class="quote-container">
           <div class="quote font-default" id="quoteDisplay">জীবন সংগ্রামে হার মানো না,
 চেষ্টা চালিয়ে যাও।</div>
@@ -341,12 +275,12 @@
             <label>লেখার রং</label>
         </div>
         <div class="color-input-wrapper">
-          <input type="color" id="authorPicker" value="#c62828">
-          <label>লেখকের রং</label>
+            <input type="color" id="quoteMarkPicker" value="#4a6fa5">
+            <label>কোট মার্ক (")</label>
         </div>
         <div class="color-input-wrapper">
-            <input type="color" id="borderPicker" value="#ffffff">
-            <label>বর্ডার রং</label>
+          <input type="color" id="authorPicker" value="#c62828">
+          <label>লেখকের রং</label>
         </div>
       </div>
     </div>
@@ -357,14 +291,12 @@
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
   <script>
     // Elements
     const quoteInput = document.getElementById('quoteInput');
     const quoteDisplay = document.getElementById('quoteDisplay');
     const authorInput = document.getElementById('authorInput');
     const authorNameDisplay = document.getElementById('authorNameDisplay');
-    
     const fontSelect = document.getElementById('fontSelect');
     const fontSizeRange = document.getElementById('fontSizeRange');
     const fontSizeVal = document.getElementById('fontSizeVal');
@@ -376,10 +308,10 @@
     // Color Pickers
     const bgPicker = document.getElementById('bgPicker');
     const textPicker = document.getElementById('textPicker');
+    const quoteMarkPicker = document.getElementById('quoteMarkPicker');
     const authorPicker = document.getElementById('authorPicker');
-    const borderPicker = document.getElementById('borderPicker');
 
-    // 1. Live Text Update (Handles Enter key naturally via innerText)
+    // 1. Live Text Update
     quoteInput.addEventListener('input', function() {
         quoteDisplay.innerText = this.value;
     });
@@ -390,11 +322,8 @@
 
     // 2. Font Management
     fontSelect.addEventListener('change', function() {
-        // Remove old font classes
         quoteDisplay.classList.remove('font-default', 'font-solaiman', 'font-bensen');
         authorDisplay.classList.remove('font-default', 'font-solaiman', 'font-bensen');
-        
-        // Add new font class
         quoteDisplay.classList.add(this.value);
         authorDisplay.classList.add(this.value);
     });
@@ -409,12 +338,10 @@
     // 4. Alignment
     function setAlignment(align) {
         document.getElementById('cardInner').style.textAlign = align;
-        // Also update flex justification for author
         if(align === 'left') authorDisplay.style.justifyContent = 'flex-start';
         else if(align === 'right') authorDisplay.style.justifyContent = 'flex-end';
         else authorDisplay.style.justifyContent = 'center';
-
-        // Update button states
+        
         document.querySelectorAll('.align-btn').forEach(btn => btn.classList.remove('active'));
         event.currentTarget.classList.add('active');
     }
@@ -433,19 +360,20 @@
     bgPicker.addEventListener('input', (e) => cardInner.style.backgroundColor = e.target.value);
     textPicker.addEventListener('input', (e) => quoteDisplay.style.color = e.target.value);
     authorPicker.addEventListener('input', (e) => authorDisplay.style.color = e.target.value);
-    borderPicker.addEventListener('input', (e) => cardInner.style.borderColor = e.target.value);
+    
+    // Update Inverted Comma Color using CSS Variable
+    quoteMarkPicker.addEventListener('input', (e) => {
+        quoteDisplay.style.setProperty('--quote-mark-color', e.target.value);
+    });
 
     // 7. Download Logic
     function downloadImage() {
         const element = document.getElementById('postcard');
-        
-        // Temporarily remove shadow and border radius for clean capture
         element.style.boxShadow = 'none';
         element.style.borderRadius = '0';
         
-        // High resolution capture
         html2canvas(element, {
-            scale: 3, // Higher quality
+            scale: 3,
             backgroundColor: null,
             useCORS: true
         }).then(canvas => {
@@ -453,8 +381,6 @@
             link.download = `quote-${Date.now()}.png`;
             link.href = canvas.toDataURL('image/png');
             link.click();
-            
-            // Restore styles
             element.style.boxShadow = '0 15px 35px rgba(0,0,0,0.1)';
             element.style.borderRadius = '16px';
         });
