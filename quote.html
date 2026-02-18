@@ -1,425 +1,900 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>বাংলা পোস্টকার্ড – সুন্দর উদ্ধৃতি চিহ্ন সহ</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ultimate Bangla Quote Generator Pro | Studio Version</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <link href="https://fonts.maateen.me/solaiman-lipi/font.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alata&family=Baloo+Da+2:wght@400;500;600;700;800&family=Galada&family=Hind+Siliguri:wght@300;400;500;600;700&family=Mina:wght@400;700&family=Noto+Sans+Bengali:wght@300;400;500;600;700&family=Tiro+Bangla:ital@0;1&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        /* =========================================
+           1. CORE VARIABLES & RESET
+           ========================================= */
+        :root {
+            /* Theme Colors */
+            --primary: #6366f1;       /* Indigo 500 */
+            --primary-dark: #4f46e5;  /* Indigo 600 */
+            --accent: #f43f5e;        /* Rose 500 */
+            --accent-hover: #e11d48;
+            
+            /* Backgrounds */
+            --bg-app: #f0f2f5;
+            --bg-panel: #ffffff;
+            --bg-input: #f8fafc;
+            
+            /* Text */
+            --text-main: #1e293b;     /* Slate 800 */
+            --text-light: #64748b;    /* Slate 500 */
+            
+            /* Borders & Shadows */
+            --border: #e2e8f0;
+            --radius-sm: 6px;
+            --radius-md: 12px;
+            --radius-lg: 20px;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            
+            /* Dimensions */
+            --header-height: 70px;
+            --sidebar-width: 420px;
+        }
 
-  <!-- Bangla Fonts -->
-  <link href="https://fonts.maateen.me/solaiman-lipi/font.css" rel="stylesheet">
-  <link href="https://fonts.maateen.me/bensen-handwriting/font.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        body {
+            font-family: 'Hind Siliguri', sans-serif;
+            background-color: var(--bg-app);
+            color: var(--text-main);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden; /* App-like feel */
+        }
 
-  <style>
-    :root {
-      --primary: #4a6fa5;
-      --text: #333;
-    }
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
-    body {
-      font-family: 'Hind Siliguri', sans-serif;
-      background: #f0f4f8;
-      margin: 0;
-      padding: 40px 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-      color: var(--text);
-      transition: background 0.4s ease;
-    }
+        /* =========================================
+           2. HEADER
+           ========================================= */
+        header {
+            height: var(--header-height);
+            background: var(--bg-panel);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+            z-index: 100;
+            box-shadow: var(--shadow-sm);
+        }
 
-    /* Background Themes */
-    body.bg-1 { background: #e3f2fd; }
-    body.bg-2 { background: #f3e5f5; }
-    body.bg-3 { background: #e8f5e8; }
-    body.bg-4 { background: #fff3e0; }
-    body.bg-5 { background: #fff8e1; }
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: 'Baloo Da 2', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+        .brand i { font-size: 1.2rem; transform: rotate(-10deg); }
+        .badge {
+            font-size: 0.7rem; background: var(--accent); color: white;
+            padding: 2px 8px; border-radius: 20px; text-transform: uppercase;
+            letter-spacing: 1px; margin-left: 5px; font-family: sans-serif;
+        }
 
-    .card-wrapper {
-      width: 400px;
-      height: 400px;
-      position: relative;
-      border-radius: 16px;
-      overflow: hidden;
-    }
+        .header-actions { display: flex; gap: 10px; }
+        .action-btn {
+            width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border);
+            background: white; color: var(--text-light); cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: 0.2s;
+        }
+        .action-btn:hover { color: var(--primary); border-color: var(--primary); background: #eef2ff; }
 
-    .card {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100%;
-      border-radius: 16px;
-      padding: 40px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      text-align: center;
-      box-sizing: border-box;
-      background: #ffffff;
-      border: 6px solid #ffffff;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.12);
-    }
+        /* =========================================
+           3. MAIN WORKSPACE
+           ========================================= */
+        main {
+            flex: 1;
+            display: flex;
+            height: calc(100vh - var(--header-height));
+            position: relative;
+        }
 
-    .quote {
-      font-size: 26px;
-      font-weight: 600;
-      margin: 0 0 12px;
-      line-height: 1.55;
-      padding: 0 10px;
-      min-height: 130px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #1a237e;
-      white-space: pre-line;
-      text-align: center;
-      position: relative;
-    }
+        /* --- LEFT: PREVIEW CANVAS --- */
+        .workspace-preview {
+            flex: 1;
+            background-color: #e2e8f0;
+            /* Engineering Graph Paper Background */
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.4) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.4) 1px, transparent 1px);
+            background-size: 50px 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            padding: 40px;
+        }
 
-    /* Stylish Quotation Marks */
-    .quote::before,
-    .quote::after {
-      content: '"';
-      font-size: 60px;
-      font-weight: 400;
-      color: #4a6fa5;
-      opacity: 0.8;
-      position: absolute;
-      line-height: 1;
-    }
+        /* Scale Wrapper (Handles Mobile Zoom) */
+        .scale-wrapper {
+            transform-origin: center center;
+            box-shadow: 0 50px 100px -20px rgba(0,0,0,0.25);
+            transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
 
-    .quote::before {
-      content: '“';
-      top: -20px;
-      left: 10px;
-    }
+        /* THE CARD (Fixed High Resolution) */
+        #postcard {
+            width: 1080px;  /* Instagram Square Standard */
+            height: 1080px;
+            background-color: #ffffff;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            user-select: none; /* Prevent text selection while dragging */
+        }
 
-    .quote::after {
-      content: '”';
-      bottom: -25px;
-      right: 10px;
-      font-size: 50px;
-    }
+        /* Layers inside Card */
+        .layer-bg, .layer-pattern, .layer-overlay {
+            position: absolute; inset: 0; pointer-events: none;
+        }
+        .layer-bg { z-index: 1; background-size: cover; background-position: center; background-color: #fff; }
+        .layer-pattern { z-index: 2; opacity: 0.1; }
+        .layer-overlay { z-index: 3; background: rgba(0,0,0,0); transition: background 0.2s; }
+        
+        .layer-content {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: 100px; /* Padding for 1080px canvas */
+            justify-content: center;
+            /* alignment set by JS */
+        }
 
-    /* For Bensen Handwriting font, use cursive quotes */
-    .font-bensen + .quote::before,
-    .font-bensen ~ .quote::before {
-      content: '❝';
-      font-family: 'Brush Script MT', cursive;
-    }
-    .font-bensen + .quote::after,
-    .font-bensen ~ .quote::after {
-      content: '❞';
-      font-family: 'Brush Script MT', cursive;
-    }
+        /* Typography Elements */
+        .quote-wrapper {
+            position: relative;
+            margin-bottom: 50px;
+        }
+        
+        .quote-mark {
+            display: inline-block;
+            line-height: 0;
+            position: relative;
+            opacity: 0.8;
+            font-family: 'Times New Roman', serif;
+        }
+        
+        .quote-text {
+            display: inline;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            line-height: 1.5;
+        }
 
-    .author-container {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      font-size: 18px;
-      font-weight: 600;
-      min-height: 40px;
-      color: #c62828;
-    }
+        .author-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .author-line {
+            height: 4px;
+            width: 80px;
+            background: currentColor;
+            border-radius: 2px;
+            display: none; /* Toggled via JS */
+        }
 
-    .author-container i {
-      font-size: 18px;
-      transition: transform 0.3s ease;
-    }
+        .watermark {
+            position: absolute;
+            bottom: 40px;
+            left: 0; 
+            width: 100%;
+            text-align: center;
+            font-size: 24px;
+            color: rgba(0,0,0,0.3);
+            font-family: sans-serif;
+            z-index: 20;
+            pointer-events: none;
+            display: none;
+        }
 
-    .author-container:hover i {
-      transform: rotate(-10deg);
-    }
+        /* --- RIGHT: CONTROLS SIDEBAR --- */
+        .workspace-controls {
+            width: var(--sidebar-width);
+            background: var(--bg-panel);
+            border-left: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            z-index: 50;
+        }
 
-    /* Control Panel */
-    .control-panel {
-      margin-top: 30px;
-      width: 400px;
-      max-width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
+        /* Tabs Nav */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border);
+            background: #fff;
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 16px;
+            border: none;
+            background: transparent;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-light);
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s;
+            font-family: 'Hind Siliguri', sans-serif;
+        }
+        .tab-btn i { margin-right: 6px; }
+        .tab-btn:hover { color: var(--primary); background: #f8fafc; }
+        .tab-btn.active { color: var(--primary); }
+        .tab-btn.active::after {
+            content: ''; position: absolute; bottom: -1px; left: 0; width: 100%;
+            height: 3px; background: var(--primary);
+        }
 
-    .material-input {
-      position: relative;
-    }
+        /* Tab Content Area */
+        .controls-scroll {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+        }
 
-    .material-input textarea,
-    .material-input input[type="text"] {
-      width: 100%;
-      padding: 15px 12px 5px;
-      font-size: 16px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      outline: none;
-      font-family: 'Hind Siliguri', sans-serif;
-      resize: vertical;
-      min-height: 80px;
-    }
+        .tab-pane { display: none; animation: fadeIn 0.3s ease; }
+        .tab-pane.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-    .material-input label {
-      position: absolute;
-      top: 15px;
-      left: 12px;
-      font-size: 16px;
-      color: #757575;
-      pointer-events: none;
-      transition: all 0.3s;
-    }
+        /* Control Components */
+        .c-group { margin-bottom: 24px; }
+        .c-label {
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 0.9rem; font-weight: 600; margin-bottom: 8px; color: var(--text-main);
+        }
+        .c-val {
+            font-size: 0.75rem; background: var(--bg-app); color: var(--text-light);
+            padding: 2px 6px; border-radius: 4px; font-family: monospace;
+        }
 
-    .material-input textarea:focus ~ label,
-    .material-input input[type="text"]:focus ~ label {
-      top: -10px;
-      font-size: 14px;
-      color: #4a6fa5;
-      background: white;
-      padding: 0 6px;
-    }
+        textarea, input[type="text"], select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            font-family: inherit;
+            background: var(--bg-input);
+            transition: 0.2s;
+        }
+        textarea:focus, input:focus, select:focus {
+            outline: none; border-color: var(--primary); background: #fff;
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+        }
+        textarea { resize: vertical; min-height: 120px; line-height: 1.6; }
 
-    .control-group {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-    }
+        /* Button Grid for Alignment/Toggles */
+        .btn-grid { display: flex; gap: 8px; }
+        .icon-btn {
+            flex: 1; padding: 10px; border: 1px solid var(--border); background: var(--bg-input);
+            border-radius: var(--radius-sm); cursor: pointer; color: var(--text-light);
+            font-size: 1.1rem; transition: 0.2s;
+        }
+        .icon-btn:hover { background: #e0e7ff; color: var(--primary); border-color: #c7d2fe; }
+        .icon-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
 
-    .control-group select,
-    .control-group input[type="color"] {
-      flex: 1;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-    }
+        /* Custom Range Slider */
+        .range-wrap { position: relative; padding: 5px 0; }
+        input[type=range] {
+            -webkit-appearance: none; width: 100%; background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none; height: 18px; width: 18px; border-radius: 50%;
+            background: var(--primary); cursor: pointer; margin-top: -7px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2); border: 2px solid #fff;
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%; height: 4px; cursor: pointer; background: var(--border); border-radius: 2px;
+        }
 
-    .btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      padding: 14px;
-      background-color: #4a6fa5;
-      color: white;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      font-size: 16px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      margin-top: 10px;
-    }
+        /* Color Palette Grid */
+        .palette-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
+        }
+        .color-tile {
+            display: flex; align-items: center; gap: 10px; padding: 10px;
+            border: 1px solid var(--border); border-radius: var(--radius-md); cursor: pointer;
+            background: #fff;
+        }
+        .color-tile input[type="color"] {
+            width: 32px; height: 32px; border: none; padding: 0; background: none; border-radius: 50%; cursor: pointer;
+        }
 
-    .btn.download {
-      background-color: #2e7d32;
-    }
+        /* Presets Grid */
+        .preset-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+        }
+        .preset {
+            aspect-ratio: 1/1; border-radius: var(--radius-md); cursor: pointer;
+            border: 2px solid transparent; position: relative; overflow: hidden;
+            background-size: cover; box-shadow: var(--shadow-sm);
+        }
+        .preset:hover { transform: scale(1.05); border-color: var(--primary); z-index: 5; }
 
-    .btn:hover {
-      opacity: 0.9;
-    }
+        /* Footer */
+        .controls-footer {
+            padding: 20px; border-top: 1px solid var(--border); background: #fff;
+            display: grid; grid-template-columns: 1fr 2fr; gap: 12px;
+        }
+        .btn-lg {
+            border: none; padding: 14px; border-radius: var(--radius-md); font-weight: 700;
+            cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+            font-size: 1rem; transition: 0.2s;
+        }
+        .btn-sec { background: #f1f5f9; color: var(--text-light); }
+        .btn-sec:hover { background: #e2e8f0; color: var(--text-main); }
+        .btn-pri { background: var(--primary); color: white; box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3); }
+        .btn-pri:hover { background: var(--primary-dark); transform: translateY(-1px); }
 
-    /* Font Classes */
-    .font-default {
-      font-family: 'Hind Siliguri', sans-serif !important;
-    }
-    .font-solaiman {
-      font-family: 'SolaimanLipi', serif !important;
-    }
-    .font-bensen {
-      font-family: 'BenSen Handwriting', cursive, sans-serif !important;
-    }
-  </style>
+        /* --- MOBILE RESPONSIVE TWEAKS --- */
+        @media (max-width: 1024px) {
+            body { height: auto; overflow-y: auto; }
+            main { flex-direction: column; height: auto; }
+            .workspace-preview {
+                height: 60vh; /* Takes top part of screen */
+                padding: 20px;
+                order: 1;
+            }
+            .workspace-controls {
+                width: 100%;
+                height: auto;
+                order: 2;
+                border-left: none;
+                border-top: 1px solid var(--border);
+            }
+            #postcard {
+                /* On mobile, we still render 1080px internally, but SCALE it down visually */
+                /* Logic handled by JS */
+            }
+        }
+    </style>
 </head>
-<body id="body">
+<body>
 
-  <!-- Postcard -->
-  <div class="card-wrapper" id="postcard">
-    <div class="card">
-      <p class="quote font-default" id="quoteText">জীবন সংগ্রামে হার মানো না,\nচেষ্টা চালিয়ে যাও।</p>
-      <div class="author-container font-default" id="authorContainer">
-        <i class="fas fa-feather" id="iconDisplay"></i>
-        <span id="authorText">বঙ্কিমচন্দ্র চট্টোপাধ্যায়</span>
-      </div>
-    </div>
-  </div>
+    <header>
+        <div class="brand">
+            <i class="fas fa-quote-right"></i>
+            <span>QuoteGen</span>
+            <span class="badge">Pro</span>
+        </div>
+        <div class="header-actions">
+            <button class="action-btn" onclick="toggleWatermark()" title="Toggle Watermark"><i class="fas fa-copyright"></i></button>
+            <button class="action-btn" onclick="randomizeTheme()" title="Randomize"><i class="fas fa-dice"></i></button>
+        </div>
+    </header>
 
-  <!-- Control Panel -->
-  <div class="control-panel">
-    <div class="material-input">
-      <textarea id="quoteInput" placeholder=" "></textarea>
-      <label for="quoteInput">উদ্ধৃতি লিখুন (এন্টার চাপুন নতুন লাইনের জন্য)</label>
-    </div>
+    <main>
+        <div class="workspace-preview" id="previewContainer">
+            <div class="scale-wrapper" id="scaleWrapper">
+                <div id="postcard">
+                    <div class="layer-bg" id="lBg"></div>
+                    <div class="layer-pattern" id="lPattern"></div>
+                    <div class="layer-overlay" id="lOverlay"></div>
+                    
+                    <div class="watermark" id="watermark">Created with QuoteGen Pro</div>
 
-    <div class="material-input">
-      <input type="text" id="authorInput" placeholder=" " />
-      <label for="authorInput">লেখকের নাম লিখুন</label>
-    </div>
+                    <div class="layer-content" id="lContent">
+                        <div class="quote-wrapper" id="quoteWrapper">
+                            <span class="quote-mark" id="qmStart">❝</span>
+                            <div class="quote-text" id="dispQuote">ভালো হতে পয়সা লাগে না,
+কিন্তু ভালো থাকতে অনেক পয়সা লাগে।</div>
+                            <span class="quote-mark" id="qmEnd">❞</span>
+                        </div>
 
-    <!-- Font Selection -->
-    <div class="control-group">
-      <select id="fontSelect" onchange="changeFont()">
-        <option value="default">Hind Siliguri</option>
-        <option value="solaiman">Solaiman Lipi</option>
-        <option value="bensen">Bensen Handwriting</option>
-      </select>
-    </div>
+                        <div class="author-wrapper" id="authorWrapper">
+                            <div class="author-line" id="authorLine"></div>
+                            <i class="fas fa-pen-nib" id="dispIcon"></i>
+                            <span class="author-text" id="dispAuthor">হুমায়ূন আহমেদ</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <!-- Icon Selection -->
-    <div class="control-group">
-      <select id="iconSelect" onchange="changeIcon()">
-        <option value="feather">🖋️ কলম (Feather)</option>
-        <option value="pen">✏️ পেন</option>
-        <option value="edit">✍️ লেখা</option>
-        <option value="feather-alt">🖋️ ফাউন্টেন পেন</option>
-      </select>
-    </div>
+        <div class="workspace-controls">
+            <div class="tabs">
+                <button class="tab-btn active" onclick="setTab('tab-write')"><i class="fas fa-pen"></i> লেখা</button>
+                <button class="tab-btn" onclick="setTab('tab-style')"><i class="fas fa-palette"></i> স্টাইল</button>
+                <button class="tab-btn" onclick="setTab('tab-bg')"><i class="fas fa-image"></i> ব্যাকগ্রাউন্ড</button>
+            </div>
 
-    <!-- Page Background -->
-    <div class="control-group">
-      <select id="bgSelect" onchange="changeBackground()">
-        <option value="1">Light Blue</option>
-        <option value="2">Lavender</option>
-        <option value="3">Mint Green</option>
-        <option value="4">Warm Peach</option>
-        <option value="5">Soft Yellow</option>
-      </select>
-    </div>
+            <div class="controls-scroll">
+                
+                <div id="tab-write" class="tab-pane active">
+                    <div class="c-group">
+                        <div class="c-label">উক্তি (Quote)</div>
+                        <textarea id="inQuote" placeholder="এখানে আপনার উক্তি লিখুন...">ভালো হতে পয়সা লাগে না,
+কিন্তু ভালো থাকতে অনেক পয়সা লাগে।</textarea>
+                    </div>
 
-    <!-- Card Background -->
-    <div class="control-group">
-      <input type="color" id="cardBgPicker" value="#ffffff" onchange="changeCardBg()">
-      <label>কার্ড রং</label>
-    </div>
+                    <div class="c-group">
+                        <div class="c-label">লেখকের নাম</div>
+                        <input type="text" id="inAuthor" value="হুমায়ূন আহমেদ">
+                    </div>
 
-    <!-- Quote Color -->
-    <div class="control-group">
-      <input type="color" id="quoteColorPicker" value="#1a237e" onchange="changeQuoteColor()">
-      <label>উদ্ধৃতি রং</label>
-    </div>
+                    <div class="c-group">
+                        <div class="c-label">এলাইনমেন্ট (Alignment)</div>
+                        <div class="btn-grid">
+                            <button class="icon-btn" onclick="align('flex-start', 'left')"><i class="fas fa-align-left"></i></button>
+                            <button class="icon-btn active" onclick="align('center', 'center')"><i class="fas fa-align-center"></i></button>
+                            <button class="icon-btn" onclick="align('flex-end', 'right')"><i class="fas fa-align-right"></i></button>
+                        </div>
+                    </div>
 
-    <!-- Author Color -->
-    <div class="control-group">
-      <input type="color" id="authorColorPicker" value="#c62828" onchange="changeAuthorColor()">
-      <label>লেখক রং</label>
-    </div>
+                    <div class="c-group">
+                        <div class="c-label">আইকন (Icon)</div>
+                        <select id="selIcon" onchange="render()">
+                            <option value="fas fa-pen-nib">✒️ ফাউন্টেন নিব (Nib)</option>
+                            <option value="fas fa-feather-alt">🪶 পালক কলম (Feather)</option>
+                            <option value="fas fa-quote-right">❝ কোট মার্ক</option>
+                            <option value="fas fa-signature">✍️ স্বাক্ষর</option>
+                            <option value="fas fa-pencil-alt">✏️ পেন্সিল</option>
+                            <option value="none">❌ কোন আইকন নেই</option>
+                        </select>
+                    </div>
 
-    <!-- Buttons -->
-    <button class="btn" onclick="updatePostcard()">
-      <i class="fas fa-sync-alt"></i> আপডেট করুন
-    </button>
-    <button class="btn download" onclick="saveAsPNG()">
-      <i class="fas fa-download"></i> ডাউনলোড করুন
-    </button>
-  </div>
+                    <div class="c-group">
+                         <div class="c-label">উদ্ধৃতি চিহ্ন (Quote Marks)</div>
+                         <div class="btn-grid">
+                            <button class="icon-btn active" onclick="setMarks('solid')">❝</button>
+                            <button class="icon-btn" onclick="setMarks('classic')">“</button>
+                            <button class="icon-btn" onclick="setMarks('minimal')">"</button>
+                            <button class="icon-btn" onclick="setMarks('guillemet')">«</button>
+                            <button class="icon-btn" onclick="setMarks('none')">🚫</button>
+                         </div>
+                    </div>
+                </div>
 
-  <!-- Hidden Canvas -->
-  <canvas id="canvas" style="display:none;"></canvas>
+                <div id="tab-style" class="tab-pane">
+                    
+                    <div class="c-group">
+                        <div class="c-label">ফন্ট ফ্যামিলি</div>
+                        <select id="selFont" onchange="render()">
+                            <option value="'Hind Siliguri', sans-serif">Hind Siliguri (ডিফল্ট)</option>
+                            <option value="'SolaimanLipi', sans-serif">SolaimanLipi (জনপ্রিয়)</option>
+                            <option value="'Tiro Bangla', serif">Tiro Bangla (বইয়ের মতো)</option>
+                            <option value="'Baloo Da 2', sans-serif">Baloo Da 2 (মোটা)</option>
+                            <option value="'Galada', cursive">Galada (আর্ট)</option>
+                            <option value="'Mina', sans-serif">Mina (সুন্দর)</option>
+                            <option value="'Alata', sans-serif">Alata (মিনিমাল)</option>
+                            <option value="'Playfair Display', serif">Playfair (ইংরেজি)</option>
+                        </select>
+                    </div>
 
-  <!-- html2canvas -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+                    <div class="c-group">
+                        <div class="c-label"><span>ফন্ট সাইজ</span> <span class="c-val" id="vSize">60px</span></div>
+                        <div class="range-wrap"><input type="range" id="rnSize" min="30" max="150" value="60" oninput="render()"></div>
+                    </div>
 
-  <script>
-    const body = document.getElementById('body');
-    const card = document.querySelector('.card');
-    const quoteText = document.getElementById('quoteText');
-    const authorContainer = document.getElementById('authorContainer');
-    const iconDisplay = document.getElementById('iconDisplay');
+                    <div class="c-group">
+                        <div class="c-label"><span>লাইন হাইট</span> <span class="c-val" id="vLH">1.5</span></div>
+                        <div class="range-wrap"><input type="range" id="rnLH" min="10" max="25" value="15" oninput="render()"></div>
+                    </div>
 
-    function updatePostcard() {
-      let quote = document.getElementById('quoteInput').value.trim();
-      const author = document.getElementById('authorInput').value.trim();
+                    <div class="c-group">
+                        <div class="c-label"><span>লেখকের দূরত্ব</span> <span class="c-val" id="vGap">30px</span></div>
+                        <div class="range-wrap"><input type="range" id="rnGap" min="0" max="150" value="30" oninput="render()"></div>
+                    </div>
 
-      quoteText.innerText = quote || 'জীবন সংগ্রামে হার মানো না,\nচেষ্টা চালিয়ে যাও।';
-      document.getElementById('authorText').innerText = author || 'বঙ্কিমচন্দ্র চট্টোপাধ্যায়';
+                    <div class="c-group">
+                        <div class="c-label">কালার প্যালেট</div>
+                        <div class="palette-grid">
+                            <label class="color-tile">
+                                <input type="color" id="clrText" value="#1e293b" oninput="render()">
+                                <span>টেক্সট</span>
+                            </label>
+                            <label class="color-tile">
+                                <input type="color" id="clrAuthor" value="#f43f5e" oninput="render()">
+                                <span>লেখক</span>
+                            </label>
+                            <label class="color-tile">
+                                <input type="color" id="clrMark" value="#6366f1" oninput="render()">
+                                <span>চিহ্ন (")</span>
+                            </label>
+                            <label class="color-tile">
+                                <input type="color" id="clrIcon" value="#f43f5e" oninput="render()">
+                                <span>আইকন</span>
+                            </label>
+                        </div>
+                    </div>
 
-      changeFont();
-      changeIcon();
-      changeCardBg();
-      changeQuoteColor();
-      changeAuthorColor();
-    }
+                     <div class="c-group">
+                        <div class="c-label"><span>টেক্সট শ্যাডো</span></div>
+                        <div class="range-wrap"><input type="range" id="rnShadow" min="0" max="20" value="0" oninput="render()"></div>
+                    </div>
+                </div>
 
-    function changeFont() {
-      const font = document.getElementById('fontSelect').value;
+                <div id="tab-bg" class="tab-pane">
+                    
+                    <div class="c-group">
+                        <div class="c-label">সাইজ (Aspect Ratio)</div>
+                        <div class="btn-grid">
+                            <button class="icon-btn active" onclick="setSize(1080, 1080, this)" title="Square (1:1)"><i class="far fa-square"></i> 1:1</button>
+                            <button class="icon-btn" onclick="setSize(1080, 1920, this)" title="Story (9:16)"><i class="fas fa-mobile-alt"></i> 9:16</button>
+                            <button class="icon-btn" onclick="setSize(1920, 1080, this)" title="Landscape (16:9)"><i class="fas fa-desktop"></i> 16:9</button>
+                        </div>
+                    </div>
 
-      quoteText.className = 'quote';
-      authorContainer.className = 'author-container';
+                    <div class="c-group">
+                        <div class="c-label">প্রিসেট (Presets)</div>
+                        <div class="preset-grid" id="presetContainer">
+                            </div>
+                    </div>
 
-      if (font === 'solaiman') {
-        quoteText.classList.add('font-solaiman');
-      } else if (font === 'bensen') {
-        quoteText.classList.add('font-bensen');
-      } else {
-        quoteText.classList.add('font-default');
-      }
-    }
+                    <div class="c-group">
+                        <div class="c-label">কাস্টম ইমেজ</div>
+                        <input type="file" id="uplImage" accept="image/*" onchange="uploadImage(this)">
+                    </div>
 
-    function changeIcon() {
-      const icon = document.getElementById('iconSelect').value;
-      iconDisplay.className = '';
-      iconDisplay.classList.add('fas', `fa-${icon}`);
-    }
+                    <div class="c-group">
+                        <div class="c-label">সলিড ব্যাকগ্রাউন্ড</div>
+                        <div class="color-tile">
+                            <input type="color" id="clrBg" value="#ffffff" oninput="setSolidBg(this.value)">
+                            <span>কালার পিকার</span>
+                        </div>
+                    </div>
 
-    function changeBackground() {
-      body.className = `bg-${document.getElementById('bgSelect').value}`;
-    }
+                    <div class="c-group">
+                        <div class="c-label"><span>অন্ধকার আভা (Overlay)</span> <span class="c-val" id="vOver">0%</span></div>
+                        <div class="range-wrap"><input type="range" id="rnOverlay" min="0" max="90" value="0" oninput="render()"></div>
+                    </div>
+                    
+                    <div class="c-group">
+                        <div class="c-label">প্যাটার্ন (Pattern)</div>
+                        <select id="selPattern" onchange="render()">
+                            <option value="none">কোন প্যাটার্ন নেই</option>
+                            <option value="dots">ডটস (.....)</option>
+                            <option value="lines">লাইনস (////)</option>
+                            <option value="grid">গ্রিড (####)</option>
+                        </select>
+                    </div>
+                </div>
 
-    function changeCardBg() {
-      card.style.background = document.getElementById('cardBgPicker').value;
-    }
+            </div>
 
-    function changeQuoteColor() {
-      quoteText.style.color = document.getElementById('quoteColorPicker').value;
-    }
+            <div class="controls-footer">
+                <button class="btn-lg btn-sec" onclick="resetAll()"><i class="fas fa-undo"></i> রিসেট</button>
+                <button class="btn-lg btn-pri" onclick="downloadCard()"><i class="fas fa-download"></i> সেভ করুন</button>
+            </div>
+        </div>
+    </main>
 
-    function changeAuthorColor() {
-      const color = document.getElementById('authorColorPicker').value;
-      authorContainer.style.color = color;
-      iconDisplay.style.color = color;
-    }
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
-    function saveAsPNG() {
-      const element = document.getElementById('postcard');
-      const canvas = document.getElementById('canvas');
-      const scale = 3;
+    <script>
+        /* =========================================
+           4. STATE & CONFIG
+           ========================================= */
+        const state = {
+            width: 1080,
+            height: 1080,
+            markStyle: 'solid',
+            alignItems: 'center',
+            textAlign: 'center',
+            bgImage: '',
+            bgPattern: 'none'
+        };
 
-      canvas.width = 400 * scale;
-      canvas.height = 400 * scale;
+        const presets = [
+            { bg: '#ffffff', text: '#1e293b', acc: '#f43f5e', mark: '#6366f1', type: 'solid' },
+            { bg: '#fef3c7', text: '#451a03', acc: '#b45309', mark: '#d97706', type: 'solid' }, /* Paper */
+            { bg: '#0f172a', text: '#f1f5f9', acc: '#f43f5e', mark: '#38bdf8', type: 'solid' }, /* Dark */
+            { bg: 'linear-gradient(135deg, #a5f3fc 0%, #3b82f6 100%)', text: '#fff', acc: '#fff', mark: '#cffafe', type: 'grad' },
+            { bg: 'linear-gradient(to right, #f9a8d4 0%, #db2777 100%)', text: '#fff', acc: '#fff', mark: '#fbcfe8', type: 'grad' },
+            { bg: 'linear-gradient(45deg, #85ffbd 0%, #fffb7d 100%)', text: '#064e3b', acc: '#065f46', mark: '#047857', type: 'grad' },
+            { bg: 'url(https://images.unsplash.com/photo-1507842217153-e51f27957d39?q=80&w=1080)', text:'#fff', acc:'#fff', mark:'#ffffff', overlay: 40, type:'img'},
+            { bg: 'url(https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?q=80&w=1080)', text:'#fff', acc:'#fff', mark:'#ffffff', overlay: 50, type:'img'},
+            { bg: 'url(https://images.unsplash.com/photo-1519681393784-d8e5b5a4570e?q=80&w=1080)', text:'#fff', acc:'#fff', mark:'#ffffff', overlay: 60, type:'img'}
+        ];
 
-      setTimeout(() => {
-        html2canvas(element, {
-          canvas: canvas,
-          scale: scale,
-          useCORS: true,
-          allowTaint: true,
-          backgroundColor: null,
-          logging: false,
-          width: 400,
-          height: 400
-        }).then(canvas => {
-          const link = document.createElement('a');
-          link.download = 'bangla-postcard.png';
-          link.href = canvas.toDataURL('image/png');
-          link.click();
-        }).catch(() => {
-          alert("ডাউনলোড করতে সমস্যা হয়েছে। পুনরায় চেষ্টা করুন।");
-        });
-      }, 1000);
-    }
+        /* =========================================
+           5. DOM ELEMENTS
+           ========================================= */
+        const el = (id) => document.getElementById(id);
+        const card = el('postcard');
+        const previewContainer = el('previewContainer');
+        const scaleWrapper = el('scaleWrapper');
+        
+        // Listeners
+        window.onload = () => {
+            initPresets();
+            render();
+            autoScale();
+            // Input Listeners
+            el('inQuote').addEventListener('input', (e) => el('dispQuote').innerText = e.target.value);
+            el('inAuthor').addEventListener('input', (e) => el('dispAuthor').innerText = e.target.value);
+            window.addEventListener('resize', autoScale);
+        };
 
-    // Initialize
-    changeFont();
-    changeIcon();
-    changeBackground();
-    changeCardBg();
-    changeQuoteColor();
-    changeAuthorColor();
-  </script>
+        /* =========================================
+           6. LOGIC FUNCTIONS
+           ========================================= */
+
+        function setTab(id) {
+            document.querySelectorAll('.tab-pane').forEach(e => e.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(e => e.classList.remove('active'));
+            el(id).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+
+        function align(flex, text) {
+            state.alignItems = flex;
+            state.textAlign = text;
+            // UI update
+            const btns = event.currentTarget.parentNode.children;
+            for(let b of btns) b.classList.remove('active');
+            event.currentTarget.classList.add('active');
+            render();
+        }
+
+        function setMarks(style) {
+            state.markStyle = style;
+            const btns = event.currentTarget.parentNode.children;
+            for(let b of btns) b.classList.remove('active');
+            event.currentTarget.classList.add('active');
+            render();
+        }
+
+        function setSize(w, h, btn) {
+            state.width = w;
+            state.height = h;
+            // UI
+            const btns = btn.parentNode.children;
+            for(let b of btns) b.classList.remove('active');
+            btn.classList.add('active');
+            
+            // Resize logic
+            card.style.width = w + 'px';
+            card.style.height = h + 'px';
+            
+            // Recalculate scale because aspect ratio changed
+            setTimeout(autoScale, 50); 
+        }
+
+        function initPresets() {
+            const container = el('presetContainer');
+            presets.forEach((p, index) => {
+                const div = document.createElement('div');
+                div.className = 'preset';
+                div.style.background = p.bg;
+                div.onclick = () => loadPreset(index);
+                container.appendChild(div);
+            });
+        }
+
+        function loadPreset(idx) {
+            const p = presets[idx];
+            
+            // Background
+            if(p.type === 'solid' || p.type === 'grad') {
+                el('lBg').style.backgroundImage = p.bg;
+                el('lBg').style.backgroundColor = p.bg; // Fallback
+            } else if (p.type === 'img') {
+                el('lBg').style.backgroundImage = p.bg;
+            }
+
+            // Colors
+            el('clrText').value = p.text;
+            el('clrAuthor').value = p.acc;
+            el('clrMark').value = p.mark;
+
+            // Overlay
+            if(p.overlay) el('rnOverlay').value = p.overlay;
+            else el('rnOverlay').value = 0;
+
+            render();
+        }
+
+        function uploadImage(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    el('lBg').style.backgroundImage = `url(${e.target.result})`;
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function setSolidBg(color) {
+            el('lBg').style.backgroundImage = 'none';
+            el('lBg').style.backgroundColor = color;
+        }
+
+        function toggleWatermark() {
+            const wm = el('watermark');
+            wm.style.display = (wm.style.display === 'block') ? 'none' : 'block';
+        }
+
+        function randomizeTheme() {
+            const randomPreset = Math.floor(Math.random() * presets.length);
+            loadPreset(randomPreset);
+        }
+
+        /* =========================================
+           7. MAIN RENDER LOOP
+           ========================================= */
+        function render() {
+            // 1. Typography
+            card.style.fontFamily = el('selFont').value;
+            
+            const fontSize = el('rnSize').value;
+            const lineHeight = el('rnLH').value / 10;
+            const gap = el('rnGap').value;
+            
+            el('dispQuote').style.fontSize = fontSize + 'px';
+            el('dispQuote').style.lineHeight = lineHeight;
+            
+            el('authorWrapper').style.marginTop = gap + 'px';
+            
+            // Author Font Size (Relative to Quote)
+            el('authorWrapper').style.fontSize = (fontSize * 0.6) + 'px';
+
+            // 2. Colors & Shadow
+            const cText = el('clrText').value;
+            const cAuth = el('clrAuthor').value;
+            const cMark = el('clrMark').value;
+            const cIcon = el('clrIcon').value;
+            const shadowVal = el('rnShadow').value;
+            const shadowCss = shadowVal > 0 ? `2px 2px ${shadowVal}px rgba(0,0,0,0.5)` : 'none';
+
+            el('dispQuote').style.color = cText;
+            el('dispQuote').style.textShadow = shadowCss;
+            el('dispAuthor').style.color = cAuth;
+            el('dispAuthor').style.textShadow = shadowCss;
+            
+            // 3. Layout
+            el('lContent').style.alignItems = state.alignItems;
+            el('lContent').style.textAlign = state.textAlign;
+
+            // 4. Marks & Icons
+            const qmStart = el('qmStart');
+            const qmEnd = el('qmEnd');
+            qmStart.style.color = cMark;
+            qmEnd.style.color = cMark;
+            // Marks size relative to font
+            const markSize = parseInt(fontSize) * 1.5 + 'px';
+            qmStart.style.fontSize = markSize;
+            qmEnd.style.fontSize = markSize;
+
+            if(state.markStyle === 'none') {
+                qmStart.style.display = 'none'; qmEnd.style.display = 'none';
+            } else {
+                qmStart.style.display = 'inline-block'; qmEnd.style.display = 'inline-block';
+                const map = {
+                    solid: ['❝','❞'], classic:['“','”'], minimal:['"','"'], guillemet:['«','»']
+                };
+                qmStart.innerText = map[state.markStyle][0];
+                qmEnd.innerText = map[state.markStyle][1];
+            }
+
+            // Icon
+            const iconClass = el('selIcon').value;
+            const iconEl = el('dispIcon');
+            if(iconClass === 'none') iconEl.style.display = 'none';
+            else {
+                iconEl.style.display = 'block';
+                iconEl.className = iconClass;
+                iconEl.style.color = cIcon;
+            }
+
+            // 5. Overlay & Pattern
+            const over = el('rnOverlay').value / 100;
+            el('lOverlay').style.backgroundColor = `rgba(0,0,0,${over})`;
+            
+            const pat = el('selPattern').value;
+            const patEl = el('lPattern');
+            if(pat === 'none') patEl.style.backgroundImage = 'none';
+            else if(pat === 'dots') patEl.style.backgroundImage = 'radial-gradient(#000 1px, transparent 1px)';
+            else if(pat === 'lines') patEl.style.backgroundImage = 'repeating-linear-gradient(45deg, #000 0, #000 1px, transparent 0, transparent 50%)';
+            else if(pat === 'grid') patEl.style.backgroundImage = 'linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)';
+            patEl.style.backgroundSize = (pat === 'dots') ? '20px 20px' : '40px 40px';
+
+            // Update Labels
+            el('vSize').innerText = fontSize + 'px';
+            el('vLH').innerText = lineHeight;
+            el('vGap').innerText = gap + 'px';
+            el('vOver').innerText = el('rnOverlay').value + '%';
+        }
+
+        /* =========================================
+           8. MOBILE SCALING MAGIC
+           ========================================= */
+        function autoScale() {
+            // Get available space in preview container
+            const containerW = previewContainer.clientWidth;
+            const containerH = previewContainer.clientHeight;
+            const padding = 40; // Safety padding
+
+            // Get actual card dimensions
+            const cardW = state.width;
+            const cardH = state.height;
+
+            // Calculate scale factors
+            const scaleX = (containerW - padding) / cardW;
+            const scaleY = (containerH - padding) / cardH;
+            
+            // Choose smaller scale to fit both
+            let scale = Math.min(scaleX, scaleY);
+            
+            // Limit max scale to 1 (don't zoom in pixelated)
+            if (scale > 1) scale = 1;
+
+            // Apply Scale
+            scaleWrapper.style.transform = `scale(${scale})`;
+            
+            // Adjust Scale Wrapper dimensions to match the scaled visual size
+            // preventing huge scrollbars
+            scaleWrapper.style.width = cardW + 'px';
+            scaleWrapper.style.height = cardH + 'px';
+        }
+
+        /* =========================================
+           9. EXPORT LOGIC
+           ========================================= */
+        function downloadCard() {
+            const btn = document.querySelector('.btn-pri');
+            const oldText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> জেনারেট হচ্ছে...';
+
+            html2canvas(card, {
+                scale: 1, // We are already at 1080px, no need to up-scale
+                useCORS: true,
+                backgroundColor: null,
+                allowTaint: true,
+                scrollX: 0,
+                scrollY: 0,
+                width: state.width,
+                height: state.height
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = `quote-pro-${Date.now()}.png`;
+                link.href = canvas.toDataURL('image/png', 1.0); // Max quality
+                link.click();
+                btn.innerHTML = oldText;
+            }).catch(err => {
+                console.error(err);
+                alert('ছবি সেভ করতে সমস্যা হচ্ছে।');
+                btn.innerHTML = oldText;
+            });
+        }
+        
+        function resetAll() {
+            if(confirm("সব সেটিংস রিসেট করতে চান?")) {
+                location.reload();
+            }
+        }
+    </script>
 </body>
 </html>
