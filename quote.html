@@ -21,7 +21,6 @@
             --primary: #6366f1;       /* Indigo 500 */
             --primary-dark: #4f46e5;  /* Indigo 600 */
             --accent: #f43f5e;        /* Rose 500 */
-            --accent-hover: #e11d48;
             
             /* Backgrounds */
             --bg-app: #f0f2f5;
@@ -29,18 +28,12 @@
             --bg-input: #f8fafc;
             
             /* Text */
-            --text-main: #1e293b;     /* Slate 800 */
-            --text-light: #64748b;    /* Slate 500 */
+            --text-main: #1e293b;
+            --text-light: #64748b;
             
-            /* Borders & Shadows */
+            /* UI Elements */
             --border: #e2e8f0;
-            --radius-sm: 6px;
             --radius-md: 12px;
-            --radius-lg: 20px;
-            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            
-            /* Dimensions */
             --header-height: 70px;
             --sidebar-width: 420px;
         }
@@ -54,14 +47,13 @@
             height: 100vh;
             display: flex;
             flex-direction: column;
-            overflow: hidden; /* App-like feel */
+            overflow: hidden; /* Desktop: No Body Scroll */
         }
 
         /* Scrollbar Styling */
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
         /* =========================================
            2. HEADER
@@ -75,7 +67,8 @@
             justify-content: space-between;
             padding: 0 2rem;
             z-index: 100;
-            box-shadow: var(--shadow-sm);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            flex-shrink: 0;
         }
 
         .brand {
@@ -87,7 +80,7 @@
             font-weight: 800;
             color: var(--primary);
         }
-        .brand i { font-size: 1.2rem; transform: rotate(-10deg); }
+        .brand i { transform: rotate(-10deg); }
         .badge {
             font-size: 0.7rem; background: var(--accent); color: white;
             padding: 2px 8px; border-radius: 20px; text-transform: uppercase;
@@ -104,7 +97,7 @@
         .action-btn:hover { color: var(--primary); border-color: var(--primary); background: #eef2ff; }
 
         /* =========================================
-           3. MAIN WORKSPACE
+           3. MAIN LAYOUT
            ========================================= */
         main {
             flex: 1;
@@ -117,39 +110,40 @@
         .workspace-preview {
             flex: 1;
             background-color: #e2e8f0;
-            /* Engineering Graph Paper Background */
+            /* Graph Paper Bg */
             background-image: 
                 linear-gradient(rgba(255,255,255,0.4) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(255,255,255,0.4) 1px, transparent 1px);
-            background-size: 50px 50px;
+            background-size: 40px 40px;
             display: flex;
             justify-content: center;
             align-items: center;
             position: relative;
             overflow: hidden;
             padding: 40px;
+            transition: height 0.3s ease; /* Smooth height change for mobile */
         }
 
-        /* Scale Wrapper (Handles Mobile Zoom) */
         .scale-wrapper {
+            /* This wrapper holds the card and scales it visually */
             transform-origin: center center;
-            box-shadow: 0 50px 100px -20px rgba(0,0,0,0.25);
+            box-shadow: 0 40px 80px -20px rgba(0,0,0,0.25);
             transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
-        /* THE CARD (Fixed High Resolution) */
+        /* --- THE CARD (1080px Base) --- */
         #postcard {
-            width: 1080px;  /* Instagram Square Standard */
+            width: 1080px; 
             height: 1080px;
             background-color: #ffffff;
             position: relative;
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            user-select: none; /* Prevent text selection while dragging */
+            user-select: none;
         }
 
-        /* Layers inside Card */
+        /* Card Layers */
         .layer-bg, .layer-pattern, .layer-overlay {
             position: absolute; inset: 0; pointer-events: none;
         }
@@ -164,25 +158,21 @@
             height: 100%;
             display: flex;
             flex-direction: column;
-            padding: 100px; /* Padding for 1080px canvas */
+            padding: 100px;
             justify-content: center;
-            /* alignment set by JS */
         }
 
-        /* Typography Elements */
+        /* Typography */
         .quote-wrapper {
             position: relative;
             margin-bottom: 50px;
         }
-        
         .quote-mark {
             display: inline-block;
             line-height: 0;
-            position: relative;
             opacity: 0.8;
             font-family: 'Times New Roman', serif;
         }
-        
         .quote-text {
             display: inline;
             white-space: pre-wrap;
@@ -196,27 +186,14 @@
             gap: 20px;
             margin-top: 20px;
         }
-        
         .author-line {
-            height: 4px;
-            width: 80px;
-            background: currentColor;
-            border-radius: 2px;
-            display: none; /* Toggled via JS */
+            height: 4px; width: 80px; background: currentColor; border-radius: 2px; display: none;
         }
 
         .watermark {
-            position: absolute;
-            bottom: 40px;
-            left: 0; 
-            width: 100%;
-            text-align: center;
-            font-size: 24px;
-            color: rgba(0,0,0,0.3);
-            font-family: sans-serif;
-            z-index: 20;
-            pointer-events: none;
-            display: none;
+            position: absolute; bottom: 40px; left: 0; width: 100%; text-align: center;
+            font-size: 24px; color: rgba(0,0,0,0.3); font-family: sans-serif;
+            z-index: 20; pointer-events: none; display: none;
         }
 
         /* --- RIGHT: CONTROLS SIDEBAR --- */
@@ -230,45 +207,33 @@
             z-index: 50;
         }
 
-        /* Tabs Nav */
+        /* Tabs */
         .tabs {
             display: flex;
             border-bottom: 1px solid var(--border);
             background: #fff;
+            flex-shrink: 0;
         }
         .tab-btn {
-            flex: 1;
-            padding: 16px;
-            border: none;
-            background: transparent;
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: var(--text-light);
-            cursor: pointer;
-            position: relative;
-            transition: all 0.2s;
-            font-family: 'Hind Siliguri', sans-serif;
+            flex: 1; padding: 16px; border: none; background: transparent;
+            font-size: 0.95rem; font-weight: 600; color: var(--text-light);
+            cursor: pointer; position: relative; font-family: 'Hind Siliguri', sans-serif;
         }
-        .tab-btn i { margin-right: 6px; }
-        .tab-btn:hover { color: var(--primary); background: #f8fafc; }
         .tab-btn.active { color: var(--primary); }
         .tab-btn.active::after {
             content: ''; position: absolute; bottom: -1px; left: 0; width: 100%;
             height: 3px; background: var(--primary);
         }
 
-        /* Tab Content Area */
         .controls-scroll {
-            flex: 1;
-            overflow-y: auto;
-            padding: 24px;
+            flex: 1; overflow-y: auto; padding: 24px;
         }
 
         .tab-pane { display: none; animation: fadeIn 0.3s ease; }
         .tab-pane.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Control Components */
+        /* Inputs */
         .c-group { margin-bottom: 24px; }
         .c-label {
             display: flex; justify-content: space-between; align-items: center;
@@ -280,14 +245,9 @@
         }
 
         textarea, input[type="text"], select {
-            width: 100%;
-            padding: 12px 16px;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-md);
-            font-size: 1rem;
-            font-family: inherit;
-            background: var(--bg-input);
-            transition: 0.2s;
+            width: 100%; padding: 12px 16px; border: 1px solid var(--border);
+            border-radius: var(--radius-md); font-size: 1rem; font-family: inherit;
+            background: var(--bg-input); transition: 0.2s;
         }
         textarea:focus, input:focus, select:focus {
             outline: none; border-color: var(--primary); background: #fff;
@@ -295,21 +255,19 @@
         }
         textarea { resize: vertical; min-height: 120px; line-height: 1.6; }
 
-        /* Button Grid for Alignment/Toggles */
+        /* Alignment Grid */
         .btn-grid { display: flex; gap: 8px; }
         .icon-btn {
             flex: 1; padding: 10px; border: 1px solid var(--border); background: var(--bg-input);
-            border-radius: var(--radius-sm); cursor: pointer; color: var(--text-light);
+            border-radius: 6px; cursor: pointer; color: var(--text-light);
             font-size: 1.1rem; transition: 0.2s;
         }
         .icon-btn:hover { background: #e0e7ff; color: var(--primary); border-color: #c7d2fe; }
         .icon-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
 
-        /* Custom Range Slider */
+        /* Ranges */
         .range-wrap { position: relative; padding: 5px 0; }
-        input[type=range] {
-            -webkit-appearance: none; width: 100%; background: transparent;
-        }
+        input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; }
         input[type=range]::-webkit-slider-thumb {
             -webkit-appearance: none; height: 18px; width: 18px; border-radius: 50%;
             background: var(--primary); cursor: pointer; margin-top: -7px;
@@ -319,34 +277,30 @@
             width: 100%; height: 4px; cursor: pointer; background: var(--border); border-radius: 2px;
         }
 
-        /* Color Palette Grid */
-        .palette-grid {
-            display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
-        }
+        /* Color Palette */
+        .palette-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
         .color-tile {
             display: flex; align-items: center; gap: 10px; padding: 10px;
             border: 1px solid var(--border); border-radius: var(--radius-md); cursor: pointer;
             background: #fff;
         }
         .color-tile input[type="color"] {
-            width: 32px; height: 32px; border: none; padding: 0; background: none; border-radius: 50%; cursor: pointer;
+            width: 32px; height: 32px; border: none; padding: 0; background: none; cursor: pointer;
         }
 
-        /* Presets Grid */
-        .preset-grid {
-            display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
-        }
+        /* Presets */
+        .preset-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
         .preset {
             aspect-ratio: 1/1; border-radius: var(--radius-md); cursor: pointer;
             border: 2px solid transparent; position: relative; overflow: hidden;
-            background-size: cover; box-shadow: var(--shadow-sm);
+            background-size: cover; box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         .preset:hover { transform: scale(1.05); border-color: var(--primary); z-index: 5; }
 
         /* Footer */
         .controls-footer {
             padding: 20px; border-top: 1px solid var(--border); background: #fff;
-            display: grid; grid-template-columns: 1fr 2fr; gap: 12px;
+            display: grid; grid-template-columns: 1fr 2fr; gap: 12px; flex-shrink: 0;
         }
         .btn-lg {
             border: none; padding: 14px; border-radius: var(--radius-md); font-weight: 700;
@@ -358,25 +312,62 @@
         .btn-pri { background: var(--primary); color: white; box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3); }
         .btn-pri:hover { background: var(--primary-dark); transform: translateY(-1px); }
 
-        /* --- MOBILE RESPONSIVE TWEAKS --- */
+        /* =========================================
+           4. MOBILE RESPONSIVENESS
+           ========================================= */
         @media (max-width: 1024px) {
-            body { height: auto; overflow-y: auto; }
-            main { flex-direction: column; height: auto; }
+            body { 
+                height: auto; 
+                overflow-y: auto; /* Enable page scroll on mobile */
+            }
+            main { 
+                flex-direction: column; 
+                height: auto; 
+                overflow: visible;
+            }
+            
+            /* CRITICAL FIX: 
+               Instead of fixed height (60vh), use 'auto'.
+               JS will calculate exact height needed for the preview 
+               to remove the gap.
+            */
             .workspace-preview {
-                height: 60vh; /* Takes top part of screen */
+                height: auto; /* Changed from 60vh */
+                min-height: 350px; /* Minimum reasonable height */
                 padding: 20px;
                 order: 1;
+                /* Background pattern simpler for mobile */
+                background-size: 20px 20px;
             }
+            
             .workspace-controls {
                 width: 100%;
                 height: auto;
                 order: 2;
                 border-left: none;
                 border-top: 1px solid var(--border);
+                overflow: visible;
             }
-            #postcard {
-                /* On mobile, we still render 1080px internally, but SCALE it down visually */
-                /* Logic handled by JS */
+            
+            /* Allow controls to grow */
+            .controls-scroll {
+                overflow: visible;
+                height: auto;
+            }
+            
+            .tabs {
+                position: sticky;
+                top: 0;
+                z-index: 90;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            }
+            
+            .controls-footer {
+                position: sticky;
+                bottom: 0;
+                z-index: 90;
+                box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+                padding: 15px;
             }
         }
     </style>
@@ -390,8 +381,8 @@
             <span class="badge">Pro</span>
         </div>
         <div class="header-actions">
-            <button class="action-btn" onclick="toggleWatermark()" title="Toggle Watermark"><i class="fas fa-copyright"></i></button>
-            <button class="action-btn" onclick="randomizeTheme()" title="Randomize"><i class="fas fa-dice"></i></button>
+            <button class="action-btn" onclick="toggleWatermark()" title="ওয়াটারমার্ক"><i class="fas fa-copyright"></i></button>
+            <button class="action-btn" onclick="randomizeTheme()" title="র‍্যান্ডম"><i class="fas fa-dice"></i></button>
         </div>
     </header>
 
@@ -427,7 +418,7 @@
             <div class="tabs">
                 <button class="tab-btn active" onclick="setTab('tab-write')"><i class="fas fa-pen"></i> লেখা</button>
                 <button class="tab-btn" onclick="setTab('tab-style')"><i class="fas fa-palette"></i> স্টাইল</button>
-                <button class="tab-btn" onclick="setTab('tab-bg')"><i class="fas fa-image"></i> ব্যাকগ্রাউন্ড</button>
+                <button class="tab-btn" onclick="setTab('tab-bg')"><i class="fas fa-image"></i> বিজি</button>
             </div>
 
             <div class="controls-scroll">
@@ -445,7 +436,7 @@
                     </div>
 
                     <div class="c-group">
-                        <div class="c-label">এলাইনমেন্ট (Alignment)</div>
+                        <div class="c-label">এলাইনমেন্ট</div>
                         <div class="btn-grid">
                             <button class="icon-btn" onclick="align('flex-start', 'left')"><i class="fas fa-align-left"></i></button>
                             <button class="icon-btn active" onclick="align('center', 'center')"><i class="fas fa-align-center"></i></button>
@@ -454,19 +445,19 @@
                     </div>
 
                     <div class="c-group">
-                        <div class="c-label">আইকন (Icon)</div>
+                        <div class="c-label">আইকন</div>
                         <select id="selIcon" onchange="render()">
-                            <option value="fas fa-pen-nib">✒️ ফাউন্টেন নিব (Nib)</option>
-                            <option value="fas fa-feather-alt">🪶 পালক কলম (Feather)</option>
+                            <option value="fas fa-pen-nib">✒️ ফাউন্টেন নিব</option>
+                            <option value="fas fa-feather-alt">🪶 পালক কলম</option>
                             <option value="fas fa-quote-right">❝ কোট মার্ক</option>
                             <option value="fas fa-signature">✍️ স্বাক্ষর</option>
                             <option value="fas fa-pencil-alt">✏️ পেন্সিল</option>
-                            <option value="none">❌ কোন আইকন নেই</option>
+                            <option value="none">❌ নেই</option>
                         </select>
                     </div>
 
                     <div class="c-group">
-                         <div class="c-label">উদ্ধৃতি চিহ্ন (Quote Marks)</div>
+                         <div class="c-label">উদ্ধৃতি চিহ্ন স্টাইল</div>
                          <div class="btn-grid">
                             <button class="icon-btn active" onclick="setMarks('solid')">❝</button>
                             <button class="icon-btn" onclick="setMarks('classic')">“</button>
@@ -478,14 +469,13 @@
                 </div>
 
                 <div id="tab-style" class="tab-pane">
-                    
                     <div class="c-group">
                         <div class="c-label">ফন্ট ফ্যামিলি</div>
                         <select id="selFont" onchange="render()">
                             <option value="'Hind Siliguri', sans-serif">Hind Siliguri (ডিফল্ট)</option>
                             <option value="'SolaimanLipi', sans-serif">SolaimanLipi (জনপ্রিয়)</option>
-                            <option value="'Tiro Bangla', serif">Tiro Bangla (বইয়ের মতো)</option>
-                            <option value="'Baloo Da 2', sans-serif">Baloo Da 2 (মোটা)</option>
+                            <option value="'Tiro Bangla', serif">Tiro Bangla (বই)</option>
+                            <option value="'Baloo Da 2', sans-serif">Baloo Da 2 (হেডিং)</option>
                             <option value="'Galada', cursive">Galada (আর্ট)</option>
                             <option value="'Mina', sans-serif">Mina (সুন্দর)</option>
                             <option value="'Alata', sans-serif">Alata (মিনিমাল)</option>
@@ -591,12 +581,7 @@
         </div>
     </main>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
     <script>
-        /* =========================================
-           4. STATE & CONFIG
-           ========================================= */
         const state = {
             width: 1080,
             height: 1080,
@@ -609,8 +594,8 @@
 
         const presets = [
             { bg: '#ffffff', text: '#1e293b', acc: '#f43f5e', mark: '#6366f1', type: 'solid' },
-            { bg: '#fef3c7', text: '#451a03', acc: '#b45309', mark: '#d97706', type: 'solid' }, /* Paper */
-            { bg: '#0f172a', text: '#f1f5f9', acc: '#f43f5e', mark: '#38bdf8', type: 'solid' }, /* Dark */
+            { bg: '#fef3c7', text: '#451a03', acc: '#b45309', mark: '#d97706', type: 'solid' },
+            { bg: '#0f172a', text: '#f1f5f9', acc: '#f43f5e', mark: '#38bdf8', type: 'solid' },
             { bg: 'linear-gradient(135deg, #a5f3fc 0%, #3b82f6 100%)', text: '#fff', acc: '#fff', mark: '#cffafe', type: 'grad' },
             { bg: 'linear-gradient(to right, #f9a8d4 0%, #db2777 100%)', text: '#fff', acc: '#fff', mark: '#fbcfe8', type: 'grad' },
             { bg: 'linear-gradient(45deg, #85ffbd 0%, #fffb7d 100%)', text: '#064e3b', acc: '#065f46', mark: '#047857', type: 'grad' },
@@ -619,28 +604,19 @@
             { bg: 'url(https://images.unsplash.com/photo-1519681393784-d8e5b5a4570e?q=80&w=1080)', text:'#fff', acc:'#fff', mark:'#ffffff', overlay: 60, type:'img'}
         ];
 
-        /* =========================================
-           5. DOM ELEMENTS
-           ========================================= */
         const el = (id) => document.getElementById(id);
         const card = el('postcard');
         const previewContainer = el('previewContainer');
         const scaleWrapper = el('scaleWrapper');
         
-        // Listeners
         window.onload = () => {
             initPresets();
             render();
             autoScale();
-            // Input Listeners
             el('inQuote').addEventListener('input', (e) => el('dispQuote').innerText = e.target.value);
             el('inAuthor').addEventListener('input', (e) => el('dispAuthor').innerText = e.target.value);
             window.addEventListener('resize', autoScale);
         };
-
-        /* =========================================
-           6. LOGIC FUNCTIONS
-           ========================================= */
 
         function setTab(id) {
             document.querySelectorAll('.tab-pane').forEach(e => e.classList.remove('active'));
@@ -652,7 +628,6 @@
         function align(flex, text) {
             state.alignItems = flex;
             state.textAlign = text;
-            // UI update
             const btns = event.currentTarget.parentNode.children;
             for(let b of btns) b.classList.remove('active');
             event.currentTarget.classList.add('active');
@@ -670,16 +645,11 @@
         function setSize(w, h, btn) {
             state.width = w;
             state.height = h;
-            // UI
             const btns = btn.parentNode.children;
             for(let b of btns) b.classList.remove('active');
             btn.classList.add('active');
-            
-            // Resize logic
             card.style.width = w + 'px';
             card.style.height = h + 'px';
-            
-            // Recalculate scale because aspect ratio changed
             setTimeout(autoScale, 50); 
         }
 
@@ -696,24 +666,16 @@
 
         function loadPreset(idx) {
             const p = presets[idx];
-            
-            // Background
             if(p.type === 'solid' || p.type === 'grad') {
                 el('lBg').style.backgroundImage = p.bg;
-                el('lBg').style.backgroundColor = p.bg; // Fallback
+                el('lBg').style.backgroundColor = p.bg;
             } else if (p.type === 'img') {
                 el('lBg').style.backgroundImage = p.bg;
             }
-
-            // Colors
             el('clrText').value = p.text;
             el('clrAuthor').value = p.acc;
             el('clrMark').value = p.mark;
-
-            // Overlay
-            if(p.overlay) el('rnOverlay').value = p.overlay;
-            else el('rnOverlay').value = 0;
-
+            el('rnOverlay').value = p.overlay ? p.overlay : 0;
             render();
         }
 
@@ -742,26 +704,19 @@
             loadPreset(randomPreset);
         }
 
-        /* =========================================
-           7. MAIN RENDER LOOP
-           ========================================= */
         function render() {
-            // 1. Typography
+            // Typography
             card.style.fontFamily = el('selFont').value;
-            
             const fontSize = el('rnSize').value;
             const lineHeight = el('rnLH').value / 10;
             const gap = el('rnGap').value;
             
             el('dispQuote').style.fontSize = fontSize + 'px';
             el('dispQuote').style.lineHeight = lineHeight;
-            
             el('authorWrapper').style.marginTop = gap + 'px';
-            
-            // Author Font Size (Relative to Quote)
             el('authorWrapper').style.fontSize = (fontSize * 0.6) + 'px';
 
-            // 2. Colors & Shadow
+            // Colors
             const cText = el('clrText').value;
             const cAuth = el('clrAuthor').value;
             const cMark = el('clrMark').value;
@@ -774,16 +729,15 @@
             el('dispAuthor').style.color = cAuth;
             el('dispAuthor').style.textShadow = shadowCss;
             
-            // 3. Layout
+            // Layout
             el('lContent').style.alignItems = state.alignItems;
             el('lContent').style.textAlign = state.textAlign;
 
-            // 4. Marks & Icons
+            // Marks
             const qmStart = el('qmStart');
             const qmEnd = el('qmEnd');
             qmStart.style.color = cMark;
             qmEnd.style.color = cMark;
-            // Marks size relative to font
             const markSize = parseInt(fontSize) * 1.5 + 'px';
             qmStart.style.fontSize = markSize;
             qmEnd.style.fontSize = markSize;
@@ -809,7 +763,7 @@
                 iconEl.style.color = cIcon;
             }
 
-            // 5. Overlay & Pattern
+            // Background
             const over = el('rnOverlay').value / 100;
             el('lOverlay').style.backgroundColor = `rgba(0,0,0,${over})`;
             
@@ -821,79 +775,76 @@
             else if(pat === 'grid') patEl.style.backgroundImage = 'linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)';
             patEl.style.backgroundSize = (pat === 'dots') ? '20px 20px' : '40px 40px';
 
-            // Update Labels
             el('vSize').innerText = fontSize + 'px';
             el('vLH').innerText = lineHeight;
             el('vGap').innerText = gap + 'px';
             el('vOver').innerText = el('rnOverlay').value + '%';
         }
 
-        /* =========================================
-           8. MOBILE SCALING MAGIC
-           ========================================= */
+        // --- THE MAGIC AUTO-SCALING FUNCTION ---
         function autoScale() {
-            // Get available space in preview container
             const containerW = previewContainer.clientWidth;
-            const containerH = previewContainer.clientHeight;
-            const padding = 40; // Safety padding
-
-            // Get actual card dimensions
+            const padding = 40; 
+            
+            // Calculate scale based on width only (to fit screen width)
+            // But verify height doesn't overflow drastically if in desktop
             const cardW = state.width;
             const cardH = state.height;
-
-            // Calculate scale factors
-            const scaleX = (containerW - padding) / cardW;
-            const scaleY = (containerH - padding) / cardH;
             
-            // Choose smaller scale to fit both
-            let scale = Math.min(scaleX, scaleY);
+            let scale = (containerW - padding) / cardW;
             
-            // Limit max scale to 1 (don't zoom in pixelated)
-            if (scale > 1) scale = 1;
+            // On desktop, limit scale so it doesn't get huge
+            if(window.innerWidth > 1024) {
+               const containerH = previewContainer.clientHeight;
+               const scaleY = (containerH - padding) / cardH;
+               scale = Math.min(scale, scaleY);
+            }
+            
+            if (scale > 1) scale = 1; // Don't upscale
 
-            // Apply Scale
             scaleWrapper.style.transform = `scale(${scale})`;
             
-            // Adjust Scale Wrapper dimensions to match the scaled visual size
-            // preventing huge scrollbars
-            scaleWrapper.style.width = cardW + 'px';
-            scaleWrapper.style.height = cardH + 'px';
+            // FIX FOR MOBILE GAP:
+            // Calculate visual height and force container to that height
+            if(window.innerWidth <= 1024) {
+                // The visual height occupied by the scaled card
+                const visualH = cardH * scale;
+                // Update the preview container height to match (+ padding)
+                previewContainer.style.height = (visualH + 60) + 'px';
+                
+                // Adjust scale wrapper layout size so it doesn't reserve 1080px
+                scaleWrapper.style.width = cardW + 'px';
+                scaleWrapper.style.height = cardH + 'px';
+            } else {
+                previewContainer.style.height = '100%';
+            }
         }
 
-        /* =========================================
-           9. EXPORT LOGIC
-           ========================================= */
         function downloadCard() {
             const btn = document.querySelector('.btn-pri');
             const oldText = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> জেনারেট হচ্ছে...';
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ...';
 
             html2canvas(card, {
-                scale: 1, // We are already at 1080px, no need to up-scale
+                scale: 1, 
                 useCORS: true,
                 backgroundColor: null,
-                allowTaint: true,
-                scrollX: 0,
-                scrollY: 0,
-                width: state.width,
-                height: state.height
+                allowTaint: true
             }).then(canvas => {
                 const link = document.createElement('a');
                 link.download = `quote-pro-${Date.now()}.png`;
-                link.href = canvas.toDataURL('image/png', 1.0); // Max quality
+                link.href = canvas.toDataURL('image/png', 1.0);
                 link.click();
                 btn.innerHTML = oldText;
             }).catch(err => {
                 console.error(err);
-                alert('ছবি সেভ করতে সমস্যা হচ্ছে।');
+                alert('দুঃখিত, ছবি সেভ করা যাচ্ছে না।');
                 btn.innerHTML = oldText;
             });
         }
         
         function resetAll() {
-            if(confirm("সব সেটিংস রিসেট করতে চান?")) {
-                location.reload();
-            }
+            if(confirm("সব সেটিংস রিসেট করতে চান?")) location.reload();
         }
     </script>
 </body>
