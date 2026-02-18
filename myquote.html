@@ -1,390 +1,869 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>বাংলা পোস্টকার্ড জেনারেটর</title>
-
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-  <link href="https://fonts.maateen.me/solaiman-lipi/font.css" rel="stylesheet">
-  <link href="https://fonts.maateen.me/bensen-handwriting/font.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-  <style>
-    :root {
-      --primary: #4a6fa5;
-      --text: #333;
-    }
-
-    * { box-sizing: border-box; }
-
-    body {
-      font-family: 'Hind Siliguri', sans-serif;
-      background: #f0f4f8;
-      margin: 0;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-      color: var(--text);
-      gap: 30px;
-    }
-
-    @media (min-width: 900px) {
-      body {
-        flex-direction: row;
-        justify-content: center;
-        align-items: flex-start;
-      }
-      .preview-section {
-        position: sticky;
-        top: 20px;
-      }
-    }
-
-    /* --- Preview Section --- */
-    .card-wrapper {
-      width: 400px;
-      height: 400px;
-      position: relative;
-      border-radius: 16px;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-      overflow: hidden;
-      background-color: #fff;
-      transition: transform 0.3s ease;
-    }
-
-    .card {
-      width: 100%;
-      height: 100%;
-      padding: 40px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      text-align: center;
-      background: #ffffff;
-      border: 6px solid transparent; 
-      position: relative;
-    }
-
-    .quote-container {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 10px;
-    }
-
-    .quote {
-      font-size: 26px;
-      font-weight: 600;
-      line-height: 1.6;
-      color: #1a237e;
-      white-space: pre-wrap;
-      word-wrap: break-word;
-      position: relative;
-      display: inline-block; /* Ensures quotes stick to text block */
-    }
-
-    /* --- NEW INVERTED COMMA STYLES --- */
-    .quote::before {
-      content: '❝';
-      font-family: sans-serif; /* Standard font for quotes */
-      font-size: 1.5em; /* Relative to text size */
-      line-height: 0;
-      vertical-align: -0.2em;
-      margin-right: 5px;
-      color: var(--quote-mark-color, #4a6fa5); /* Dynamic Color Variable */
-      opacity: 0.6;
-    }
-
-    .quote::after {
-      content: '❞';
-      font-family: sans-serif;
-      font-size: 1.5em;
-      line-height: 0;
-      vertical-align: -0.2em;
-      margin-left: 5px;
-      color: var(--quote-mark-color, #4a6fa5);
-      opacity: 0.6;
-    }
-    /* --------------------------------- */
-
-    .author-container {
-      margin-top: auto;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      font-size: 18px;
-      font-weight: 600;
-      color: #c62828;
-      padding-top: 15px;
-    }
-
-    /* --- Control Panel --- */
-    .control-panel {
-      width: 400px;
-      max-width: 100%;
-      background: white;
-      padding: 25px;
-      border-radius: 16px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    .section-title {
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--primary);
-      border-bottom: 2px solid #eee;
-      padding-bottom: 5px;
-      margin-bottom: 10px;
-      margin-top: 0;
-    }
-
-    .input-group { margin-bottom: 15px; }
-    .input-group label {
-      display: block; font-size: 14px; color: #666; margin-bottom: 5px; font-weight: 500;
-    }
-
-    textarea, input[type="text"], select {
-      width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 15px;
-    }
-    textarea:focus, input:focus, select:focus { outline: none; border-color: var(--primary); }
-    textarea { resize: vertical; min-height: 80px; }
-    input[type=range] { width: 100%; cursor: pointer; }
-
-    /* Color Pickers Grid */
-    .color-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-    .color-input-wrapper {
-      display: flex; align-items: center; gap: 8px; border: 1px solid #ddd; padding: 5px; border-radius: 6px;
-    }
-    input[type="color"] {
-      border: none; width: 30px; height: 30px; cursor: pointer; background: none; padding: 0;
-    }
-
-    /* Buttons */
-    .btn {
-      width: 100%; padding: 14px; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 600; display: flex; justify-content: center; align-items: center; gap: 10px;
-    }
-    .btn-download { background: #2e7d32; color: white; margin-top: 10px; }
-    .btn-download:hover { background: #1b5e20; }
-
-    /* Alignment */
-    .align-buttons { display: flex; gap: 5px; }
-    .align-btn { flex: 1; padding: 8px; border: 1px solid #ddd; background: #f9f9f9; cursor: pointer; border-radius: 4px; }
-    .align-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
-
-    /* Fonts */
-    .font-default { font-family: 'Hind Siliguri', sans-serif !important; }
-    .font-solaiman { font-family: 'SolaimanLipi', serif !important; }
-    .font-bensen { font-family: 'BenSen Handwriting', cursive, sans-serif !important; }
-  </style>
-</head>
-<body id="body">
-
-  <div class="preview-section">
-    <div class="card-wrapper" id="postcard">
-      <div class="card" id="cardInner">
-        
-        <div class="quote-container">
-          <div class="quote font-default" id="quoteDisplay">জীবন সংগ্রামে হার মানো না,
-চেষ্টা চালিয়ে যাও।</div>
-        </div>
-
-        <div class="author-container font-default" id="authorDisplay">
-          <i class="fas fa-feather-alt" id="iconDisplay"></i>
-          <span id="authorNameDisplay">বঙ্কিমচন্দ্র চট্টোপাধ্যায়</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="control-panel">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>আল্টিমেট বাংলা কোট জেনারেটর (Pro Version)</title>
     
-    <div>
-      <h3 class="section-title">লেখা (Content)</h3>
-      <div class="input-group">
-        <label>উদ্ধৃতি (নতুন লাইনের জন্য Enter চাপুন)</label>
-        <textarea id="quoteInput" placeholder="এখানে লিখুন...">জীবন সংগ্রামে হার মানো না,
-চেষ্টা চালিয়ে যাও।</textarea>
-      </div>
-      <div class="input-group">
-        <label>লেখকের নাম</label>
-        <input type="text" id="authorInput" value="বঙ্কিমচন্দ্র চট্টোপাধ্যায়" placeholder="নাম লিখুন">
-      </div>
-    </div>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@400;500;600;700;800&family=Galada&family=Hind+Siliguri:wght@300;400;500;600;700&family=Mina:wght@400;700&family=Noto+Sans+Bengali:wght@300;400;500;600;700&family=Tiro+Bangla:ital@0;1&display=swap" rel="stylesheet">
 
-    <div>
-      <h3 class="section-title">স্টাইল (Style)</h3>
-      
-      <div class="input-group">
-        <label>ফন্ট সিলেক্ট করুন</label>
-        <select id="fontSelect">
-          <option value="font-default">Hind Siliguri (Standard)</option>
-          <option value="font-solaiman">Solaiman Lipi (Formal)</option>
-          <option value="font-bensen">Bensen Handwriting (Stylish)</option>
-        </select>
-      </div>
-
-      <div class="input-group">
-        <label>ফন্ট সাইজ: <span id="fontSizeVal">26px</span></label>
-        <input type="range" id="fontSizeRange" min="14" max="60" value="26">
-      </div>
-
-      <div class="input-group">
-         <label>এলাইনমেন্ট</label>
-         <div class="align-buttons">
-             <button class="align-btn" onclick="setAlignment('left')"><i class="fas fa-align-left"></i></button>
-             <button class="align-btn active" onclick="setAlignment('center')"><i class="fas fa-align-center"></i></button>
-             <button class="align-btn" onclick="setAlignment('right')"><i class="fas fa-align-right"></i></button>
-         </div>
-      </div>
-
-      <div class="input-group">
-        <label>আইকন</label>
-        <select id="iconSelect">
-          <option value="feather-alt">🖋️ ফাউন্টেন পেন</option>
-          <option value="pen-nib">✒️ নিব</option>
-          <option value="quote-right">❝ কোট মার্ক</option>
-          <option value="heart">❤️ হার্ট</option>
-          <option value="star">⭐ স্টার</option>
-          <option value="none">❌ কোন আইকন নেই</option>
-        </select>
-      </div>
-    </div>
-
-    <div>
-      <h3 class="section-title">রং (Colors)</h3>
-      <div class="color-grid">
-        <div class="color-input-wrapper">
-          <input type="color" id="bgPicker" value="#ffffff">
-          <label>কার্ডের রং</label>
-        </div>
-        <div class="color-input-wrapper">
-            <input type="color" id="textPicker" value="#1a237e">
-            <label>লেখার রং</label>
-        </div>
-        <div class="color-input-wrapper">
-            <input type="color" id="quoteMarkPicker" value="#4a6fa5">
-            <label>কোট মার্ক (")</label>
-        </div>
-        <div class="color-input-wrapper">
-          <input type="color" id="authorPicker" value="#c62828">
-          <label>লেখকের রং</label>
-        </div>
-      </div>
-    </div>
-
-    <button class="btn btn-download" onclick="downloadImage()">
-      <i class="fas fa-download"></i> ছবি ডাউনলোড করুন
-    </button>
-  </div>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  <script>
-    // Elements
-    const quoteInput = document.getElementById('quoteInput');
-    const quoteDisplay = document.getElementById('quoteDisplay');
-    const authorInput = document.getElementById('authorInput');
-    const authorNameDisplay = document.getElementById('authorNameDisplay');
-    const fontSelect = document.getElementById('fontSelect');
-    const fontSizeRange = document.getElementById('fontSizeRange');
-    const fontSizeVal = document.getElementById('fontSizeVal');
-    const iconSelect = document.getElementById('iconSelect');
-    const iconDisplay = document.getElementById('iconDisplay');
-    const cardInner = document.getElementById('cardInner');
-    const authorDisplay = document.getElementById('authorDisplay');
-
-    // Color Pickers
-    const bgPicker = document.getElementById('bgPicker');
-    const textPicker = document.getElementById('textPicker');
-    const quoteMarkPicker = document.getElementById('quoteMarkPicker');
-    const authorPicker = document.getElementById('authorPicker');
-
-    // 1. Live Text Update
-    quoteInput.addEventListener('input', function() {
-        quoteDisplay.innerText = this.value;
-    });
-
-    authorInput.addEventListener('input', function() {
-        authorNameDisplay.innerText = this.value;
-    });
-
-    // 2. Font Management
-    fontSelect.addEventListener('change', function() {
-        quoteDisplay.classList.remove('font-default', 'font-solaiman', 'font-bensen');
-        authorDisplay.classList.remove('font-default', 'font-solaiman', 'font-bensen');
-        quoteDisplay.classList.add(this.value);
-        authorDisplay.classList.add(this.value);
-    });
-
-    // 3. Dynamic Font Size
-    fontSizeRange.addEventListener('input', function() {
-        const size = this.value + 'px';
-        quoteDisplay.style.fontSize = size;
-        fontSizeVal.innerText = size;
-    });
-
-    // 4. Alignment
-    function setAlignment(align) {
-        document.getElementById('cardInner').style.textAlign = align;
-        if(align === 'left') authorDisplay.style.justifyContent = 'flex-start';
-        else if(align === 'right') authorDisplay.style.justifyContent = 'flex-end';
-        else authorDisplay.style.justifyContent = 'center';
-        
-        document.querySelectorAll('.align-btn').forEach(btn => btn.classList.remove('active'));
-        event.currentTarget.classList.add('active');
-    }
-
-    // 5. Icon Change
-    iconSelect.addEventListener('change', function() {
-        if(this.value === 'none') {
-            iconDisplay.style.display = 'none';
-        } else {
-            iconDisplay.style.display = 'inline-block';
-            iconDisplay.className = `fas fa-${this.value}`;
+    <style>
+        /* =========================================
+           1. CSS VARIABLES & RESET
+           ========================================= */
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #ec4899;
+            --bg-body: #f3f4f6;
+            --bg-panel: #ffffff;
+            --text-main: #1f2937;
+            --text-muted: #6b7280;
+            --border: #e5e7eb;
+            --radius-lg: 16px;
+            --radius-md: 8px;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-    });
 
-    // 6. Color Management
-    bgPicker.addEventListener('input', (e) => cardInner.style.backgroundColor = e.target.value);
-    textPicker.addEventListener('input', (e) => quoteDisplay.style.color = e.target.value);
-    authorPicker.addEventListener('input', (e) => authorDisplay.style.color = e.target.value);
-    
-    // Update Inverted Comma Color using CSS Variable
-    quoteMarkPicker.addEventListener('input', (e) => {
-        quoteDisplay.style.setProperty('--quote-mark-color', e.target.value);
-    });
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-    // 7. Download Logic
-    function downloadImage() {
-        const element = document.getElementById('postcard');
-        element.style.boxShadow = 'none';
-        element.style.borderRadius = '0';
+        body {
+            font-family: 'Hind Siliguri', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* =========================================
+           2. LAYOUT & STRUCTURE
+           ========================================= */
+        header {
+            background: var(--bg-panel);
+            padding: 1rem 2rem;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .logo {
+            font-family: 'Baloo Da 2', sans-serif;
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            padding: 2rem;
+            gap: 2rem;
+            max-width: 1600px;
+            margin: 0 auto;
+            width: 100%;
+            height: calc(100vh - 80px);
+        }
+
+        @media (min-width: 1024px) {
+            main {
+                flex-direction: row;
+                overflow: hidden; /* Prevent body scroll, scroll panels instead */
+            }
+        }
+
+        /* =========================================
+           3. PREVIEW SECTION (Left Side)
+           ========================================= */
+        .preview-area {
+            flex: 1;
+            background: #e0e7ff; /* Blueprint grid look */
+            background-image: radial-gradient(#c7d2fe 1px, transparent 1px);
+            background-size: 20px 20px;
+            border-radius: var(--radius-lg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            min-height: 400px;
+            overflow: auto;
+            border: 1px solid var(--border);
+        }
+
+        .canvas-wrapper {
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            transition: transform 0.3s ease;
+        }
+
+        /* The Actual Card */
+        #postcard {
+            width: 500px;
+            height: 500px; /* Square default */
+            background-color: #ffffff;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            padding: 40px;
+            /* Flex layout for dynamic content flow */
+        }
+
+        /* Dynamic Background Layer */
+        #cardBackground {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: 0;
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Overlay for readability */
+        #cardOverlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: 1;
+            background: rgba(0,0,0,0); /* Dynamic */
+        }
+
+        /* Content Wrapper */
+        .content-layer {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            /* Alignment controlled by JS */
+            justify-content: center; 
+            align-items: center; 
+        }
+
+        .quote-block {
+            margin-bottom: 15px; /* Spacing between quote and author */
+            position: relative;
+            max-width: 100%;
+        }
+
+        .quote-text {
+            font-size: 32px;
+            line-height: 1.5;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            display: inline; /* To keep quotes attached */
+        }
+
+        /* Modern Inverted Commas */
+        .quote-mark {
+            font-family: 'Times New Roman', serif;
+            font-size: 1.4em;
+            line-height: 0;
+            opacity: 0.7;
+            vertical-align: -10px;
+            display: inline-block;
+        }
+        .qm-start { margin-right: 8px; }
+        .qm-end { margin-left: 8px; }
+
+        .author-block {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 20px;
+            font-weight: 600;
+            margin-top: 10px;
+            /* Logic for moving it dynamically below quote is handled by normal block flow */
+        }
+
+        .author-line {
+            width: 40px;
+            height: 2px;
+            background: currentColor;
+            display: none; /* Toggleable */
+        }
+
+        /* =========================================
+           4. CONTROLS SECTION (Right Side)
+           ========================================= */
+        .controls-area {
+            flex: 0 0 400px;
+            background: var(--bg-panel);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            height: 100%;
+        }
+
+        /* Tabs Navigation */
+        .tabs-nav {
+            display: flex;
+            border-bottom: 1px solid var(--border);
+            background: #f9fafb;
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            background: transparent;
+            font-family: 'Hind Siliguri', sans-serif;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: var(--transition);
+            border-bottom: 2px solid transparent;
+        }
+        .tab-btn:hover { color: var(--primary); background: #f3f4f6; }
+        .tab-btn.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+            background: #fff;
+        }
+
+        /* Tab Content */
+        .tab-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.5rem;
+            display: none; /* Hidden by default */
+        }
+        .tab-content.active { display: block; }
+        .tab-content::-webkit-scrollbar { width: 6px; }
+        .tab-content::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+
+        /* Control Groups */
+        .control-group { margin-bottom: 1.5rem; }
+        .control-label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-main);
+            display: flex;
+            justify-content: space-between;
+        }
         
-        html2canvas(element, {
-            scale: 3,
-            backgroundColor: null,
-            useCORS: true
-        }).then(canvas => {
-            const link = document.createElement('a');
-            link.download = `quote-${Date.now()}.png`;
-            link.href = canvas.toDataURL('image/png');
-            link.click();
-            element.style.boxShadow = '0 15px 35px rgba(0,0,0,0.1)';
-            element.style.borderRadius = '16px';
+        /* Inputs */
+        textarea, input[type="text"], select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            font-family: inherit;
+            font-size: 0.95rem;
+            transition: border-color 0.2s;
+        }
+        textarea:focus, input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+        textarea { resize: vertical; min-height: 100px; }
+
+        /* Range Slider Styling */
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 6px;
+            background: #e5e7eb;
+            border-radius: 5px;
+            outline: none;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        /* Color Grid */
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        .color-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+        }
+        input[type="color"] {
+            width: 24px; height: 24px;
+            border: none; padding: 0;
+            background: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        /* Alignment Buttons */
+        .btn-group {
+            display: flex;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+        }
+        .btn-option {
+            flex: 1;
+            padding: 8px;
+            border: none;
+            background: #fff;
+            cursor: pointer;
+            border-right: 1px solid var(--border);
+            color: var(--text-muted);
+        }
+        .btn-option:last-child { border-right: none; }
+        .btn-option.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Action Footer */
+        .panel-footer {
+            padding: 1.5rem;
+            border-top: 1px solid var(--border);
+            background: #f9fafb;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        .btn {
+            padding: 12px;
+            border: none;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        .btn-primary:hover { background: var(--primary-dark); }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-main);
+        }
+        .btn-outline:hover { background: #fff; border-color: var(--text-muted); }
+
+        /* Presets Grid */
+        .preset-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        .preset-card {
+            height: 60px;
+            border-radius: 6px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            background-size: cover;
+            position: relative;
+        }
+        .preset-card:hover { border-color: var(--primary); }
+
+        /* Helpers */
+        .file-upload-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: 100%;
+        }
+        .file-upload-btn {
+            border: 2px dashed var(--border);
+            color: var(--text-muted);
+            background: #fafafa;
+            padding: 15px;
+            border-radius: var(--radius-md);
+            width: 100%;
+            text-align: center;
+            cursor: pointer;
+        }
+        .file-upload-wrapper input[type=file] {
+            font-size: 100px;
+            position: absolute;
+            left: 0; top: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <i class="fas fa-quote-left"></i> বাণী চিরন্তনী <span style="font-size:0.8em; color:#999; font-weight:400">Pro</span>
+        </div>
+        <div style="display:flex; gap:10px">
+            <button class="btn btn-outline" style="padding: 8px 15px;" onclick="resetDefaults()">
+                <i class="fas fa-undo"></i> রিসেট
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <div class="preview-area">
+            <div class="canvas-wrapper">
+                <div id="postcard">
+                    <div id="cardBackground"></div>
+                    <div id="cardOverlay"></div>
+
+                    <div class="content-layer" id="contentLayer">
+                        
+                        <div class="quote-block" id="quoteBlock">
+                            <span class="quote-mark qm-start">❝</span>
+                            <div class="quote-text" id="quoteText">জীবন সংগ্রামে হার মানো না, 
+চেষ্টা চালিয়ে যাও।</div>
+                            <span class="quote-mark qm-end">❞</span>
+                        </div>
+
+                        <div class="author-block" id="authorBlock">
+                            <div class="author-line" id="authorLine"></div>
+                            <i class="fas fa-feather-alt" id="authorIcon"></i>
+                            <span id="authorName">বঙ্কিমচন্দ্র চট্টোপাধ্যায়</span>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls-area">
+            <div class="tabs-nav">
+                <button class="tab-btn active" onclick="switchTab('tab-text')">লেখা</button>
+                <button class="tab-btn" onclick="switchTab('tab-style')">স্টাইল</button>
+                <button class="tab-btn" onclick="switchTab('tab-bg')">ব্যাকগ্রাউন্ড</button>
+            </div>
+
+            <div id="tab-text" class="tab-content active">
+                <div class="control-group">
+                    <label class="control-label">উদ্ধৃতি (Content)</label>
+                    <textarea id="inputQuote" placeholder="এখানে আপনার উক্তি লিখুন...">জীবন সংগ্রামে হার মানো না, 
+চেষ্টা চালিয়ে যাও।</textarea>
+                </div>
+                
+                <div class="control-group">
+                    <label class="control-label">লেখকের নাম</label>
+                    <input type="text" id="inputAuthor" value="বঙ্কিমচন্দ্র চট্টোপাধ্যায়">
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">এলাইনমেন্ট (Alignment)</label>
+                    <div class="btn-group">
+                        <button class="btn-option" onclick="setAlignment('flex-start', 'left')"><i class="fas fa-align-left"></i></button>
+                        <button class="btn-option active" onclick="setAlignment('center', 'center')"><i class="fas fa-align-center"></i></button>
+                        <button class="btn-option" onclick="setAlignment('flex-end', 'right')"><i class="fas fa-align-right"></i></button>
+                    </div>
+                </div>
+
+                 <div class="control-group">
+                    <label class="control-label">সাজসজ্জা</label>
+                    <label style="display:flex; align-items:center; gap:8px; margin-bottom:5px; cursor:pointer">
+                        <input type="checkbox" id="checkInverted" checked onchange="toggleInverted()"> ইনভার্টেড কমা দেখান (Inverted Commas)
+                    </label>
+                    <label style="display:flex; align-items:center; gap:8px; cursor:pointer">
+                        <input type="checkbox" id="checkAuthorIcon" checked onchange="toggleAuthorIcon()"> লেখকের আইকন (Icon)
+                    </label>
+                </div>
+            </div>
+
+            <div id="tab-style" class="tab-content">
+                
+                <div class="control-group">
+                    <label class="control-label">ফন্ট ফ্যামিলি</label>
+                    <select id="selectFont" onchange="updateStyles()">
+                        <option value="'Hind Siliguri', sans-serif">Hind Siliguri (ডিফল্ট)</option>
+                        <option value="'Baloo Da 2', sans-serif">Baloo Da 2 (মোটা)</option>
+                        <option value="'Galada', cursive">Galada (ক্যালিগ্রাফি)</option>
+                        <option value="'Mina', sans-serif">Mina (মার্জিত)</option>
+                        <option value="'Noto Sans Bengali', sans-serif">Noto Sans (ফরমাল)</option>
+                        <option value="'Tiro Bangla', serif">Tiro Bangla (সেরিফ)</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">উদ্ধৃতি সাইজ <span id="valSize">32px</span></label>
+                    <input type="range" id="rangeSize" min="16" max="80" value="32" oninput="updateStyles()">
+                </div>
+                
+                <div class="control-group">
+                    <label class="control-label">লাইন হাইট (Line Height)</label>
+                    <input type="range" id="rangeLineHeight" min="10" max="30" value="15" oninput="updateStyles()">
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">লেখক সাইজ <span id="valAuthorSize">20px</span></label>
+                    <input type="range" id="rangeAuthorSize" min="12" max="50" value="20" oninput="updateStyles()">
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">উদ্ধৃতি ও লেখকের দূরত্ব</label>
+                    <input type="range" id="rangeGap" min="0" max="100" value="15" oninput="updateStyles()">
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">রং নির্বাচন (Colors)</label>
+                    <div class="color-grid">
+                        <label class="color-item">
+                            <input type="color" id="colText" value="#1f2937" oninput="updateStyles()">
+                            <span>টেক্সট</span>
+                        </label>
+                        <label class="color-item">
+                            <input type="color" id="colAuthor" value="#dc2626" oninput="updateStyles()">
+                            <span>লেখক</span>
+                        </label>
+                        <label class="color-item">
+                            <input type="color" id="colQuoteMark" value="#6366f1" oninput="updateStyles()">
+                            <span>কমা (")</span>
+                        </label>
+                        <label class="color-item">
+                            <input type="color" id="colShadow" value="#000000" oninput="updateStyles()">
+                            <span>ছায়া</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">টেক্সট শ্যাডো (Shadow)</label>
+                    <input type="range" id="rangeShadow" min="0" max="10" value="0" oninput="updateStyles()">
+                </div>
+            </div>
+
+            <div id="tab-bg" class="tab-content">
+                
+                <div class="control-group">
+                    <label class="control-label">কুইক প্রিসেট (Quick Styles)</label>
+                    <div class="preset-grid">
+                        <div class="preset-card" onclick="setPreset('white')" style="background:#fff; border:1px solid #ddd"></div>
+                        <div class="preset-card" onclick="setPreset('paper')" style="background:#fef3c7;"></div>
+                        <div class="preset-card" onclick="setPreset('dark')" style="background:#1f2937;"></div>
+                        <div class="preset-card" onclick="setPreset('grad1')" style="background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
+                        <div class="preset-card" onclick="setPreset('grad2')" style="background:linear-gradient(to right, #43e97b 0%, #38f9d7 100%);"></div>
+                        <div class="preset-card" onclick="setPreset('grad3')" style="background:linear-gradient(to top, #ff0844 0%, #ffb199 100%);"></div>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">সলিড কালার</label>
+                    <div style="display:flex; gap:10px; align-items:center; border:1px solid var(--border); padding:8px; border-radius:8px;">
+                        <input type="color" id="bgSolid" value="#ffffff" oninput="setBackground('solid', this.value)">
+                        <span>ব্যাকগ্রাউন্ড কালার পিকার</span>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">কাস্টম ইমেজ আপলোড</label>
+                    <div class="file-upload-wrapper">
+                        <div class="file-upload-btn">
+                            <i class="fas fa-cloud-upload-alt"></i> ছবি নির্বাচন করুন
+                        </div>
+                        <input type="file" id="bgImageInput" accept="image/*" onchange="handleImageUpload(this)">
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">ওভারলে (অন্ধকার আভা)</label>
+                    <input type="range" id="rangeOverlay" min="0" max="90" value="0" oninput="updateOverlay()">
+                    <div style="font-size:0.8rem; color:#666; margin-top:5px">ইমেজ ব্যবহারের সময় টেক্সট স্পষ্ট করতে ব্যবহার করুন</div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">কার্ড সাইজ</label>
+                    <select id="selectSize" onchange="changeCardSize(this.value)">
+                        <option value="square">বর্গাকার (Instagram) - 1:1</option>
+                        <option value="portrait">পোর্ট্রেট (Story) - 9:16</option>
+                        <option value="landscape">ল্যান্ডস্কেপ (Facebook) - 16:9</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="panel-footer">
+                <button class="btn btn-outline" style="border-color:var(--secondary); color:var(--secondary)" onclick="randomize()">
+                    <i class="fas fa-random"></i> র‍্যান্ডম
+                </button>
+                <button class="btn btn-primary" onclick="downloadImage()">
+                    <i class="fas fa-download"></i> ডাউনলোড
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <script>
+        /* =========================================
+           STATE & ELEMENTS
+           ========================================= */
+        const els = {
+            card: document.getElementById('postcard'),
+            cardBg: document.getElementById('cardBackground'),
+            cardOverlay: document.getElementById('cardOverlay'),
+            contentLayer: document.getElementById('contentLayer'),
+            quoteBlock: document.getElementById('quoteBlock'),
+            quoteText: document.getElementById('quoteText'),
+            authorBlock: document.getElementById('authorBlock'),
+            authorName: document.getElementById('authorName'),
+            authorIcon: document.getElementById('authorIcon'),
+            
+            // Inputs
+            inQuote: document.getElementById('inputQuote'),
+            inAuthor: document.getElementById('inputAuthor'),
+            
+            // Marks
+            marks: document.querySelectorAll('.quote-mark')
+        };
+
+        /* =========================================
+           INITIALIZATION
+           ========================================= */
+        window.addEventListener('DOMContentLoaded', () => {
+            // Live Text Listeners
+            els.inQuote.addEventListener('input', (e) => els.quoteText.innerText = e.target.value);
+            els.inAuthor.addEventListener('input', (e) => els.authorName.innerText = e.target.value);
+            
+            updateStyles(); // Apply defaults
         });
-    }
-  </script>
+
+        /* =========================================
+           TABS LOGIC
+           ========================================= */
+        function switchTab(tabId) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            
+            // Show selected
+            document.getElementById(tabId).classList.add('active');
+            
+            // Activate button
+            const btnIndex = ['tab-text','tab-style','tab-bg'].indexOf(tabId);
+            document.querySelectorAll('.tab-btn')[btnIndex].classList.add('active');
+        }
+
+        /* =========================================
+           STYLE UPDATE LOGIC
+           ========================================= */
+        function updateStyles() {
+            // Get Values
+            const font = document.getElementById('selectFont').value;
+            const size = document.getElementById('rangeSize').value + 'px';
+            const lineHeight = document.getElementById('rangeLineHeight').value / 10;
+            const authorSize = document.getElementById('rangeAuthorSize').value + 'px';
+            const gap = document.getElementById('rangeGap').value + 'px';
+            const shadowVal = document.getElementById('rangeShadow').value;
+            
+            // Colors
+            const colText = document.getElementById('colText').value;
+            const colAuthor = document.getElementById('colAuthor').value;
+            const colMark = document.getElementById('colQuoteMark').value;
+            const colShadow = document.getElementById('colShadow').value;
+
+            // Apply Font & Typography
+            els.card.style.fontFamily = font;
+            
+            // Quote Styles
+            els.quoteText.style.fontSize = size;
+            els.quoteText.style.lineHeight = lineHeight;
+            els.quoteText.style.color = colText;
+            
+            // Shadow
+            const shadowString = shadowVal > 0 ? `2px 2px ${shadowVal}px ${colShadow}` : 'none';
+            els.quoteText.style.textShadow = shadowString;
+            els.authorName.style.textShadow = shadowString;
+
+            // Author Styles
+            els.authorBlock.style.fontSize = authorSize;
+            els.authorBlock.style.color = colAuthor;
+            els.authorBlock.style.marginTop = gap;
+
+            // Quote Marks
+            els.marks.forEach(m => m.style.color = colMark);
+
+            // Update Labels
+            document.getElementById('valSize').innerText = size;
+            document.getElementById('valAuthorSize').innerText = authorSize;
+        }
+
+        /* =========================================
+           ALIGNMENT
+           ========================================= */
+        function setAlignment(flexAlign, textAlign) {
+            // Container Flex
+            els.contentLayer.style.alignItems = flexAlign;
+            els.contentLayer.style.textAlign = textAlign;
+            
+            // Update buttons visual state
+            document.querySelectorAll('.btn-option').forEach(btn => btn.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+        }
+
+        /* =========================================
+           TOGGLES
+           ========================================= */
+        function toggleInverted() {
+            const show = document.getElementById('checkInverted').checked;
+            els.marks.forEach(m => m.style.display = show ? 'inline-block' : 'none');
+        }
+
+        function toggleAuthorIcon() {
+            const show = document.getElementById('checkAuthorIcon').checked;
+            els.authorIcon.style.display = show ? 'block' : 'none';
+        }
+
+        /* =========================================
+           BACKGROUND LOGIC
+           ========================================= */
+        function setBackground(type, value) {
+            if(type === 'solid') {
+                els.cardBg.style.backgroundImage = 'none';
+                els.cardBg.style.backgroundColor = value;
+            } else if (type === 'image') {
+                els.cardBg.style.backgroundColor = 'transparent';
+                els.cardBg.style.backgroundImage = `url(${value})`;
+            }
+        }
+
+        function updateOverlay() {
+            const opacity = document.getElementById('rangeOverlay').value / 100;
+            els.cardOverlay.style.background = `rgba(0,0,0,${opacity})`;
+        }
+
+        function handleImageUpload(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    setBackground('image', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function changeCardSize(type) {
+            const card = document.getElementById('postcard');
+            if(type === 'square') { card.style.width = '500px'; card.style.height = '500px'; }
+            else if(type === 'portrait') { card.style.width = '360px'; card.style.height = '640px'; }
+            else if(type === 'landscape') { card.style.width = '640px'; card.style.height = '360px'; }
+        }
+
+        /* =========================================
+           PRESETS
+           ========================================= */
+        function setPreset(name) {
+            const bg = els.cardBg;
+            const textCol = document.getElementById('colText');
+            const authorCol = document.getElementById('colAuthor');
+            
+            // Reset image
+            bg.style.backgroundImage = 'none';
+
+            if(name === 'white') {
+                bg.style.background = '#ffffff';
+                setColors('#1f2937', '#dc2626', '#6366f1');
+            } else if (name === 'paper') {
+                bg.style.background = '#fef3c7';
+                setColors('#451a03', '#92400e', '#d97706');
+            } else if (name === 'dark') {
+                bg.style.background = '#1f2937';
+                setColors('#f3f4f6', '#fca5a5', '#60a5fa');
+            } else if (name === 'grad1') {
+                bg.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+                setColors('#ffffff', '#fbbf24', '#ffffff');
+            } else if (name === 'grad2') {
+                bg.style.background = 'linear-gradient(to right, #43e97b 0%, #38f9d7 100%)';
+                setColors('#064e3b', '#065f46', '#047857');
+            } else if (name === 'grad3') {
+                bg.style.background = 'linear-gradient(to top, #ff0844 0%, #ffb199 100%)';
+                setColors('#ffffff', '#ffe4e6', '#ffffff');
+            }
+            updateStyles();
+        }
+
+        function setColors(text, author, mark) {
+            document.getElementById('colText').value = text;
+            document.getElementById('colAuthor').value = author;
+            document.getElementById('colQuoteMark').value = mark;
+        }
+
+        function resetDefaults() {
+            setPreset('white');
+            document.getElementById('inputQuote').value = 'জীবন সংগ্রামে হার মানো না, \nচেষ্টা চালিয়ে যাও।';
+            document.getElementById('inputAuthor').value = 'বঙ্কিমচন্দ্র চট্টোপাধ্যায়';
+            els.quoteText.innerText = document.getElementById('inputQuote').value;
+            els.authorName.innerText = document.getElementById('inputAuthor').value;
+            changeCardSize('square');
+            document.getElementById('selectSize').value = 'square';
+            setAlignment('center', 'center');
+        }
+        
+        function randomize() {
+           const colors = ['#f8fafc', '#f0f9ff', '#f0fdf4', '#fef2f2', '#fff7ed', '#111827'];
+           const randomBg = colors[Math.floor(Math.random() * colors.length)];
+           
+           if(randomBg === '#111827') setPreset('dark');
+           else {
+               els.cardBg.style.background = randomBg;
+               setColors('#1f2937', '#dc2626', '#6366f1');
+           }
+           updateStyles();
+        }
+
+        /* =========================================
+           DOWNLOAD
+           ========================================= */
+        function downloadImage() {
+            const card = document.getElementById('postcard');
+            
+            // Visual feedback
+            const btn = document.querySelector('.btn-primary');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> প্রসেসিং...';
+            
+            html2canvas(card, {
+                scale: 3, // High Res
+                useCORS: true,
+                backgroundColor: null
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = `quote_${Date.now()}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+                
+                btn.innerHTML = originalText;
+            }).catch(err => {
+                alert('দুঃখিত, ডাউনলোড করতে সমস্যা হচ্ছে।');
+                btn.innerHTML = originalText;
+            });
+        }
+    </script>
 </body>
 </html>
