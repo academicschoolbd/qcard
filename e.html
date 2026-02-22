@@ -4,18 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ultimate Bangla Quote Generator Pro</title>
-    
+   
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+   
     <link href="https://fonts.maateen.me/solaiman-lipi/font.css" rel="stylesheet">
+   
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@400;500;600;700;800&family=Galada&family=Hind+Siliguri:wght@300;400;500;600;700&family=Mina:wght@400;700&family=Noto+Sans+Bengali:wght@300;400;500;600;700&family=Noto+Serif+Bengali:wght@400;500;600;700&family=Tiro+Bangla:ital@0;1&family=Mukta:wght@300;400;500;600;700&family=Khand:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@400;500;600;700;800&family=Galada&family=Hind+Siliguri:wght@300;400;500;600;700&family=Mina:wght@400;700&family=Noto+Sans+Bengali:wght@300;400;500;600;700&family=Tiro+Bangla:ital@0;1&display=swap" rel="stylesheet">
     <style>
+        /* =========================================
+           CSS VARIABLES & RESET
+           ========================================= */
         :root {
-            --primary: #4f46e5;
+            --primary: #4f46e5; /* Indigo */
             --primary-hover: #4338ca;
-            --secondary: #db2777;
+            --secondary: #db2777; /* Pink */
             --bg-body: #f1f5f9;
             --bg-panel: #ffffff;
             --text-main: #1e293b;
@@ -23,14 +27,10 @@
             --border: #e2e8f0;
             --radius-xl: 20px;
             --radius-md: 10px;
-            --radius-card: 16px;
             --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            --shadow-card: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
             --transition: all 0.25s ease;
         }
-
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
         body {
             font-family: 'Hind Siliguri', sans-serif;
             background-color: var(--bg-body);
@@ -39,7 +39,7 @@
             display: flex;
             flex-direction: column;
         }
-
+        /* Header */
         header {
             background: var(--bg-panel);
             padding: 1rem 2rem;
@@ -49,7 +49,6 @@
             align-items: center;
             z-index: 50;
         }
-
         .brand {
             font-family: 'Baloo Da 2', sans-serif;
             font-weight: 800;
@@ -59,7 +58,7 @@
             align-items: center;
             gap: 10px;
         }
-
+        /* Layout Grid */
         main {
             display: flex;
             flex-direction: column;
@@ -70,19 +69,20 @@
             width: 100%;
             flex: 1;
         }
-
         @media (min-width: 1024px) {
             main {
                 flex-direction: row;
-                height: calc(100vh - 80px);
+                height: calc(100vh - 80px); /* Full height minus header */
                 overflow: hidden;
             }
         }
-
+        /* =========================================
+           LEFT: PREVIEW AREA
+           ========================================= */
         .preview-section {
             flex: 1;
             background-color: #e0e7ff;
-            background-image: 
+            background-image:
                 linear-gradient(rgba(255, 255, 255, 0.5) 2px, transparent 2px),
                 linear-gradient(90deg, rgba(255, 255, 255, 0.5) 2px, transparent 2px);
             background-size: 40px 40px;
@@ -94,22 +94,17 @@
             border: 1px solid var(--border);
             position: relative;
         }
-
+        /* The Card Itself */
         #postcard {
             width: 500px;
             height: 500px;
             background: #fff;
             position: relative;
             overflow: hidden;
-            border-radius: var(--radius-card);
-            box-shadow: var(--shadow-card);
-            transition: width 0.3s, height 0.3s, border-radius 0.3s;
-            border: 1px solid rgba(255,255,255,0.5);
-            /* ✅ CRITICAL: Ensure content renders for capture */
-            transform: translateZ(0);
-            backface-visibility: hidden;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            transition: width 0.3s, height 0.3s; /* Smooth resize */
         }
-
+        /* Background Layers */
         .card-bg-layer {
             position: absolute;
             inset: 0;
@@ -123,7 +118,7 @@
             background: rgba(0,0,0,0);
             z-index: 1;
         }
-
+        /* Content Flexbox */
         .content-layer {
             position: relative;
             z-index: 10;
@@ -131,26 +126,27 @@
             height: 100%;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: center; /* Vertically Center */
             padding: 40px;
+            /* align-items is handled by JS for Left/Center/Right */
         }
-
+        /* Quote Block */
         .quote-block {
             margin-bottom: 20px;
             position: relative;
             max-width: 100%;
+            /* Quote marks flow with text */
         }
-
         .quote-text {
             font-size: 24px;
             line-height: 1.5;
-            white-space: pre-wrap;
+            white-space: pre-wrap; /* Handles Enter key */
             word-wrap: break-word;
-            display: inline; 
+            display: inline;
         }
-
+        /* Quote Marks */
         .quote-mark {
-            font-family: 'Times New Roman', serif;
+            font-family: 'Times New Roman', serif; /* Default, overridden by JS */
             line-height: 0;
             vertical-align: -5px;
             opacity: 0.8;
@@ -158,15 +154,18 @@
         }
         .qm-start { margin-right: 8px; }
         .qm-end { margin-left: 8px; }
-
+        /* Author Block */
         .author-block {
             display: flex;
             align-items: center;
             gap: 12px;
+            font-size: 20px;
             font-weight: 600;
             color: #dc2626;
         }
-
+        /* =========================================
+           RIGHT: CONTROLS
+           ========================================= */
         .controls-section {
             flex: 0 0 420px;
             background: var(--bg-panel);
@@ -177,7 +176,7 @@
             overflow: hidden;
             height: 100%;
         }
-
+        /* Tabs */
         .tabs-header {
             display: flex;
             background: #f8fafc;
@@ -201,28 +200,27 @@
             border-bottom-color: var(--primary);
             background: #fff;
         }
-
+        /* Scrollable Content */
         .tab-body {
             flex: 1;
             overflow-y: auto;
             padding: 20px;
+            /* Scrollbar styling */
             scrollbar-width: thin;
             scrollbar-color: #cbd5e1 transparent;
         }
         .tab-body::-webkit-scrollbar { width: 6px; }
         .tab-body::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 3px; }
-
         .tab-content { display: none; animation: fadeIn 0.3s ease; }
         .tab-content.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-
+        /* Form Elements */
         .control-group { margin-bottom: 20px; }
         .label-flex {
             display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;
         }
         .label-text { font-size: 0.95rem; font-weight: 600; color: var(--text-main); }
         .label-val { font-size: 0.8rem; color: var(--text-muted); background: #f1f5f9; padding: 2px 6px; border-radius: 4px; }
-
         textarea, input[type="text"], select {
             width: 100%;
             padding: 12px;
@@ -236,33 +234,33 @@
             outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
         }
         textarea { resize: vertical; min-height: 100px; }
-
+        /* Range Slider */
         input[type="range"] {
             -webkit-appearance: none; width: 100%; height: 6px; background: #e2e8f0; border-radius: 4px; outline: none;
         }
         input[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; background: var(--primary); cursor: pointer; border: 2px solid #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
-
+        /* Color Grid */
         .color-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .color-card {
             display: flex; align-items: center; gap: 10px; padding: 10px; border: 1px solid var(--border); border-radius: var(--radius-md); cursor: pointer; transition: background 0.2s;
         }
         .color-card:hover { background: #f8fafc; }
         input[type="color"] { width: 28px; height: 28px; padding: 0; border: none; background: none; cursor: pointer; }
-
+        /* Alignment Buttons */
         .align-group { display: flex; background: #f1f5f9; padding: 4px; border-radius: 8px; }
         .align-btn {
             flex: 1; border: none; background: transparent; padding: 8px; border-radius: 6px; cursor: pointer; color: var(--text-muted); font-size: 1.1rem;
         }
         .align-btn.active { background: #fff; color: var(--primary); box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
-
+        /* Presets */
         .preset-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
         .preset-item {
             height: 60px; border-radius: 8px; cursor: pointer; border: 2px solid transparent; background-size: cover;
         }
         .preset-item:hover { border-color: var(--primary); transform: scale(1.02); }
-
+        /* Footer */
         .panel-footer {
             padding: 20px; border-top: 1px solid var(--border); background: #f8fafc;
             display: grid; grid-template-columns: 1fr 2fr; gap: 15px;
@@ -274,38 +272,34 @@
         .btn-reset:hover { border-color: var(--secondary); color: var(--secondary); }
         .btn-save { background: var(--primary); color: white; }
         .btn-save:hover { background: var(--primary-hover); box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3); }
-
+        /* Hide elements helper */
         .hidden { display: none; }
     </style>
 </head>
 <body>
-
     <header>
         <div class="brand">
             <i class="fas fa-quote-right"></i>
             <span>QuoteGen <small style="font-size:0.5em; opacity:0.6; font-weight:400">Pro</small></span>
         </div>
         <div>
-            <span style="font-size:0.9rem; color:var(--text-muted); margin-right:10px;">v2.2 ✨</span>
+            <span style="font-size:0.9rem; color:var(--text-muted); margin-right:10px;">v2.0</span>
         </div>
     </header>
-
     <main>
         <div class="preview-section">
             <div id="postcard">
                 <div class="card-bg-layer" id="cardBg"></div>
                 <div class="card-overlay-layer" id="cardOverlay"></div>
-
                 <div class="content-layer" id="contentLayer">
                     <div class="quote-block" id="quoteBlock">
                         <span class="quote-mark qm-start" id="qmStart">❝</span>
                         <div class="quote-text" id="quoteText">ভুল কী জানেন?
-  আমরা ভুল হিসেবে যেটুকু করে থাকি 
-  মূলত তা ছাড়া বাকিটুকুই ভুল । 
+  আমরা ভুল হিসেবে যেটুকু করে থাকি
+  মূলত তা ছাড়া বাকিটুকুই ভুল ।
   যা আমরা উপলব্ধি করি অনেক পরে।</div>
                         <span class="quote-mark qm-end" id="qmEnd">❞</span>
                     </div>
-
                     <div class="author-block" id="authorBlock">
                         <i class="fas fa-feather-alt" id="authorIcon"></i>
                         <span id="authorName">আহমেদ আরমান</span>
@@ -313,32 +307,28 @@
                 </div>
             </div>
         </div>
-
         <div class="controls-section">
             <div class="tabs-header">
                 <button class="tab-btn active" onclick="switchTab('tab-content')">লেখা</button>
                 <button class="tab-btn" onclick="switchTab('tab-style')">ডিজাইন</button>
                 <button class="tab-btn" onclick="switchTab('tab-bg')">ব্যাকগ্রাউন্ড</button>
             </div>
-
             <div id="tab-content" class="tab-body tab-content active">
                 <div class="control-group">
                     <div class="label-flex">
                         <span class="label-text">উক্তি (Quote)</span>
                     </div>
                     <textarea id="inputQuote" placeholder="এখানে লিখুন...">ভুল কী জানেন?
-  আমরা ভুল হিসেবে যেটুকু করে থাকি 
-  মূলত তা ছাড়া বাকিটুকুই ভুল । 
+  আমরা ভুল হিসেবে যেটুকু করে থাকি
+  মূলত তা ছাড়া বাকিটুকুই ভুল ।
   যা আমরা উপলব্ধি করি অনেক পরে।</textarea>
                 </div>
-
                 <div class="control-group">
                     <div class="label-flex">
                         <span class="label-text">লেখকের নাম</span>
                     </div>
                     <input type="text" id="inputAuthor" value="আহমেদ আরমান">
                 </div>
-
                 <div class="control-group">
                     <div class="label-flex">
                         <span class="label-text">এলাইনমেন্ট (Alignment)</span>
@@ -349,7 +339,6 @@
                         <button class="align-btn" onclick="setAlignment('flex-end', 'right')"><i class="fas fa-align-right"></i></button>
                     </div>
                 </div>
-
                 <div class="control-group">
                     <div class="label-flex">
                         <span class="label-text">লেখকের আইকন (Pen Icon)</span>
@@ -366,58 +355,42 @@
                     </select>
                 </div>
             </div>
-
             <div id="tab-style" class="tab-body tab-content">
-                
+               
                 <div class="control-group">
                     <div class="label-flex">
                         <span class="label-text">ফন্ট ফ্যামিলি (Font)</span>
                     </div>
                     <select id="selectFont" onchange="updateStyles()">
                         <option value="'SolaimanLipi', sans-serif">SolaimanLipi (সোলাইমান লিপি)</option>
-                        <option value="'Hind Siliguri', sans-serif" selected>Hind Siliguri</option>
+                        <option value="'Hind Siliguri', sans-serif">Hind Siliguri </option>
                         <option value="'Tiro Bangla', serif">Tiro Bangla (টাইপো)</option>
                         <option value="'Baloo Da 2', sans-serif">Baloo Da 2 (বোল্ড)</option>
                         <option value="'Galada', cursive">Galada (ক্যালিগ্রাফি)</option>
                         <option value="'Mina', sans-serif">Mina (মার্জিত)</option>
-                        <option value="'Noto Sans Bengali', sans-serif">Noto Sans Bengali</option>
-                        <option value="'Noto Serif Bengali', serif">Noto Serif Bengali (সেরিফ)</option>
-                        <option value="'Mukta', sans-serif">Mukta (মডার্ন)</option>
-                        <option value="'Khand', sans-serif">Khand (কনডেন্সড)</option>
-                        <option value="'Poppins', sans-serif">Poppins (ইন্টারন্যাশনাল)</option>
+                        <option value="'Noto Sans Bengali', sans-serif">Noto Sans (অফিসিয়াল)</option>
                     </select>
                 </div>
-
                 <div class="control-group">
                     <div class="label-flex">
-                        <span class="label-text">উক্তি ফন্ট সাইজ</span>
+                        <span class="label-text">ফন্ট সাইজ</span>
                         <span class="label-val" id="lblSize">24px</span>
                     </div>
                     <input type="range" id="rangeSize" min="16" max="80" value="24" oninput="updateStyles()">
                 </div>
-
-                <div class="control-group">
-                    <div class="label-flex">
-                        <span class="label-text">লেখক ফন্ট সাইজ</span>
-                        <span class="label-val" id="lblAuthorSize">20px</span>
-                    </div>
-                    <input type="range" id="rangeAuthorSize" min="12" max="40" value="20" oninput="updateStyles()">
-                </div>
-
                 <div class="control-group">
                     <div class="label-flex">
                         <span class="label-text">উদ্ধৃতি চিহ্ন স্টাইল (Quote Marks)</span>
                     </div>
                     <select id="selectQuoteStyle" onchange="updateQuoteMarks()">
                         <option value="solid">সলিড (❝ ... ❞)</option>
-                        <option value="classic">ক্লাসিক (" ... ")</option>
+                        <option value="classic">ক্লাসিক (“ ... ”)</option>
                         <option value="minimal">মিনিমাল (" ... ")</option>
                         <option value="corner">কর্নার (⌜ ... ⌟)</option>
                         <option value="guillemet">ফ্রেঞ্চ (« ... »)</option>
                         <option value="none">চিহ্ন নেই</option>
                     </select>
                 </div>
-
                 <div class="color-grid">
                     <div>
                         <div class="label-flex"><span class="label-text">লাইন হাইট</span></div>
@@ -429,7 +402,6 @@
                     </div>
                 </div>
                 <br>
-
                 <div class="control-group">
                     <div class="label-flex"><span class="label-text">কালার প্যালেট</span></div>
                     <div class="color-grid">
@@ -451,13 +423,11 @@
                         </label>
                     </div>
                 </div>
-
                 <div class="control-group">
                     <div class="label-flex"><span class="label-text">টেক্সট শ্যাডো</span></div>
                     <input type="range" id="rangeShadow" min="0" max="10" value="0" oninput="updateStyles()">
                 </div>
             </div>
-
             <div id="tab-bg" class="tab-body tab-content">
                 <div class="control-group">
                     <div class="label-flex"><span class="label-text">কুইক প্রিসেট</span></div>
@@ -470,7 +440,6 @@
                         <div class="preset-item" onclick="setPreset('gradient3')" style="background:linear-gradient(45deg, #85ffbd 0%, #fffb7d 100%);"></div>
                     </div>
                 </div>
-
                 <div class="control-group">
                     <div class="label-flex"><span class="label-text">সলিড ব্যাকগ্রাউন্ড</span></div>
                     <div class="color-card">
@@ -478,17 +447,14 @@
                         <span>কালার পিকার</span>
                     </div>
                 </div>
-
                 <div class="control-group">
                     <div class="label-flex"><span class="label-text">ইমেজ আপলোড</span></div>
                     <input type="file" id="bgImageInput" accept="image/*" onchange="handleImageUpload(this)">
                 </div>
-
                 <div class="control-group">
                     <div class="label-flex"><span class="label-text">অন্ধকার ভাব (Overlay)</span></div>
                     <input type="range" id="rangeOverlay" min="0" max="90" value="0" oninput="updateOverlay()">
                 </div>
-
                 <div class="control-group">
                     <div class="label-flex"><span class="label-text">কার্ড সাইজ</span></div>
                     <select id="selectSize" onchange="resizeCard(this.value)">
@@ -498,7 +464,6 @@
                     </select>
                 </div>
             </div>
-
             <div class="panel-footer">
                 <button class="btn btn-reset" onclick="resetDefaults()">
                     <i class="fas fa-undo"></i> রিসেট
@@ -511,62 +476,80 @@
     </main>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
     <script>
+        /* =========================================
+           DOM ELEMENTS
+           ========================================= */
         const els = {
             card: document.getElementById('postcard'),
             cardBg: document.getElementById('cardBg'),
             cardOverlay: document.getElementById('cardOverlay'),
             contentLayer: document.getElementById('contentLayer'),
-            
+           
             quoteText: document.getElementById('quoteText'),
             quoteMarks: document.querySelectorAll('.quote-mark'),
             qmStart: document.getElementById('qmStart'),
             qmEnd: document.getElementById('qmEnd'),
-            
+           
             authorBlock: document.getElementById('authorBlock'),
             authorName: document.getElementById('authorName'),
             authorIcon: document.getElementById('authorIcon'),
-            
+           
+            // Inputs
             inQuote: document.getElementById('inputQuote'),
             inAuthor: document.getElementById('inputAuthor'),
-            
-            lblSize: document.getElementById('lblSize'),
-            lblAuthorSize: document.getElementById('lblAuthorSize')
+           
+            // Ranges
+            lblSize: document.getElementById('lblSize')
         };
 
+        /* =========================================
+           INITIALIZATION & EVENTS
+           ========================================= */
         window.addEventListener('DOMContentLoaded', () => {
+            // Live typing
             els.inQuote.addEventListener('input', (e) => els.quoteText.innerText = e.target.value);
             els.inAuthor.addEventListener('input', (e) => els.authorName.innerText = e.target.value);
+           
+            // Initial render
             updateStyles();
             updateQuoteMarks();
         });
 
+        /* =========================================
+           CORE LOGIC
+           ========================================= */
+       
+        // 1. Tab Switching
         function switchTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+           
             document.getElementById(tabId).classList.add('active');
+           
             const btns = document.querySelectorAll('.tab-btn');
             if(tabId === 'tab-content') btns[0].classList.add('active');
             if(tabId === 'tab-style') btns[1].classList.add('active');
             if(tabId === 'tab-bg') btns[2].classList.add('active');
         }
 
+        // 2. Alignment
         function setAlignment(flexAlign, textAlign) {
             els.contentLayer.style.alignItems = flexAlign;
             els.contentLayer.style.textAlign = textAlign;
+           
             document.querySelectorAll('.align-btn').forEach(btn => btn.classList.remove('active'));
             event.currentTarget.classList.add('active');
         }
 
+        // 3. Update Styles
         function updateStyles() {
             const font = document.getElementById('selectFont').value;
             const size = document.getElementById('rangeSize').value + 'px';
-            const authorSize = document.getElementById('rangeAuthorSize').value + 'px';
             const lineHeight = document.getElementById('rangeLineHeight').value / 10;
             const gap = document.getElementById('rangeGap').value + 'px';
             const shadowVal = document.getElementById('rangeShadow').value;
-            
+           
             const cText = document.getElementById('colText').value;
             const cAuthor = document.getElementById('colAuthor').value;
             const cMark = document.getElementById('colMark').value;
@@ -576,11 +559,11 @@
             els.quoteText.style.fontSize = size;
             els.quoteText.style.lineHeight = lineHeight;
             els.quoteText.style.color = cText;
-            els.authorName.style.fontSize = authorSize;
 
             const shadowCss = shadowVal > 0 ? `2px 2px ${shadowVal}px ${cShadow}` : 'none';
             els.quoteText.style.textShadow = shadowCss;
             els.authorName.style.textShadow = shadowCss;
+
             els.authorBlock.style.color = cAuthor;
             els.authorBlock.style.marginTop = gap;
 
@@ -590,9 +573,9 @@
             });
 
             els.lblSize.innerText = size;
-            els.lblAuthorSize.innerText = authorSize;
         }
 
+        // 4. Update Icon
         function updateIcon() {
             const iconClass = document.getElementById('selectIcon').value;
             if(iconClass === 'none') {
@@ -603,24 +586,26 @@
             }
         }
 
+        // 5. Update Quote Marks
         function updateQuoteMarks() {
             const style = document.getElementById('selectQuoteStyle').value;
+           
             if (style === 'none') {
                 els.qmStart.style.display = 'none';
                 els.qmEnd.style.display = 'none';
                 return;
             }
+           
             els.qmStart.style.display = 'inline-block';
             els.qmEnd.style.display = 'inline-block';
 
             const styles = {
                 solid: { start: '❝', end: '❞', font: 'sans-serif' },
-                classic: { start: '"', end: '"', font: 'Times New Roman' },
+                classic: { start: '“', end: '”', font: 'Times New Roman' },
                 minimal: { start: '"', end: '"', font: 'Arial' },
                 corner: { start: '⌜', end: '⌟', font: 'monospace' },
                 guillemet: { start: '«', end: '»', font: 'Times New Roman' }
             };
-
             const s = styles[style];
             els.qmStart.innerText = s.start;
             els.qmEnd.innerText = s.end;
@@ -628,6 +613,7 @@
             els.qmEnd.style.fontFamily = s.font;
         }
 
+        // 6. Background Logic
         function setSolidBg(color) {
             els.cardBg.style.backgroundImage = 'none';
             els.cardBg.style.backgroundColor = color;
@@ -683,82 +669,50 @@
             if(size === 'landscape') { els.card.style.width = '640px'; els.card.style.height = '360px'; }
         }
 
+        // 7. Reset
         function resetDefaults() {
             document.getElementById('inputQuote').value = 'জীবন সংগ্রামে হার মানো না,\nচেষ্টা চালিয়ে যাও।';
             document.getElementById('inputAuthor').value = 'বঙ্কিমচন্দ্র চট্টোপাধ্যায়';
             els.quoteText.innerText = document.getElementById('inputQuote').value;
             els.authorName.innerText = 'বঙ্কিমচন্দ্র চট্টোপাধ্যায়';
+           
             setPreset('white');
             setAlignment('center', 'center');
             resizeCard('square');
             document.getElementById('selectSize').value = 'square';
             document.getElementById('selectFont').value = "'Hind Siliguri', sans-serif";
-            document.getElementById('rangeSize').value = 24;
-            document.getElementById('rangeAuthorSize').value = 20;
+            document.getElementById('rangeSize').value = 32;
             updateStyles();
         }
 
-        // ✅ FIXED: Blank download issue - Complete rewrite with robust handling
-        async function downloadImage() {
+        // 8. Download - FIXED VERSION
+        function downloadImage() {
             const btn = document.querySelector('.btn-save');
             const originalText = btn.innerHTML;
-            
-            try {
-                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> প্রসেসিং...';
-                btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> প্রসেসিং...';
 
-                const card = document.getElementById('postcard');
-                
-                // ✅ Wait for all fonts to load (critical for Bengali text)
-                if (document.fonts && document.fonts.ready) {
-                    await document.fonts.ready;
-                }
-                
-                // ✅ Force reflow to ensure styles are applied
-                void card.offsetWidth;
-                
-                // ✅ Small delay for images/backgrounds to render
-                await new Promise(resolve => setTimeout(resolve, 300));
+            const card = document.getElementById('postcard');
 
-                // ✅ Capture with optimal settings
-                const canvas = await html2canvas(card, {
-                    scale: 4,  // Higher quality
-                    useCORS: true,
-                    backgroundColor: getComputedStyle(card).backgroundColor || '#ffffff',
-                    foreignObjectRendering: true,
-                    allowTaint: true,
-                    logging: false,
-                    // ✅ Critical for flexbox/absolute positioning
-                    windowWidth: card.scrollWidth,
-                    windowHeight: card.scrollHeight,
-                    // ✅ Handle custom fonts
-                    onclone: (clonedDoc) => {
-                        const clonedCard = clonedDoc.getElementById('postcard');
-                        if (clonedCard) {
-                            clonedCard.style.transform = 'none';
-                            clonedCard.style.boxShadow = 'none'; // Cleaner export
-                        }
-                    }
-                });
-
-                // ✅ Create and trigger download
+            html2canvas(card, {
+                scale: 3,
+                useCORS: true,
+                allowTaint: true,
+                backgroundColor: null,
+                logging: false,
+                windowWidth: card.scrollWidth,
+                windowHeight: card.scrollHeight,
+                removeContainer: true
+            }).then(canvas => {
                 const link = document.createElement('a');
                 link.download = `quote_pro_${Date.now()}.png`;
-                link.href = canvas.toDataURL('image/png', 1.0); // Max quality
-                document.body.appendChild(link);
+                link.href = canvas.toDataURL('image/png');
                 link.click();
-                document.body.removeChild(link);
-                
-                // ✅ Success feedback
-                btn.innerHTML = '<i class="fas fa-check"></i> ডাউনলোড সম্পন্ন!';
-                setTimeout(() => { btn.innerHTML = originalText; btn.disabled = false; }, 2000);
-                
-            } catch (err) {
-                console.error('Download error:', err);
-                btn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> ত্রুটি!';
-                alert("❌ ডাউনলোড ব্যর্থ হয়েছে!\n\nসমাধান:\n1. পেজ রিফ্রেশ করুন\n2. ইমেজ আপলোড করে থাকলে ছোট সাইজের ইমেজ ব্যবহার করুন\n3. ব্রাউজার আপডেট করুন");
-                setTimeout(() => { btn.innerHTML = originalText; btn.disabled = false; }, 3000);
-            }
+                btn.innerHTML = originalText;
+            }).catch(err => {
+                console.error("Download error:", err);
+                alert("ডাউনলোড করতে সমস্যা হয়েছে। ব্রাউজার কনসোল (F12) চেক করুন।");
+                btn.innerHTML = originalText;
+            });
         }
     </script>
 </body>
