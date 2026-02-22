@@ -5,24 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ultimate Bangla Quote Generator Pro</title>
     
-    <!-- ✅ FIXED: Removed trailing spaces from all CDN URLs -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
     <link href="https://fonts.maateen.me/solaiman-lipi/font.css" rel="stylesheet">
-    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- ✅ UPGRADED: Added more Bengali fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@400;500;600;700;800&family=Galada&family=Hind+Siliguri:wght@300;400;500;600;700&family=Mina:wght@400;700&family=Noto+Sans+Bengali:wght@300;400;500;600;700&family=Noto+Serif+Bengali:wght@400;500;600;700&family=Tiro+Bangla:ital@0;1&family=Mukta:wght@300;400;500;600;700&family=Khand:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
-        /* =========================================
-           CSS VARIABLES & RESET
-           ========================================= */
         :root {
-            --primary: #4f46e5;      /* Indigo */
+            --primary: #4f46e5;
             --primary-hover: #4338ca;
-            --secondary: #db2777;    /* Pink */
+            --secondary: #db2777;
             --bg-body: #f1f5f9;
             --bg-panel: #ffffff;
             --text-main: #1e293b;
@@ -30,9 +23,9 @@
             --border: #e2e8f0;
             --radius-xl: 20px;
             --radius-md: 10px;
-            --radius-card: 16px;     /* ✅ MODERN: Slightly rounded card */
+            --radius-card: 16px;
             --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            --shadow-card: 0 25px 50px -12px rgba(0, 0, 0, 0.25); /* ✅ MODERN: Deeper shadow */
+            --shadow-card: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
             --transition: all 0.25s ease;
         }
 
@@ -47,7 +40,6 @@
             flex-direction: column;
         }
 
-        /* Header */
         header {
             background: var(--bg-panel);
             padding: 1rem 2rem;
@@ -68,7 +60,6 @@
             gap: 10px;
         }
 
-        /* Layout Grid */
         main {
             display: flex;
             flex-direction: column;
@@ -88,9 +79,6 @@
             }
         }
 
-        /* =========================================
-           LEFT: PREVIEW AREA
-           ========================================= */
         .preview-section {
             flex: 1;
             background-color: #e0e7ff;
@@ -107,20 +95,21 @@
             position: relative;
         }
 
-        /* ✅ UPGRADED: Modern Card Design */
         #postcard {
             width: 500px;
             height: 500px;
             background: #fff;
             position: relative;
             overflow: hidden;
-            border-radius: var(--radius-card); /* ✅ Slightly rounded corners */
-            box-shadow: var(--shadow-card);    /* ✅ Modern deep shadow */
+            border-radius: var(--radius-card);
+            box-shadow: var(--shadow-card);
             transition: width 0.3s, height 0.3s, border-radius 0.3s;
-            border: 1px solid rgba(255,255,255,0.5); /* ✅ Subtle border */
+            border: 1px solid rgba(255,255,255,0.5);
+            /* ✅ CRITICAL: Ensure content renders for capture */
+            transform: translateZ(0);
+            backface-visibility: hidden;
         }
 
-        /* Background Layers */
         .card-bg-layer {
             position: absolute;
             inset: 0;
@@ -135,7 +124,6 @@
             z-index: 1;
         }
 
-        /* Content Flexbox */
         .content-layer {
             position: relative;
             z-index: 10;
@@ -147,7 +135,6 @@
             padding: 40px;
         }
 
-        /* Quote Block */
         .quote-block {
             margin-bottom: 20px;
             position: relative;
@@ -162,7 +149,6 @@
             display: inline; 
         }
 
-        /* Quote Marks */
         .quote-mark {
             font-family: 'Times New Roman', serif;
             line-height: 0;
@@ -173,7 +159,6 @@
         .qm-start { margin-right: 8px; }
         .qm-end { margin-left: 8px; }
 
-        /* Author Block */
         .author-block {
             display: flex;
             align-items: center;
@@ -182,9 +167,6 @@
             color: #dc2626;
         }
 
-        /* =========================================
-           RIGHT: CONTROLS
-           ========================================= */
         .controls-section {
             flex: 0 0 420px;
             background: var(--bg-panel);
@@ -196,7 +178,6 @@
             height: 100%;
         }
 
-        /* Tabs */
         .tabs-header {
             display: flex;
             background: #f8fafc;
@@ -221,7 +202,6 @@
             background: #fff;
         }
 
-        /* Scrollable Content */
         .tab-body {
             flex: 1;
             overflow-y: auto;
@@ -236,7 +216,6 @@
         .tab-content.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Form Elements */
         .control-group { margin-bottom: 20px; }
         .label-flex {
             display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;
@@ -258,7 +237,6 @@
         }
         textarea { resize: vertical; min-height: 100px; }
 
-        /* Range Slider */
         input[type="range"] {
             -webkit-appearance: none; width: 100%; height: 6px; background: #e2e8f0; border-radius: 4px; outline: none;
         }
@@ -266,7 +244,6 @@
             -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; background: var(--primary); cursor: pointer; border: 2px solid #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
 
-        /* Color Grid */
         .color-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .color-card {
             display: flex; align-items: center; gap: 10px; padding: 10px; border: 1px solid var(--border); border-radius: var(--radius-md); cursor: pointer; transition: background 0.2s;
@@ -274,21 +251,18 @@
         .color-card:hover { background: #f8fafc; }
         input[type="color"] { width: 28px; height: 28px; padding: 0; border: none; background: none; cursor: pointer; }
 
-        /* Alignment Buttons */
         .align-group { display: flex; background: #f1f5f9; padding: 4px; border-radius: 8px; }
         .align-btn {
             flex: 1; border: none; background: transparent; padding: 8px; border-radius: 6px; cursor: pointer; color: var(--text-muted); font-size: 1.1rem;
         }
         .align-btn.active { background: #fff; color: var(--primary); box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
 
-        /* Presets */
         .preset-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
         .preset-item {
             height: 60px; border-radius: 8px; cursor: pointer; border: 2px solid transparent; background-size: cover;
         }
         .preset-item:hover { border-color: var(--primary); transform: scale(1.02); }
 
-        /* Footer */
         .panel-footer {
             padding: 20px; border-top: 1px solid var(--border); background: #f8fafc;
             display: grid; grid-template-columns: 1fr 2fr; gap: 15px;
@@ -312,7 +286,7 @@
             <span>QuoteGen <small style="font-size:0.5em; opacity:0.6; font-weight:400">Pro</small></span>
         </div>
         <div>
-            <span style="font-size:0.9rem; color:var(--text-muted); margin-right:10px;">v2.1 ✨</span>
+            <span style="font-size:0.9rem; color:var(--text-muted); margin-right:10px;">v2.2 ✨</span>
         </div>
     </header>
 
@@ -400,7 +374,6 @@
                         <span class="label-text">ফন্ট ফ্যামিলি (Font)</span>
                     </div>
                     <select id="selectFont" onchange="updateStyles()">
-                        <!-- ✅ UPGRADED: More Bengali fonts added -->
                         <option value="'SolaimanLipi', sans-serif">SolaimanLipi (সোলাইমান লিপি)</option>
                         <option value="'Hind Siliguri', sans-serif" selected>Hind Siliguri</option>
                         <option value="'Tiro Bangla', serif">Tiro Bangla (টাইপো)</option>
@@ -423,7 +396,6 @@
                     <input type="range" id="rangeSize" min="16" max="80" value="24" oninput="updateStyles()">
                 </div>
 
-                <!-- ✅ NEW: Author Font Size Control -->
                 <div class="control-group">
                     <div class="label-flex">
                         <span class="label-text">লেখক ফন্ট সাইজ</span>
@@ -538,13 +510,9 @@
         </div>
     </main>
 
-    <!-- ✅ FIXED: Removed trailing spaces -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
     <script>
-        /* =========================================
-           DOM ELEMENTS
-           ========================================= */
         const els = {
             card: document.getElementById('postcard'),
             cardBg: document.getElementById('cardBg'),
@@ -560,101 +528,71 @@
             authorName: document.getElementById('authorName'),
             authorIcon: document.getElementById('authorIcon'),
             
-            // Inputs
             inQuote: document.getElementById('inputQuote'),
             inAuthor: document.getElementById('inputAuthor'),
             
-            // Ranges
             lblSize: document.getElementById('lblSize'),
-            lblAuthorSize: document.getElementById('lblAuthorSize') // ✅ NEW
+            lblAuthorSize: document.getElementById('lblAuthorSize')
         };
 
-        /* =========================================
-           INITIALIZATION & EVENTS
-           ========================================= */
         window.addEventListener('DOMContentLoaded', () => {
-            // Live typing
             els.inQuote.addEventListener('input', (e) => els.quoteText.innerText = e.target.value);
             els.inAuthor.addEventListener('input', (e) => els.authorName.innerText = e.target.value);
-            
-            // Initial render
             updateStyles();
             updateQuoteMarks();
         });
 
-        /* =========================================
-           CORE LOGIC
-           ========================================= */
-        
-        // 1. Tab Switching
         function switchTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-            
             document.getElementById(tabId).classList.add('active');
-            
             const btns = document.querySelectorAll('.tab-btn');
             if(tabId === 'tab-content') btns[0].classList.add('active');
             if(tabId === 'tab-style') btns[1].classList.add('active');
             if(tabId === 'tab-bg') btns[2].classList.add('active');
         }
 
-        // 2. Alignment (Flexbox)
         function setAlignment(flexAlign, textAlign) {
             els.contentLayer.style.alignItems = flexAlign;
             els.contentLayer.style.textAlign = textAlign;
-            
             document.querySelectorAll('.align-btn').forEach(btn => btn.classList.remove('active'));
             event.currentTarget.classList.add('active');
         }
 
-        // 3. Update Styles (Font, Size, Color, Shadow) - ✅ UPGRADED with author size
         function updateStyles() {
             const font = document.getElementById('selectFont').value;
             const size = document.getElementById('rangeSize').value + 'px';
-            const authorSize = document.getElementById('rangeAuthorSize').value + 'px'; // ✅ NEW
+            const authorSize = document.getElementById('rangeAuthorSize').value + 'px';
             const lineHeight = document.getElementById('rangeLineHeight').value / 10;
             const gap = document.getElementById('rangeGap').value + 'px';
             const shadowVal = document.getElementById('rangeShadow').value;
             
-            // Colors
             const cText = document.getElementById('colText').value;
             const cAuthor = document.getElementById('colAuthor').value;
             const cMark = document.getElementById('colMark').value;
             const cShadow = document.getElementById('colShadow').value;
 
-            // Apply Font
             els.card.style.fontFamily = font;
-
-            // Quote Text
             els.quoteText.style.fontSize = size;
             els.quoteText.style.lineHeight = lineHeight;
             els.quoteText.style.color = cText;
-
-            // ✅ NEW: Author Text Size
             els.authorName.style.fontSize = authorSize;
 
-            // Shadows
             const shadowCss = shadowVal > 0 ? `2px 2px ${shadowVal}px ${cShadow}` : 'none';
             els.quoteText.style.textShadow = shadowCss;
             els.authorName.style.textShadow = shadowCss;
-
-            // Author Block
             els.authorBlock.style.color = cAuthor;
             els.authorBlock.style.marginTop = gap;
 
-            // Marks
             els.quoteMarks.forEach(m => {
                 m.style.color = cMark;
                 m.style.fontSize = (parseInt(document.getElementById('rangeSize').value) + 10) + 'px';
             });
 
-            // Update Labels
             els.lblSize.innerText = size;
-            els.lblAuthorSize.innerText = authorSize; // ✅ NEW
+            els.lblAuthorSize.innerText = authorSize;
         }
 
-        // 4. Update Icon
         function updateIcon() {
             const iconClass = document.getElementById('selectIcon').value;
             if(iconClass === 'none') {
@@ -665,16 +603,13 @@
             }
         }
 
-        // 5. Update Quote Marks
         function updateQuoteMarks() {
             const style = document.getElementById('selectQuoteStyle').value;
-            
             if (style === 'none') {
                 els.qmStart.style.display = 'none';
                 els.qmEnd.style.display = 'none';
                 return;
             }
-            
             els.qmStart.style.display = 'inline-block';
             els.qmEnd.style.display = 'inline-block';
 
@@ -693,7 +628,6 @@
             els.qmEnd.style.fontFamily = s.font;
         }
 
-        // 6. Background Logic
         function setSolidBg(color) {
             els.cardBg.style.backgroundImage = 'none';
             els.cardBg.style.backgroundColor = color;
@@ -749,51 +683,82 @@
             if(size === 'landscape') { els.card.style.width = '640px'; els.card.style.height = '360px'; }
         }
 
-        // 7. Reset - ✅ Updated with new features
         function resetDefaults() {
             document.getElementById('inputQuote').value = 'জীবন সংগ্রামে হার মানো না,\nচেষ্টা চালিয়ে যাও।';
             document.getElementById('inputAuthor').value = 'বঙ্কিমচন্দ্র চট্টোপাধ্যায়';
             els.quoteText.innerText = document.getElementById('inputQuote').value;
             els.authorName.innerText = 'বঙ্কিমচন্দ্র চট্টোপাধ্যায়';
-            
             setPreset('white');
             setAlignment('center', 'center');
             resizeCard('square');
             document.getElementById('selectSize').value = 'square';
             document.getElementById('selectFont').value = "'Hind Siliguri', sans-serif";
             document.getElementById('rangeSize').value = 24;
-            document.getElementById('rangeAuthorSize').value = 20; // ✅ NEW
+            document.getElementById('rangeAuthorSize').value = 20;
             updateStyles();
         }
 
-        // 8. Download - ✅ Improved for modern card
-        function downloadImage() {
+        // ✅ FIXED: Blank download issue - Complete rewrite with robust handling
+        async function downloadImage() {
             const btn = document.querySelector('.btn-save');
             const originalText = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> প্রসেসিং...';
             
-            const card = document.getElementById('postcard');
-            
-            setTimeout(() => {
-                html2canvas(card, {
-                    scale: 3,
+            try {
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> প্রসেসিং...';
+                btn.disabled = true;
+
+                const card = document.getElementById('postcard');
+                
+                // ✅ Wait for all fonts to load (critical for Bengali text)
+                if (document.fonts && document.fonts.ready) {
+                    await document.fonts.ready;
+                }
+                
+                // ✅ Force reflow to ensure styles are applied
+                void card.offsetWidth;
+                
+                // ✅ Small delay for images/backgrounds to render
+                await new Promise(resolve => setTimeout(resolve, 300));
+
+                // ✅ Capture with optimal settings
+                const canvas = await html2canvas(card, {
+                    scale: 4,  // Higher quality
                     useCORS: true,
-                    backgroundColor: '#ffffff',
+                    backgroundColor: getComputedStyle(card).backgroundColor || '#ffffff',
                     foreignObjectRendering: true,
                     allowTaint: true,
-                    logging: false
-                }).then(canvas => {
-                    const link = document.createElement('a');
-                    link.download = `quote_pro_${Date.now()}.png`;
-                    link.href = canvas.toDataURL('image/png');
-                    link.click();
-                    btn.innerHTML = originalText;
-                }).catch(err => {
-                    console.error(err);
-                    alert("ডাউনলোড করতে সমস্যা হয়েছে।");
-                    btn.innerHTML = originalText;
+                    logging: false,
+                    // ✅ Critical for flexbox/absolute positioning
+                    windowWidth: card.scrollWidth,
+                    windowHeight: card.scrollHeight,
+                    // ✅ Handle custom fonts
+                    onclone: (clonedDoc) => {
+                        const clonedCard = clonedDoc.getElementById('postcard');
+                        if (clonedCard) {
+                            clonedCard.style.transform = 'none';
+                            clonedCard.style.boxShadow = 'none'; // Cleaner export
+                        }
+                    }
                 });
-            }, 100);
+
+                // ✅ Create and trigger download
+                const link = document.createElement('a');
+                link.download = `quote_pro_${Date.now()}.png`;
+                link.href = canvas.toDataURL('image/png', 1.0); // Max quality
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                // ✅ Success feedback
+                btn.innerHTML = '<i class="fas fa-check"></i> ডাউনলোড সম্পন্ন!';
+                setTimeout(() => { btn.innerHTML = originalText; btn.disabled = false; }, 2000);
+                
+            } catch (err) {
+                console.error('Download error:', err);
+                btn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> ত্রুটি!';
+                alert("❌ ডাউনলোড ব্যর্থ হয়েছে!\n\nসমাধান:\n1. পেজ রিফ্রেশ করুন\n2. ইমেজ আপলোড করে থাকলে ছোট সাইজের ইমেজ ব্যবহার করুন\n3. ব্রাউজার আপডেট করুন");
+                setTimeout(() => { btn.innerHTML = originalText; btn.disabled = false; }, 3000);
+            }
         }
     </script>
 </body>
