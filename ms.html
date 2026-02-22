@@ -2,135 +2,74 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ultimate QuoteGen Pro Max v3.0</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Academic School | QuoteGen Pro Max</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.maateen.me/solaiman-lipi/font.css" rel="stylesheet">
     <link href="https://fonts.maateen.me/charukola-ultra-light/font.css" rel="stylesheet">
     <link href="https://fonts.maateen.me/ben-sen/font.css" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@400;600;800&family=Galada&family=Hind+Siliguri:wght@300;400;500;600;700&family=Mina:wght@400;700&family=Noto+Sans+Bengali:wght@400;700&family=Tiro+Bangla:ital@0;1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@400;800&family=Hind+Siliguri:wght@400;700&display=swap" rel="stylesheet">
 
     <style>
-        /* =========================================
-           1. CSS RESET & CORE VARIABLES
-           ========================================= 
-        */
         :root {
             --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --secondary: #ec4899;
-            --accent: #10b981;
-            --bg-body: #0f172a;
-            --bg-panel: #1e293b;
-            --bg-input: #0f172a;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
+            --bg-dark: #0f172a;
+            --bg-card: #1e293b;
+            --text: #f8fafc;
             --border: #334155;
-            --radius-xl: 24px;
-            --radius-md: 12px;
-            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --safe-area-bottom: env(safe-area-inset-bottom);
         }
 
-        * { 
-            margin: 0; 
-            padding: 0; 
-            box-sizing: border-box; 
-            -webkit-tap-highlight-color: transparent;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
 
         body {
             font-family: 'Hind Siliguri', sans-serif;
-            background-color: var(--bg-body);
-            color: var(--text-main);
+            background-color: var(--bg-dark);
+            color: var(--text);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            overflow-x: hidden;
         }
 
-        /* =========================================
-           2. NAVIGATION & HEADER
-           ========================================= 
-        */
+        /* Responsive Header */
         header {
-            background: var(--bg-panel);
-            padding: 1.2rem 2rem;
-            border-bottom: 1px solid var(--border);
+            background: var(--bg-card);
+            padding: 1rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            z-index: 100;
         }
 
-        .brand {
-            font-family: 'Baloo Da 2', sans-serif;
-            font-weight: 800;
-            font-size: 1.8rem;
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
-        }
+        .brand { font-family: 'Baloo Da 2'; font-weight: 800; color: var(--primary); display: flex; align-items: center; gap: 8px; font-size: 1.2rem; }
 
-        .badge-pro {
-            background: linear-gradient(45deg, var(--secondary), var(--primary));
-            color: white;
-            font-size: 0.6em;
-            padding: 2px 8px;
-            border-radius: 20px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* =========================================
-           3. MAIN LAYOUT
-           ========================================= 
-        */
+        /* Main Responsive Container */
         main {
             display: flex;
             flex-direction: column;
-            padding: 1.5rem;
-            max-width: 1600px;
-            margin: 0 auto;
-            width: 100%;
             flex: 1;
-            gap: 1.5rem;
         }
 
         @media (min-width: 1024px) {
-            main {
-                flex-direction: row;
-                height: calc(100vh - 90px);
-                overflow: hidden;
-            }
+            main { flex-direction: row; height: calc(100vh - 65px); overflow: hidden; }
         }
 
-        /* =========================================
-           4. PREVIEW CANVAS (LEFT)
-           ========================================= 
-        */
-        .preview-section {
-            flex: 1.2;
+        /* --- STICKY PREVIEW FOR MOBILE --- */
+        .preview-container {
+            flex: 1;
             background: #000;
-            border-radius: var(--radius-xl);
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            overflow: auto;
-            border: 1px solid var(--border);
-            position: relative;
-            padding: 40px;
-            background-image: radial-gradient(var(--border) 1px, transparent 1px);
-            background-size: 30px 30px;
+            padding: 20px;
+            position: sticky; /* Keeps card visible on mobile while scrolling settings */
+            top: 0;
+            z-index: 50;
+            min-height: 350px;
+            background-image: radial-gradient(#334155 1px, transparent 1px);
+            background-size: 20px 20px;
         }
 
         #postcard {
@@ -139,657 +78,187 @@
             background: #fff;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
-            flex-shrink: 0;
-            transition: transform 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transform-origin: center;
         }
 
-        .card-bg-layer {
-            position: absolute;
-            inset: 0;
-            background-size: cover;
-            background-position: center;
-            z-index: 0;
-            transition: filter 0.3s ease;
+        /* Mobile Scaling Logic */
+        @media (max-width: 600px) {
+            #postcard { transform: scale(0.65); }
+            .preview-container { min-height: 320px; padding: 0; }
         }
 
-        .card-overlay-layer {
-            position: absolute;
-            inset: 0;
-            z-index: 1;
-            transition: var(--transition);
-        }
-
-        .content-layer {
-            position: relative;
-            z-index: 10;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            padding: 50px;
-        }
-
-        .quote-block {
-            margin-bottom: 30px;
-            position: relative;
-            width: 100%;
-        }
-
-        .quote-text {
-            font-size: 28px;
-            line-height: 1.6;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            display: inline;
-        }
-
-        .author-block {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            font-size: 22px;
-            font-weight: 700;
-        }
-
-        .watermark {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            font-size: 12px;
-            opacity: 0.4;
-            letter-spacing: 2px;
-            pointer-events: none;
-            text-transform: uppercase;
-        }
-
-        /* =========================================
-           5. CONTROLS PANEL (RIGHT)
-           ========================================= 
-        */
-        .controls-section {
-            flex: 0 0 450px;
-            background: var(--bg-panel);
-            border-radius: var(--radius-xl);
-            border: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            box-shadow: var(--shadow);
-        }
-
-        .tabs-header {
-            display: flex;
-            background: rgba(0,0,0,0.2);
-            padding: 8px;
-            gap: 8px;
-        }
-
-        .tab-btn {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            border-radius: var(--radius-md);
-            background: transparent;
-            font-weight: 700;
-            color: var(--text-muted);
-            cursor: pointer;
-            transition: var(--transition);
-            font-size: 0.9rem;
-        }
-
-        .tab-btn.active {
-            background: var(--primary);
-            color: white;
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
-        }
-
-        .tab-body {
-            flex: 1;
-            overflow-y: auto;
-            padding: 24px;
-            scrollbar-width: thin;
-            scrollbar-color: var(--primary) transparent;
-        }
-
-        .tab-body::-webkit-scrollbar { width: 6px; }
-        .tab-body::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
-
-        .control-group { margin-bottom: 24px; }
+        .bg-layer { position: absolute; inset: 0; background-size: cover; background-position: center; transition: 0.3s; }
+        .overlay { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
         
-        .label-flex {
+        .content {
+            position: relative; z-index: 10; width: 100%; height: 100%;
+            display: flex; flex-direction: column; padding: 10%; justify-content: center;
+        }
+
+        .quote-text { font-size: 30px; line-height: 1.5; white-space: pre-wrap; font-weight: 500; }
+        .author-wrap { display: flex; align-items: center; gap: 10px; margin-top: 20px; font-weight: 700; font-size: 22px; }
+        .watermark { position: absolute; bottom: 15px; right: 20px; font-size: 10px; opacity: 0.4; letter-spacing: 1px; }
+
+        /* --- SETTINGS PANEL --- */
+        .settings-panel {
+            flex: 0 0 100%;
+            background: var(--bg-card);
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .label-text {
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .label-val {
-            font-family: monospace;
-            color: var(--primary);
-            font-weight: bold;
-        }
-
-        /* =========================================
-           6. FORM INPUT STYLES
-           ========================================= 
-        */
-        textarea, input[type="text"], select {
-            width: 100%;
-            padding: 14px;
-            background: var(--bg-input);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-md);
-            color: white;
-            font-size: 1rem;
-            transition: var(--transition);
-        }
-
-        textarea:focus, input:focus, select:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
-        }
-
-        textarea { min-height: 120px; resize: none; }
-
-        /* Range Inputs */
-        input[type="range"] {
-            -webkit-appearance: none;
-            width: 100%;
-            height: 6px;
-            background: var(--border);
-            border-radius: 5px;
-            outline: none;
-        }
-
-        input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 20px;
-            height: 20px;
-            background: var(--primary);
-            border: 3px solid var(--bg-panel);
-            border-radius: 50%;
-            cursor: pointer;
-            box-shadow: 0 0 10px rgba(0,0,0,0.5);
-        }
-
-        /* Grid Lists */
-        .color-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-        }
-
-        .color-card {
-            background: var(--bg-input);
-            padding: 10px;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-md);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-        }
-
-        input[type="color"] {
-            width: 30px;
-            height: 30px;
-            border: none;
-            background: none;
-            cursor: pointer;
-        }
-
-        .preset-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-        }
-
-        .preset-item {
-            aspect-ratio: 1;
-            border-radius: 10px;
-            cursor: pointer;
-            border: 2px solid transparent;
-            transition: var(--transition);
-            background-size: cover;
-        }
-
-        .preset-item:hover { transform: scale(1.1); }
-        .preset-item.active { border-color: var(--primary); }
-
-        /* Footer */
-        .panel-footer {
-            padding: 20px;
-            background: rgba(0,0,0,0.2);
-            border-top: 1px solid var(--border);
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 12px;
-        }
-
-        .btn {
-            padding: 14px;
-            border: none;
-            border-radius: var(--radius-md);
-            font-weight: 800;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            transition: var(--transition);
-        }
-
-        .btn-reset { background: #334155; color: white; }
-        .btn-save { background: var(--primary); color: white; }
-        .btn:active { transform: scale(0.95); }
-
-        /* =========================================
-           7. UTILITY CLASSES
-           ========================================= 
-        */
-        .db-btn {
-            width: 100%;
-            background: var(--bg-input);
-            border: 1px dashed var(--primary);
-            color: var(--primary);
-            padding: 10px;
-            margin-top: 10px;
-            cursor: pointer;
-            border-radius: 8px;
-            font-weight: bold;
-        }
-
-        .loading-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.8);
-            z-index: 2000;
-            display: none;
-            justify-content: center;
-            align-items: center;
             flex-direction: column;
-            gap: 20px;
+            border-top: 1px solid var(--border);
         }
 
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid var(--border);
-            border-top-color: var(--primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
+        @media (min-width: 1024px) {
+            .settings-panel { flex: 0 0 400px; border-top: none; border-left: 1px solid var(--border); }
         }
 
-        @keyframes spin { to { transform: rotate(360deg); } }
+        .tab-bar { display: flex; background: #0f172a; position: sticky; top: 0; z-index: 10; }
+        .tab-btn { flex: 1; padding: 15px; border: none; background: transparent; color: #94a3b8; font-weight: bold; cursor: pointer; border-bottom: 3px solid transparent; }
+        .tab-btn.active { color: var(--primary); border-bottom-color: var(--primary); background: rgba(99, 102, 241, 0.1); }
+
+        .settings-scroll { padding: 20px; overflow-y: auto; flex: 1; }
+        .control-item { margin-bottom: 20px; }
+        label { display: block; font-size: 0.75rem; color: #94a3b8; margin-bottom: 8px; text-transform: uppercase; font-weight: 800; }
+
+        input, select, textarea { width: 100%; padding: 12px; background: #0f172a; border: 1px solid var(--border); border-radius: 8px; color: white; font-family: inherit; }
+
+        /* Big Sliders for Mobile Fingers */
+        input[type="range"] { height: 30px; -webkit-appearance: none; background: transparent; }
+        input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; height: 24px; width: 24px; border-radius: 50%; background: var(--primary); cursor: pointer; margin-top: -8px; }
+        input[type="range"]::-webkit-slider-runnable-track { width: 100%; height: 8px; background: var(--border); border-radius: 4px; }
+
+        .footer { padding: 20px; background: #0f172a; display: flex; gap: 10px; padding-bottom: calc(20px + var(--safe-area-bottom)); }
+        .btn { flex: 1; padding: 15px; border-radius: 12px; border: none; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .btn-dl { background: var(--primary); color: white; }
     </style>
 </head>
 <body>
 
-    <div class="loading-overlay" id="loader">
-        <div class="spinner"></div>
-        <p>Creating Image...</p>
+<header>
+    <div class="brand"><i class="fas fa-feather-pointed"></i> Academic School</div>
+    <div style="font-size: 10px; opacity: 0.6;">v3.5 MOBILE READY</div>
+</header>
+
+<main>
+    <div class="preview-container">
+        <div id="postcard">
+            <div class="bg-layer" id="bgLayer"></div>
+            <div class="overlay" id="overlayLayer"></div>
+            <div class="content" id="contentLayer">
+                <div id="quoteMain" class="quote-text">আপনার উক্তি এখানে লিখুন...</div>
+                <div class="author-wrap" id="authorWrap">
+                    <i class="fas fa-pen-nib"></i>
+                    <span id="authorMain">লেখকের নাম</span>
+                </div>
+                <div class="watermark">ACADEMIC SCHOOL</div>
+            </div>
+        </div>
     </div>
 
-    <header>
-        <a href="#" class="brand">
-            <i class="fas fa-quote-left"></i>
-            <span>QuoteGen <span class="badge-pro">Pro Max</span></span>
-        </a>
-        <div class="header-actions">
-            <button class="db-btn" onclick="openDatabase()" style="margin:0; padding: 8px 15px;">
-                <i class="fas fa-database"></i> Quote DB
-            </button>
-        </div>
-    </header>
-
-    <main>
-        <div class="preview-section">
-            <div id="postcard">
-                <div class="card-bg-layer" id="cardBg"></div>
-                <div class="card-overlay-layer" id="cardOverlay"></div>
-
-                <div class="content-layer" id="contentLayer">
-                    <div class="quote-block" id="quoteBlock">
-                        <span class="quote-mark qm-start" id="qmStart">❝</span>
-                        <div class="quote-text" id="quoteText">সফলতা মানেই শেষ নয়, ব্যর্থতা মানেই মৃত্যু নয়; আসল হলো এগিয়ে যাওয়ার সাহস ধরে রাখা।</div>
-                        <span class="quote-mark qm-end" id="qmEnd">❞</span>
-                    </div>
-
-                    <div class="author-block" id="authorBlock">
-                        <i class="fas fa-feather-alt" id="authorIcon"></i>
-                        <span id="authorName">উইনস্টন চার্চিল</span>
-                    </div>
-                </div>
-                <div class="watermark" id="brandTag">Created by QuoteGen Pro</div>
-            </div>
-            
-            <div class="canvas-zoom" style="margin-top: 20px; color: var(--text-muted); font-size: 0.8rem;">
-                <i class="fas fa-expand"></i> Auto-scaling for Instagram & Facebook
-            </div>
+    <aside class="settings-panel">
+        <div class="tab-bar">
+            <button class="tab-btn active" onclick="openTab('edit', this)">লেখা</button>
+            <button class="tab-btn" onclick="openTab('design', this)">স্টাইল</button>
+            <button class="tab-btn" onclick="openTab('image', this)">ছবি</button>
         </div>
 
-        <div class="controls-section">
-            <div class="tabs-header">
-                <button class="tab-btn active" onclick="switchTab('tab-content', this)">
-                    <i class="fas fa-pen-nib"></i> লেখা
-                </button>
-                <button class="tab-btn" onclick="switchTab('tab-style', this)">
-                    <i class="fas fa-palette"></i> ডিজাইন
-                </button>
-                <button class="tab-btn" onclick="switchTab('tab-bg', this)">
-                    <i class="fas fa-image"></i> নেপথ্য
-                </button>
-            </div>
-
-            <div id="tab-content" class="tab-body tab-content active">
-                <div class="control-group">
-                    <div class="label-flex">
-                        <span class="label-text">উক্তি (Quote Text)</span>
-                        <span class="label-val" id="charCount">0/200</span>
-                    </div>
-                    <textarea id="inputQuote" placeholder="এখানে উক্তিটি লিখুন..."></textarea>
-                    <button class="db-btn" onclick="getRandomQuote()">
-                        <i class="fas fa-random"></i> রেন্ডম উক্তি জেনারেট করুন
-                    </button>
+        <div class="settings-scroll">
+            <div id="tab-edit" class="tab-pane">
+                <div class="control-item">
+                    <label>উক্তি (Quote)</label>
+                    <textarea id="inQuote" rows="3" oninput="draw()">সাফল্য মানেই শেষ নয়, ব্যর্থতা মানেই মৃত্যু নয়; আসল হলো এগিয়ে যাওয়ার সাহস ধরে রাখা।</textarea>
                 </div>
-
-                <div class="control-group">
-                    <div class="label-flex">
-                        <span class="label-text">লেখকের নাম</span>
-                    </div>
-                    <input type="text" id="inputAuthor" placeholder="লেখকের নাম...">
-                </div>
-
-                <div class="control-group">
-                    <div class="label-flex">
-                        <span class="label-text">এলাইনমেন্ট (Text Alignment)</span>
-                    </div>
-                    <div class="align-group">
-                        <button class="align-btn active" onclick="setAlignment('center', 'center', this)"><i class="fas fa-align-center"></i></button>
-                        <button class="align-btn" onclick="setAlignment('flex-start', 'left', this)"><i class="fas fa-align-left"></i></button>
-                        <button class="align-btn" onclick="setAlignment('flex-end', 'right', this)"><i class="fas fa-align-right"></i></button>
-                    </div>
-                </div>
-
-                <div class="control-group">
-                    <div class="label-flex">
-                        <span class="label-text">ব্র্যান্ড ওয়াটারমার্ক</span>
-                    </div>
-                    <input type="text" id="inputWatermark" placeholder="ওয়াটারমার্ক লেখা..." oninput="updateWatermark(this.value)">
+                <div class="control-item">
+                    <label>লেখক</label>
+                    <input type="text" id="inAuthor" value="উইনস্টন চার্চিল" oninput="draw()">
                 </div>
             </div>
 
-            <div id="tab-style" class="tab-body tab-content">
-                <div class="control-group">
-                    <div class="label-flex">
-                        <span class="label-text">ফন্ট ফ্যামিলি (Premium Fonts)</span>
-                    </div>
-                    <select id="selectFont" onchange="updateStyles()">
-                        <option value="'Hind Siliguri', sans-serif">Hind Siliguri (স্ট্যান্ডার্ড)</option>
-                        <option value="'SolaimanLipi', sans-serif">SolaimanLipi (সোলাইমান লিপি)</option>
-                        <option value="'Charukola Ultra Light', sans-serif">Charukola (ক্যালিগ্রাফি)</option>
-                        <option value="'Ben Sen', sans-serif">Ben Sen (বোল্ড)</option>
-                        <option value="'Tiro Bangla', serif">Tiro Bangla (ঐতিহ্যবাহী)</option>
-                        <option value="'Baloo Da 2', sans-serif">Baloo Da 2 (মডার্ন)</option>
-                        <option value="'Galada', cursive">Galada (স্টাইলিশ)</option>
+            <div id="tab-design" class="tab-pane" style="display:none">
+                <div class="control-item">
+                    <label>ফন্ট নির্বাচন</label>
+                    <select id="inFont" onchange="draw()">
+                        <option value="'Charukola Ultra Light'">Charukola</option>
+                        <option value="'Ben Sen'">Ben Sen (Bold)</option>
+                        <option value="'SolaimanLipi'">SolaimanLipi</option>
                     </select>
                 </div>
-
-                <div class="control-group">
-                    <div class="label-flex">
-                        <span class="label-text">ফন্ট সাইজ</span>
-                        <span class="label-val" id="lblSize">28px</span>
-                    </div>
-                    <input type="range" id="rangeSize" min="18" max="100" value="28" oninput="updateStyles()">
-                </div>
-
-                <div class="control-group">
-                    <div class="label-flex">
-                        <span class="label-text">টেক্সট কালার ও শ্যাডো</span>
-                    </div>
-                    <div class="color-grid">
-                        <label class="color-card">
-                            <input type="color" id="colText" value="#1e293b" oninput="updateStyles()">
-                            <span>টেক্সট</span>
-                        </label>
-                        <label class="color-card">
-                            <input type="color" id="colAuthor" value="#dc2626" oninput="updateStyles()">
-                            <span>লেখক</span>
-                        </label>
-                    </div>
-                </div>
-
-                <div class="control-group">
-                    <div class="label-flex">
-                        <span class="label-text">লাইন হাইট ও লেটার স্পেসিং</span>
-                    </div>
-                    <input type="range" id="rangeLineHeight" min="10" max="30" value="16" oninput="updateStyles()">
+                <div class="control-item">
+                    <label>সাইজ (Size)</label>
+                    <input type="range" id="inSize" min="20" max="80" value="30" oninput="draw()">
                 </div>
             </div>
 
-            <div id="tab-bg" class="tab-body tab-content">
-                <div class="control-group">
-                    <div class="label-flex"><span class="label-text">ইমেজ ফিল্টারস</span></div>
-                    <div class="filter-controls">
-                        <div class="label-flex">
-                            <span style="font-size:0.7rem">ব্লার (Blur)</span>
-                            <span class="label-val" id="lblBlur">0px</span>
-                        </div>
-                        <input type="range" id="rangeBlur" min="0" max="20" value="0" oninput="updateFilters()">
-                        
-                        <div class="label-flex" style="margin-top:15px">
-                            <span style="font-size:0.7rem">ব্রাইটনেস (Brightness)</span>
-                            <span class="label-val" id="lblBright">100%</span>
-                        </div>
-                        <input type="range" id="rangeBright" min="0" max="200" value="100" oninput="updateFilters()">
-                    </div>
+            <div id="tab-image" class="tab-pane" style="display:none">
+                <div class="control-item">
+                    <label>ব্যাকগ্রাউন্ড ছবি</label>
+                    <input type="file" accept="image/*" onchange="updateBg(this)">
                 </div>
-
-                <div class="control-group">
-                    <div class="label-flex"><span class="label-text">প্রিমিয়াম ব্যাকগ্রাউন্ডস</span></div>
-                    <div class="preset-grid">
-                        <div class="preset-item" onclick="setPreset('p1')" style="background-image:url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=100')"></div>
-                        <div class="preset-item" onclick="setPreset('p2')" style="background-image:url('https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=100')"></div>
-                        <div class="preset-item" onclick="setPreset('p3')" style="background-image:url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=100')"></div>
-                        <div class="preset-item" onclick="setPreset('p4')" style="background-image:url('https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=100')"></div>
-                    </div>
+                <div class="control-item">
+                    <label>অন্ধকার ভাব (Darkness)</label>
+                    <input type="range" id="inDark" min="0" max="80" value="0" oninput="draw()">
                 </div>
-
-                <div class="control-group">
-                    <div class="label-flex"><span class="label-text">ওভারলে অপাসিটি</span></div>
-                    <input type="range" id="rangeOverlay" min="0" max="100" value="0" oninput="updateOverlay()">
-                </div>
-            </div>
-
-            <div class="panel-footer">
-                <button class="btn btn-reset" onclick="resetDefaults()">
-                    <i class="fas fa-undo"></i>
-                </button>
-                <button class="btn btn-save" onclick="downloadImage()">
-                    <i class="fas fa-cloud-download-alt"></i> সেভ করুন
-                </button>
             </div>
         </div>
-    </main>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+        <div class="footer">
+            <button class="btn btn-dl" onclick="download()">
+                <i class="fas fa-download"></i> ইমেজ সেভ করুন
+            </button>
+        </div>
+    </aside>
+</main>
 
-    <script>
-        /* =========================================
-           8. QUOTE DATABASE (EXPANDED)
-           ========================================= 
-        */
-        const QUOTE_DB = [
-            { text: "অনুকরণ নয়, অনুসরণ নয়, নিজেকে খুঁজুন, নিজেকে জানুন, নিজের পথে চলুন।", author: "ডেল কার্নেগি" },
-            { text: "তুমি যদি তোমার সময়ের মূল্য না দাও, তবে অন্যরাও দেবে না।", author: "স্টিভ জবস" },
-            { text: "ভুল করা দোষের কথা নয়, কিন্তু ভুল সংশোধন না করা দোষের কথা।", author: "কনফুসিয়াস" },
-            { text: "সাফল্যের সিঁড়ি নিজের হাতেই তৈরি করতে হয়।", author: "হুমায়ূন আহমেদ" },
-            { text: "স্বপ্ন সেটা নয় যা মানুষ ঘুমিয়ে দেখে, স্বপ্ন সেটা যা মানুষকে ঘুমাতে দেয় না।", author: "এ পি জে আব্দুল কালাম" },
-            { text: "জীবন মানেই ঝুঁকি নেওয়া। ঝুঁকি না নিলে জয়ের আনন্দ পাওয়া যায় না।", author: "স্বামী বিবেকানন্দ" },
-            { text: "বিদ্যা সহজ, শিক্ষা কঠিন; বিদ্যা আবরণে, শিক্ষা আচরণে।", author: "রবীন্দ্রনাথ ঠাকুর" },
-            { text: "অপেক্ষা হলো শুদ্ধতম ভালোবাসার একটি চিহ্ন।", author: "সংগৃহীত" },
-            { text: "গতকালকের হার আজিকার জয়ের অনুপ্রেরণা হওয়া উচিত।", author: "নেলসন ম্যান্ডেলা" },
-            { text: "চরিত্রহীন মানুষের কোনো সম্মান থাকে না।", author: "চরক" }
-            // Note: In a production environment, this would have 1000+ entries
-        ];
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
-        /* =========================================
-           9. CORE APP STATE & DOM
-           ========================================= 
-        */
-        const state = {
-            currentFilters: { blur: 0, brightness: 100 },
-            overlay: 0,
-            zoom: 1
-        };
+<script>
+    function openTab(id, btn) {
+        document.querySelectorAll('.tab-pane').forEach(p => p.style.display = 'none');
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById('tab-' + id).style.display = 'block';
+        btn.classList.add('active');
+    }
 
-        const dom = {
-            card: document.getElementById('postcard'),
-            bg: document.getElementById('cardBg'),
-            overlay: document.getElementById('cardOverlay'),
-            quote: document.getElementById('quoteText'),
-            author: document.getElementById('authorName'),
-            inQuote: document.getElementById('inputQuote'),
-            inAuthor: document.getElementById('inputAuthor'),
-            loader: document.getElementById('loader')
-        };
+    function draw() {
+        const quote = document.getElementById('inQuote').value;
+        const author = document.getElementById('inAuthor').value;
+        const size = document.getElementById('inSize').value;
+        const font = document.getElementById('inFont').value;
+        const dark = document.getElementById('inDark').value / 100;
 
-        /* =========================================
-           10. EVENT LISTENERS
-           ========================================= 
-        */
-        window.addEventListener('DOMContentLoaded', () => {
-            // Live Update Listeners
-            dom.inQuote.addEventListener('input', (e) => {
-                dom.quote.innerText = e.target.value;
-                document.getElementById('charCount').innerText = `${e.target.value.length}/200`;
-            });
+        document.getElementById('quoteMain').innerText = quote;
+        document.getElementById('authorMain').innerText = author;
+        document.getElementById('postcard').style.fontFamily = font;
+        document.getElementById('quoteMain').style.fontSize = size + 'px';
+        document.getElementById('overlayLayer').style.background = `rgba(0,0,0,${dark})`;
+    }
 
-            dom.inAuthor.addEventListener('input', (e) => {
-                dom.author.innerText = e.target.value;
-            });
-
-            // Set Initial Values
-            dom.inQuote.value = dom.quote.innerText;
-            dom.inAuthor.value = dom.author.innerText;
-            updateStyles();
-        });
-
-        /* =========================================
-           11. FUNCTIONAL LOGIC
-           ========================================= 
-        */
-        function switchTab(tabId, btn) {
-            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
-            btn.classList.add('active');
+    function updateBg(input) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = e => document.getElementById('bgLayer').style.backgroundImage = `url(${e.target.result})`;
+            reader.readAsDataURL(input.files[0]);
         }
+    }
 
-        function setAlignment(flex, text, btn) {
-            const container = document.getElementById('contentLayer');
-            container.style.alignItems = flex;
-            container.style.textAlign = text;
-            document.querySelectorAll('.align-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-        }
+    async function download() {
+        const btn = document.querySelector('.btn-dl');
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> প্রসেসিং...';
+        
+        // Reset scale for export to get full resolution
+        const card = document.getElementById('postcard');
+        const canvas = await html2canvas(card, { scale: 3, useCORS: true });
+        
+        const link = document.createElement('a');
+        link.download = `Academic_School_${Date.now()}.png`;
+        link.href = canvas.toDataURL();
+        link.click();
+        btn.innerHTML = '<i class="fas fa-download"></i> ইমেজ সেভ করুন';
+    }
 
-        function updateStyles() {
-            const font = document.getElementById('selectFont').value;
-            const size = document.getElementById('rangeSize').value;
-            const lineH = document.getElementById('rangeLineHeight').value / 10;
-            const colorT = document.getElementById('colText').value;
-            const colorA = document.getElementById('colAuthor').value;
+    window.onload = draw;
+</script>
 
-            dom.card.style.fontFamily = font;
-            dom.quote.style.fontSize = size + 'px';
-            dom.quote.style.lineHeight = lineH;
-            dom.quote.style.color = colorT;
-            dom.author.style.color = colorA;
-
-            document.getElementById('lblSize').innerText = size + 'px';
-        }
-
-        function updateFilters() {
-            const blur = document.getElementById('rangeBlur').value;
-            const bright = document.getElementById('rangeBright').value;
-            
-            dom.bg.style.filter = `blur(${blur}px) brightness(${bright}%)`;
-            
-            document.getElementById('lblBlur').innerText = blur + 'px';
-            document.getElementById('lblBright').innerText = bright + '%';
-        }
-
-        function updateOverlay() {
-            const val = document.getElementById('rangeOverlay').value / 100;
-            dom.overlay.style.backgroundColor = `rgba(0,0,0,${val})`;
-        }
-
-        function getRandomQuote() {
-            const rand = QUOTE_DB[Math.floor(Math.random() * QUOTE_DB.length)];
-            dom.inQuote.value = rand.text;
-            dom.inAuthor.value = rand.author;
-            dom.quote.innerText = rand.text;
-            dom.author.innerText = rand.author;
-        }
-
-        function setPreset(id) {
-            const presets = {
-                p1: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b",
-                p2: "https://images.unsplash.com/photo-1501854140801-50d01698950b",
-                p3: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e",
-                p4: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05"
-            };
-            dom.bg.style.backgroundImage = `url('${presets[id]}')`;
-        }
-
-        function updateWatermark(val) {
-            document.getElementById('brandTag').innerText = val;
-        }
-
-        /* =========================================
-           12. EXPORT LOGIC
-           ========================================= 
-        */
-        async function downloadImage() {
-            dom.loader.style.display = 'flex';
-            
-            try {
-                const canvas = await html2canvas(dom.card, {
-                    scale: 3, // High DPI for crisp text
-                    useCORS: true,
-                    logging: false,
-                    backgroundColor: null
-                });
-
-                const dataUrl = canvas.toDataURL('image/png');
-                const link = document.createElement('a');
-                link.download = `QuoteGen_${Date.now()}.png`;
-                link.href = dataUrl;
-                link.click();
-            } catch (err) {
-                console.error("Export failed:", err);
-                alert("An error occurred during export.");
-            } finally {
-                dom.loader.style.display = 'none';
-            }
-        }
-
-        function resetDefaults() {
-            if(confirm("Are you sure you want to reset all designs?")) {
-                location.reload();
-            }
-        }
-    </script>
 </body>
 </html>
