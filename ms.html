@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate Bangla Quote Generator Pro</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.maateen.me/solaiman-lipi/font.css" rel="stylesheet">
+    <link href="https://fonts.maateen.me/charukola-ultra-light/font.css" rel="stylesheet">
+    <link href="https://fonts.maateen.me/adorsho-lipi/font.css" rel="stylesheet">
+    <link href="https://fonts.maateen.me/ben-sen/font.css" rel="stylesheet">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@400;500;600;700;800&family=Galada&family=Hind+Siliguri:wght@300;400;500;600;700&family=Mina:wght@400;700&family=Noto+Sans+Bengali:wght@300;400;500;600;700&family=Tiro+Bangla:ital@0;1&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --secondary: #db2777;
+            --bg-body: #f1f5f9;
+            --bg-panel: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --radius-xl: 20px;
+            --radius-md: 10px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --transition: all 0.25s ease;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Hind Siliguri', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background: var(--bg-panel);
+            padding: 1rem;
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .brand {
+            font-family: 'Baloo Da 2', sans-serif;
+            font-weight: 800;
+            font-size: 1.4rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            padding: 1rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            flex: 1;
+        }
+
+        @media (min-width: 1024px) {
+            main {
+                flex-direction: row;
+                height: calc(100vh - 80px);
+                overflow: hidden;
+                padding: 2rem;
+            }
+        }
+
+        /* --- PREVIEW AREA --- */
+        .preview-section {
+            flex: 1;
+            background-color: #cbd5e1;
+            background-image: radial-gradient(#94a3b8 0.5px, transparent 0.5px);
+            background-size: 20px 20px;
+            border-radius: var(--radius-xl);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: auto;
+            border: 1px solid var(--border);
+            padding: 20px;
+            min-height: 400px;
+        }
+
+        #postcard {
+            width: 400px;
+            height: 400px;
+            background: #fff;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+            flex-shrink: 0; /* Prevents squishing on mobile */
+        }
+
+        .card-bg-layer { position: absolute; inset: 0; background-size: cover; background-position: center; z-index: 0; }
+        .card-overlay-layer { position: absolute; inset: 0; z-index: 1; }
+
+        .content-layer {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 10%;
+        }
+
+        .quote-block { margin-bottom: 20px; position: relative; max-width: 100%; }
+        .quote-text { font-size: 24px; line-height: 1.5; white-space: pre-wrap; word-wrap: break-word; display: inline; }
+        .quote-mark { line-height: 0; vertical-align: -5px; opacity: 0.8; display: inline-block; }
+        .qm-start { margin-right: 8px; }
+        .qm-end { margin-left: 8px; }
+        .author-block { display: flex; align-items: center; gap: 10px; font-size: 18px; font-weight: 600; }
+
+        /* --- CONTROLS AREA --- */
+        .controls-section {
+            flex: 0 0 100%;
+            background: var(--bg-panel);
+            border-radius: var(--radius-xl);
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            max-height: 600px;
+        }
+
+        @media (min-width: 1024px) {
+            .controls-section { flex: 0 0 400px; max-height: 100%; }
+        }
+
+        .tabs-header { display: flex; background: #f8fafc; border-bottom: 1px solid var(--border); }
+        .tab-btn { flex: 1; padding: 12px 5px; border: none; background: transparent; font-family: inherit; font-weight: 600; cursor: pointer; color: var(--text-muted); border-bottom: 3px solid transparent; font-size: 0.9rem; }
+        .tab-btn.active { color: var(--primary); border-bottom-color: var(--primary); background: #fff; }
+
+        .tab-body { flex: 1; overflow-y: auto; padding: 15px; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.3s; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .control-group { margin-bottom: 15px; }
+        .label-flex { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 0.85rem; font-weight: 700; }
+        
+        textarea, input[type="text"], select {
+            width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: var(--radius-md); font-family: inherit;
+        }
+
+        .align-group { display: flex; background: #f1f5f9; padding: 4px; border-radius: 8px; gap: 5px; }
+        .align-btn { flex: 1; border: none; background: transparent; padding: 10px; border-radius: 6px; cursor: pointer; color: var(--text-muted); }
+        .align-btn.active { background: #fff; color: var(--primary); box-shadow: var(--shadow); }
+
+        .color-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .color-card { display: flex; align-items: center; gap: 8px; padding: 8px; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 0.8rem; }
+        input[type="color"] { width: 25px; height: 25px; border: none; cursor: pointer; background: none; }
+
+        .preset-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+        .preset-item { height: 45px; border-radius: 6px; cursor: pointer; border: 1px solid #ddd; background-size: cover; }
+
+        .panel-footer { padding: 15px; border-top: 1px solid var(--border); display: flex; gap: 10px; }
+        .btn { flex: 1; padding: 12px; border: none; border-radius: var(--radius-md); font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .btn-reset { background: #f1f5f9; color: var(--text-muted); }
+        .btn-save { background: var(--primary); color: white; }
+
+        /* Hide Scrollbar for cleaner look on mobile */
+        .tab-body::-webkit-scrollbar { width: 4px; }
+        .tab-body::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="brand">
+            <i class="fas fa-quote-left"></i>
+            <span>QuoteGen <small style="font-size:0.6em; opacity:0.7">PRO</small></span>
+        </div>
+        <div style="font-weight: bold; color: var(--text-muted)">v2.5</div>
+    </header>
+
+    <main>
+        <div class="preview-section">
+            <div id="postcard">
+                <div class="card-bg-layer" id="cardBg"></div>
+                <div class="card-overlay-layer" id="cardOverlay"></div>
+                <div class="content-layer" id="contentLayer">
+                    <div class="quote-block">
+                        <span class="quote-mark qm-start" id="qmStart">❝</span>
+                        <div class="quote-text" id="quoteText">সফলতা মানেই শেষ নয়, ব্যর্থতা মানেই মৃত্যু নয়; আসল হলো এগিয়ে যাওয়ার সাহস ধরে রাখা।</div>
+                        <span class="quote-mark qm-end" id="qmEnd">❞</span>
+                    </div>
+                    <div class="author-block" id="authorBlock">
+                        <i class="fas fa-feather-alt" id="authorIcon"></i>
+                        <span id="authorName">উইনস্টন চার্চিল</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls-section">
+            <div class="tabs-header">
+                <button class="tab-btn active" onclick="switchTab('tab-content', this)">লেখা</button>
+                <button class="tab-btn" onclick="switchTab('tab-style', this)">স্টাইল</button>
+                <button class="tab-btn" onclick="switchTab('tab-bg', this)">ব্যাকগ্রাউন্ড</button>
+            </div>
+
+            <div id="tab-content" class="tab-body tab-content active">
+                <div class="control-group">
+                    <div class="label-flex"><span>উক্তি (Quote)</span></div>
+                    <textarea id="inputQuote" oninput="updateLiveText()">সফলতা মানেই শেষ নয়, ব্যর্থতা মানেই মৃত্যু নয়; আসল হলো এগিয়ে যাওয়ার সাহস ধরে রাখা।</textarea>
+                </div>
+                <div class="control-group">
+                    <div class="label-flex"><span>লেখকের নাম</span></div>
+                    <input type="text" id="inputAuthor" value="উইনস্টন চার্চিল" oninput="updateLiveText()">
+                </div>
+                <div class="control-group">
+                    <div class="label-flex"><span>এলাইনমেন্ট</span></div>
+                    <div class="align-group">
+                        <button class="align-btn active" onclick="setAlignment('center', 'center', this)"><i class="fas fa-align-center"></i></button>
+                        <button class="align-btn" onclick="setAlignment('flex-start', 'left', this)"><i class="fas fa-align-left"></i></button>
+                        <button class="align-btn" onclick="setAlignment('flex-end', 'right', this)"><i class="fas fa-align-right"></i></button>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="label-flex"><span>লেখক আইকন</span></div>
+                    <select id="selectIcon" onchange="updateIcon()">
+                        <option value="fas fa-feather-alt">🪶 পালক কলম</option>
+                        <option value="fas fa-pen-nib">✒️ নিব কলম</option>
+                        <option value="fas fa-signature">✍️ স্বাক্ষর</option>
+                        <option value="none">❌ কোনোটিই না</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="tab-style" class="tab-body tab-content">
+                <div class="control-group">
+                    <div class="label-flex"><span>ফন্ট (Bangla Fonts)</span></div>
+                    <select id="selectFont" onchange="updateStyles()">
+                        <option value="'Charukola Ultra Light', sans-serif">Charukola (প্রিমিয়াম)</option>
+                        <option value="'Adorsho Lipi', sans-serif">Adorsho Lipi (সুন্দর)</option>
+                        <option value="'Ben Sen', sans-serif">Ben Sen (আধুনিক)</option>
+                        <option value="'SolaimanLipi', sans-serif">SolaimanLipi (ক্লাসিক)</option>
+                        <option value="'Galada', cursive">Galada (স্টাইলিশ)</option>
+                        <option value="'Hind Siliguri', sans-serif">Hind Siliguri</option>
+                        <option value="'Tiro Bangla', serif">Tiro Bangla</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <div class="label-flex"><span>টেক্সট সাইজ</span> <span id="valSize">24px</span></div>
+                    <input type="range" id="rangeSize" min="14" max="80" value="24" oninput="updateStyles()">
+                </div>
+                <div class="control-group">
+                    <div class="label-flex"><span>রঙ নির্বাচন</span></div>
+                    <div class="color-grid">
+                        <label class="color-card"><input type="color" id="colText" value="#1e293b" oninput="updateStyles()"> <span>লেখা</span></label>
+                        <label class="color-card"><input type="color" id="colAuthor" value="#dc2626" oninput="updateStyles()"> <span>লেখক</span></label>
+                        <label class="color-card"><input type="color" id="colMark" value="#4f46e5" oninput="updateStyles()"> <span>চিহ্ন</span></label>
+                        <label class="color-card"><input type="color" id="colShadow" value="#000000" oninput="updateStyles()"> <span>শ্যাডো</span></label>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="label-flex"><span>উদ্ধৃতি চিহ্ন স্টাইল</span></div>
+                    <select id="selectQuoteStyle" onchange="updateQuoteMarks()">
+                        <option value="solid">সলিড (❝ ❞)</option>
+                        <option value="classic">ক্লাসিক (“ ”)</option>
+                        <option value="none">চিহ্ন ছাড়া</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="tab-bg" class="tab-body tab-content">
+                <div class="control-group">
+                    <div class="label-flex"><span>প্রিসেট ব্যাকগ্রাউন্ড</span></div>
+                    <div class="preset-grid">
+                        <div class="preset-item" onclick="setPreset('white')" style="background:#fff"></div>
+                        <div class="preset-item" onclick="setPreset('dark')" style="background:#1e293b"></div>
+                        <div class="preset-item" onclick="setPreset('grad1')" style="background:linear-gradient(45deg, #ee9ca7, #ffdde1)"></div>
+                        <div class="preset-item" onclick="setPreset('grad2')" style="background:linear-gradient(45deg, #2193b0, #6dd5ed)"></div>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="label-flex"><span>ব্যাকগ্রাউন্ড ইমেজ</span></div>
+                    <input type="file" id="bgImageInput" accept="image/*" onchange="handleImageUpload(this)">
+                </div>
+                <div class="control-group">
+                    <div class="label-flex"><span>অন্ধকার ভাব (Overlay)</span></div>
+                    <input type="range" id="rangeOverlay" min="0" max="90" value="0" oninput="updateOverlay()">
+                </div>
+                <div class="control-group">
+                    <div class="label-flex"><span>কার্ড সাইজ</span></div>
+                    <select id="selectSize" onchange="resizeCard(this.value)">
+                        <option value="square">Square (1:1)</option>
+                        <option value="story">Story (9:16)</option>
+                        <option value="landscape">Landscape (16:9)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="panel-footer">
+                <button class="btn btn-reset" onclick="location.reload()">রিসেট</button>
+                <button class="btn btn-save" onclick="downloadImage()">
+                    <i class="fas fa-download"></i> ডাউনলোড
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <script>
+        const card = document.getElementById('postcard');
+        const quoteText = document.getElementById('quoteText');
+        const authorName = document.getElementById('authorName');
+
+        function switchTab(tabId, btn) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            btn.classList.add('active');
+        }
+
+        function updateLiveText() {
+            quoteText.innerText = document.getElementById('inputQuote').value;
+            authorName.innerText = document.getElementById('inputAuthor').value;
+        }
+
+        function setAlignment(flex, text, btn) {
+            const layer = document.getElementById('contentLayer');
+            layer.style.alignItems = flex;
+            layer.style.textAlign = text;
+            document.querySelectorAll('.align-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+
+        function updateStyles() {
+            const font = document.getElementById('selectFont').value;
+            const size = document.getElementById('rangeSize').value + 'px';
+            const textColor = document.getElementById('colText').value;
+            const authorColor = document.getElementById('colAuthor').value;
+            const markColor = document.getElementById('colMark').value;
+
+            card.style.fontFamily = font;
+            quoteText.style.fontSize = size;
+            quoteText.style.color = textColor;
+            document.getElementById('authorBlock').style.color = authorColor;
+            document.getElementById('qmStart').style.color = markColor;
+            document.getElementById('qmEnd').style.color = markColor;
+            document.getElementById('valSize').innerText = size;
+        }
+
+        function updateIcon() {
+            const icon = document.getElementById('selectIcon').value;
+            const iconEl = document.getElementById('authorIcon');
+            if(icon === 'none') iconEl.style.display = 'none';
+            else {
+                iconEl.style.display = 'block';
+                iconEl.className = icon;
+            }
+        }
+
+        function updateQuoteMarks() {
+            const style = document.getElementById('selectQuoteStyle').value;
+            const q1 = document.getElementById('qmStart');
+            const q2 = document.getElementById('qmEnd');
+            if(style === 'none') {
+                q1.style.display = 'none'; q2.style.display = 'none';
+            } else if(style === 'classic') {
+                q1.style.display = 'inline'; q2.style.display = 'inline';
+                q1.innerText = '“'; q2.innerText = '”';
+            } else {
+                q1.style.display = 'inline'; q2.style.display = 'inline';
+                q1.innerText = '❝'; q2.innerText = '❞';
+            }
+        }
+
+        function setPreset(type) {
+            const bg = document.getElementById('cardBg');
+            bg.style.backgroundImage = 'none';
+            if(type === 'white') bg.style.backgroundColor = '#fff';
+            if(type === 'dark') bg.style.backgroundColor = '#1e293b';
+            if(type === 'grad1') bg.style.background = 'linear-gradient(45deg, #ee9ca7, #ffdde1)';
+            if(type === 'grad2') bg.style.background = 'linear-gradient(45deg, #2193b0, #6dd5ed)';
+        }
+
+        function handleImageUpload(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = e => {
+                    document.getElementById('cardBg').style.backgroundImage = `url(${e.target.result})`;
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function updateOverlay() {
+            const val = document.getElementById('rangeOverlay').value / 100;
+            document.getElementById('cardOverlay').style.backgroundColor = `rgba(0,0,0,${val})`;
+        }
+
+        function resizeCard(val) {
+            if(val === 'square') { card.style.width = '400px'; card.style.height = '400px'; }
+            if(val === 'story') { card.style.width = '350px'; card.style.height = '600px'; }
+            if(val === 'landscape') { card.style.width = '600px'; card.style.height = '340px'; }
+        }
+
+        async function downloadImage() {
+            const btn = document.querySelector('.btn-save');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> প্রসেসিং...';
+            
+            try {
+                const canvas = await html2canvas(card, {
+                    scale: 3, // High resolution
+                    useCORS: true, // Fix for external images
+                    allowTaint: false,
+                    logging: false,
+                    backgroundColor: null
+                });
+                
+                const link = document.createElement('a');
+                link.download = `Quote_${Date.now()}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            } catch (error) {
+                alert('ডাউনলোড করা যাচ্ছে না। ব্রাউজার আপডেট করুন।');
+            } finally {
+                btn.innerHTML = '<i class="fas fa-download"></i> ডাউনলোড';
+            }
+        }
+
+        // Initialize Styles
+        updateStyles();
+    </script>
+</body>
+</html>
