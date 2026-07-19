@@ -1,0 +1,13 @@
+[
+  { "label": "Dhaka Board",      "url": "https://www.academicschool.net/p/jsc-dhaka-board.html" },
+  { "label": "Chittagong Board", "url": "https://www.academicschool.net/p/jsc-chittagong-board.html" },
+  { "label": "Rajshahi Board",   "url": "https://www.academicschool.net/p/jsc-rajshahi-board.html" },
+  { "label": "Jessore Board",    "url": "https://www.academicschool.net/p/jsc-jessore-board.html" },
+  { "label": "Comilla Board",    "url": "https://www.academicschool.net/p/jsc-cumilla-board.html" },
+  { "label": "Barisal Board",    "url": "https://www.academicschool.net/p/jsc-barisal-board.html" },
+  { "label": "Sylhet Board",     "url": "https://www.academicschool.net/p/jsc-sylhet-board.html" },
+  { "label": "Dinajpur Board",   "url": "https://www.academicschool.net/p/jsc-dinajpur-board.html" },
+  { "label": "Mymensingh Board", "url": "https://www.academicschool.net/p/jsc-mymensingh-board.html" },
+  { "label": "Madrasah Board",   "url": "https://www.academicschool.net/p/jsc-madrasa-board.html" },
+  { "label": "Technical Board",  "url": "https://www.academicschool.net/p/jsc-technical-board.html" }
+]
