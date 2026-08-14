@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Custom TV News Card | Ourschoolbd</title>
+    <!-- html2canvas Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Galada&family=Hind+Siliguri:wght@500;700&family=Mina:wght@400;700&family=Noto+Sans+Bengali:wght@500;700;800;900&family=Tiro+Bangla&family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Social Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --highlight-color: #ffeb3b; /* Default Highlight Color */
+        }
+        
+        body {
+            font-family: 'Roboto', 'Noto Sans Bengali', sans-serif;
+            background-color: #e9ecef;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .control-panel {
+            background: white; padding: 25px; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); width: 100%; max-width: 650px; margin-bottom: 30px; border-top: 5px solid #0056b3;
+        }
+        .panel-title { text-align: center; color: #333; font-size: 22px; font-weight: 700; margin-top: 0; margin-bottom: 20px; }
+        .form-section { background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #dee2e6; }
+        .form-section h3 { margin: 0 0 15px 0; font-size: 14px; color: #0056b3; text-transform: uppercase; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-weight: 600; margin-bottom: 5px; color: #495057; font-size: 13px; }
+        
+        input[type="text"], textarea, select {
+            width: 100%; padding: 10px; border: 1px solid #ced4da; border-radius: 6px; font-size: 14px; font-family: inherit; box-sizing: border-box; transition: 0.3s;
+        }
+        input[type="text"]:focus, textarea:focus, select:focus { border-color: #0056b3; outline: none; box-shadow: 0 0 5px rgba(0, 86, 179, 0.2); }
+        textarea { resize: vertical; min-height: 80px; }
+        input[type="range"] { width: 100%; cursor: pointer; }
+        .row { display: flex; gap: 15px; }
+        .col { flex: 1; }
+        input[type="color"] { width: 100%; height: 40px; border: 1px solid #ced4da; border-radius: 6px; cursor: pointer; padding: 2px; }
+        input[type="file"] { width: 100%; padding: 8px; background: #fff; border: 1px dashed #adb5bd; border-radius: 6px; cursor: pointer; }
+        
+        .toggle-container { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; font-weight: bold; color: #198754; cursor: pointer; }
+        
+        button {
+            background: linear-gradient(135deg, #0056b3, #003d82); color: white; border: none; padding: 15px 20px; font-size: 18px; font-weight: bold; border-radius: 8px; cursor: pointer; width: 100%; transition: 0.3s; margin-top: 10px;
+        }
+        button:hover { transform: translateY(-2px); box-shadow: 0 8px 15px rgba(0, 86, 179, 0.3); }
+
+        /* -------------------------------------------
+           1080x1080 TV STYLE CARD CSS
+        ------------------------------------------- */
+        .preview-wrapper {
+            width: 540px; /* Scaled 50% for screen preview */
+            height: 540px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            background: #fff;
+        }
+        
+        #news-card {
+            width: 1080px;
+            height: 1080px; 
+            background-color: #fff;
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box;
+            transform: scale(0.5);
+            transform-origin: top left;
+        }
+        
+        /* 1. Photo Area & Date Badge */
+        #photo-area {
+            width: 1080px;
+            height: 500px; 
+            background-image: url('https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?q=80&w=1080&auto=format&fit=crop'); 
+            background-size: cover;
+            background-position: center;
+            transition: height 0.3s;
+            position: relative; /* Added for absolute positioning inside it */
+        }
+
+        /* Top Left Date Badge */
+        .date-badge {
+            position: absolute;
+            top: 25px;
+            left: 25px;
+            background: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(5px);
+            color: #ffffff;
+            padding: 8px 25px;
+            border-radius: 6px;
+            font-family: 'Tiro Bangla', serif;
+            font-size: 26px;
+            font-weight: 600;
+            border-left: 6px solid var(--highlight-color);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            z-index: 10;
+        }
+
+        /* 2. Headline Area */
+        #headline-area {
+            background: linear-gradient(to right, #b50000, #cc0000, #b50000);
+            padding: 35px 40px 65px 40px; /* Keeps space for comment box at bottom */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            flex-grow: 1; 
+            position: relative;
+        }
+        .headline-text {
+            font-family: 'Tiro Bangla', serif; /* Default to Tiro Bangla */
+            font-size: 58px;
+            font-weight: 800;
+            color: #ffffff;
+            line-height: 1.35;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            white-space: pre-wrap; 
+        }
+        
+        /* Highlight Feature Class */
+        .headline-text .highlight {
+            color: var(--highlight-color);
+        }
+
+        /* Toggleable Comment Text */
+        .comment-text-box {
+            position: absolute;
+            bottom: 15px; 
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            padding: 8px 30px;
+            border-radius: 50px;
+            font-family: 'Tiro Bangla', serif;
+            font-size: 22px; /* Default size */
+            font-weight: 600;
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 5;
+            white-space: nowrap;
+        }
+        .comment-text-box i {
+            color: var(--highlight-color); 
+        }
+
+        /* 3. Branding Footer (Space Between) */
+        #brand-area {
+            height: 80px; 
+            background-color: #8b0000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* FB on Left, Contact on Right */
+            padding: 0 40px; 
+            color: #fff;
+        }
+        .fb-brand {
+            font-size: 34px; 
+            font-family: 'Noto Sans Bengali', sans-serif;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .fb-brand i {
+            font-size: 42px; 
+            color: #ffffff;
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
+        }
+
+        .ad-contact-text {
+            font-family: 'Noto Sans Bengali', sans-serif;
+            font-size: 26px;
+            font-weight: 600;
+            color: #ffffff;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
+        }
+
+        /* 4. Ad Banner (Full Image Style) */
+        #ad-area {
+            height: 200px;
+            background-color: #115025; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0; 
+            overflow: hidden;
+        }
+        #ad-banner-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; 
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="control-panel">
+        <h2 class="panel-title">Customizable TV News Card</h2>
+        
+        <!-- SECTION: Theme & Fonts -->
+        <div class="form-section" style="border-left: 4px solid #ff9800;">
+            <h3 style="color: #e65100;">১. থিম কালার ও ফন্ট (Theme & Fonts)</h3>
+            <div class="row">
+                <div class="col form-group">
+                    <label>শিরোনাম ফন্ট (Headline Font):</label>
+                    <select id="font-select" onchange="updateFont(this.value)">
+                        <option value="'Tiro Bangla', serif" selected>Tiro Bangla (পত্রিকা স্টাইল - Default)</option>
+                        <option value="'Noto Sans Bengali', sans-serif">Noto Sans Bengali (ব্রডকাস্ট/বোল্ড)</option>
+                        <option value="'Hind Siliguri', sans-serif">Hind Siliguri (মডার্ন/স্মুথ)</option>
+                        <option value="'Mina', sans-serif">Mina (স্কয়ার/ক্লাসিক)</option>
+                        <option value="'Galada', cursive">Galada (স্টাইলিশ)</option>
+                    </select>
+                </div>
+                <div class="col form-group">
+                    <label>শিরোনাম টেক্সট কালার:</label>
+                    <input type="color" id="hl-text-color" value="#ffffff" oninput="updateColors()">
+                </div>
+            </div>
+
+            <!-- Highlight Color Picker -->
+            <div class="row">
+                <div class="col form-group">
+                    <label>হাইলাইট কালার (Highlight Color):</label>
+                    <input type="color" id="hl-highlight-color" value="#ffeb3b" oninput="updateColors()">
+                </div>
+                <div class="col form-group">
+                    <label>ফুটার ব্যাকগ্রাউন্ড (Footer BG):</label>
+                    <input type="color" id="bg-footer" value="#8b0000" oninput="updateColors()">
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col form-group">
+                    <label>হেডলাইন ব্যাকগ্রাউন্ড (মাঝের কালার):</label>
+                    <input type="color" id="bg-hl-center" value="#cc0000" oninput="updateColors()">
+                </div>
+                <div class="col form-group">
+                    <label>হেডলাইন ব্যাকগ্রাউন্ড (পাশের কালার):</label>
+                    <input type="color" id="bg-hl-edge" value="#b50000" oninput="updateColors()">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3>২. সংবাদ শিরোনাম (Headline)</h3>
+            <div class="form-group">
+                <label>শিরোনাম (**দিয়ে শব্দ কালার করুন):</label>
+                <textarea id="input-headline" oninput="updateHeadline(this.value)">তুরস্ক সীমান্ত দিয়ে ইরানের **রফতানি**
+বেড়েছে প্রায় ৩০০% : আল জাজিরা</textarea>
+            </div>
+            <div class="form-group">
+                <label>তারিখ (Date): <span style="font-size:11px; font-weight:normal;">(অটো জেনারেটেড)</span></label>
+                <input type="text" id="input-date" oninput="updateText('date-text', this.value)">
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3>৩. মূল ছবি (Main Photo)</h3>
+            <input type="file" id="image-upload" accept="image/*" onchange="uploadImage(event, 'photo-area')">
+        </div>
+
+        <div class="form-section">
+            <h3>৪. সোশ্যাল হ্যান্ডেল (Branding)</h3>
+            <div class="row">
+                <div class="col form-group">
+                    <label>ফেসবুক পেজ (Left Side):</label>
+                    <input type="text" id="input-fb" value="আঁরা মইশখাইল্যা" oninput="updateText('fb-txt', this.value)">
+                </div>
+                <div class="col form-group">
+                    <label>যোগাযোগ টেক্সট (Right Side):</label>
+                    <input type="text" id="input-contact" value="বিজ্ঞাপন দিতে যোগাযোগ করুন 01800-123456" oninput="updateText('ad-contact-txt', this.value)">
+                </div>
+            </div>
+            
+            <!-- Comment Section Controls -->
+            <div style="background: #e9ecef; padding: 10px; border-radius: 6px; margin-top: 10px;">
+                <label class="toggle-container" style="margin-bottom: 5px;">
+                    <input type="checkbox" id="comment-toggle" checked onchange="toggleCommentText()"> 
+                    'বিস্তারিত পড়ুন কমেন্টে' লেখাটি যুক্ত করুন
+                </label>
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label style="font-size: 11px; color: #666;">লেখাটির সাইজ ছোট-বড় করুন (Text Size):</label>
+                    <input type="range" min="16" max="40" value="22" oninput="updateCommentSize(this.value)">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <label class="toggle-container">
+                <input type="checkbox" id="ad-toggle" checked onchange="toggleAdBanner()"> 
+                বিজ্ঞাপন ব্যানার যুক্ত করুন (Add Ad Banner)
+            </label>
+            <!-- Full Banner Ad Controls -->
+            <div id="ad-controls">
+                <div class="form-group">
+                    <label>বিজ্ঞাপন ব্যানার (Image URL):</label>
+                    <input type="text" id="input-ad-banner" value="https://via.placeholder.com/1080x200/115025/ffffff?text=Your+Full+Ad+Banner+Here+(1080x200)" oninput="document.getElementById('ad-banner-img').src = this.value">
+                </div>
+                <div class="form-group">
+                    <label style="font-size: 12px; color: #d32f2f;">অথবা ডিভাইস থেকে ব্যানার আপলোড করুন:</label>
+                    <input type="file" id="ad-upload" accept="image/*" onchange="uploadAdImage(event)">
+                </div>
+                <div class="form-group" style="margin-top:10px;">
+                    <label>বিজ্ঞাপন ব্যাকগ্রাউন্ড (ট্রান্সপারেন্ট ইমেজের জন্য):</label>
+                    <input type="color" id="bg-ad" value="#115025" oninput="updateColors()">
+                </div>
+            </div>
+        </div>
+
+        <button onclick="downloadImage()">Download HD Card (1080x1080)</button>
+    </div>
+
+    <!-- 1080x1080 CARD PREVIEW -->
+    <div class="preview-wrapper" id="preview-wrapper">
+        <div id="news-card">
+            
+            <!-- Photo & Top-Left Date -->
+            <div id="photo-area">
+                <div id="date-text" class="date-badge">১৪ আগস্ট ২০২৬</div>
+            </div>
+
+            <!-- Headline Area -->
+            <div id="headline-area">
+                <h1 id="headline-text" class="headline-text">তুরস্ক সীমান্ত দিয়ে ইরানের <span class="highlight">রফতানি</span><br>বেড়েছে প্রায় ৩০০% : আল জাজিরা</h1>
+                
+                <div id="comment-text-box" class="comment-text-box">
+                    বিস্তারিত পড়ুন কমেন্টে <i class="fa-solid fa-arrow-pointer"></i>
+                </div>
+            </div>
+
+            <!-- FB Footer (Left aligned FB, Right aligned Contact) -->
+            <div id="brand-area">
+                <div class="fb-brand">
+                    <i class="fa-brands fa-facebook"></i> <span id="fb-txt">আঁরা মইশখাইল্যা</span>
+                </div>
+                <div class="ad-contact-text" id="ad-contact-txt">
+                    বিজ্ঞাপন দিতে যোগাযোগ করুন 01800-123456
+                </div>
+            </div>
+
+            <!-- Full Banner Image Area -->
+            <div id="ad-area">
+                <img id="ad-banner-img" src="https://via.placeholder.com/1080x200/115025/ffffff?text=Your+Full+Ad+Banner+Here+(1080x200)" crossorigin="anonymous" alt="Full Ad Banner">
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // ON LOAD: Set Auto Date
+        window.onload = function() {
+            const dateOptions = { day: 'numeric', month: 'long', year: 'numeric' };
+            const today = new Date().toLocaleDateString('bn-BD', dateOptions);
+            document.getElementById('input-date').value = today;
+            document.getElementById('date-text').innerText = today;
+        };
+
+        // 1. Image Upload (Main Photo)
+        function uploadImage(event, elementId) {
+            const file = event.target.files[0];
+            if(file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById(elementId).style.backgroundImage = `url('${e.target.result}')`;
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+        
+        // 1.2 Image Upload (Ad Banner)
+        function uploadAdImage(event) {
+            const file = event.target.files[0];
+            if(file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('ad-banner-img').src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // 2. Text Update
+        function updateText(elementId, value) {
+            document.getElementById(elementId).innerText = value || ' ';
+        }
+
+        // 3. Highlight Text Parser (Replaces **text** with colored span)
+        function updateHeadline(value) {
+            const formattedHTML = value.replace(/\*\*(.*?)\*\*/g, '<span class="highlight">$1</span>');
+            document.getElementById('headline-text').innerHTML = formattedHTML || ' ';
+        }
+
+        // 4. Update Fonts
+        function updateFont(fontFamily) {
+            document.getElementById('headline-text').style.fontFamily = fontFamily;
+            document.getElementById('date-text').style.fontFamily = fontFamily;
+            document.getElementById('comment-text-box').style.fontFamily = fontFamily;
+        }
+
+        // 5. Update Colors dynamically
+        function updateColors() {
+            const hlCenter = document.getElementById('bg-hl-center').value;
+            const hlEdge = document.getElementById('bg-hl-edge').value;
+            const footerBg = document.getElementById('bg-footer').value;
+            const adBg = document.getElementById('bg-ad').value;
+            const hlTextColor = document.getElementById('hl-text-color').value;
+            const hlHighlight = document.getElementById('hl-highlight-color').value;
+
+            // Apply Gradient to Headline Area
+            document.getElementById('headline-area').style.background = `linear-gradient(to right, ${hlEdge}, ${hlCenter}, ${hlEdge})`;
+            // Apply Text Color
+            document.getElementById('headline-text').style.color = hlTextColor;
+            document.getElementById('date-text').style.color = hlTextColor;
+            // Apply Highlight Color (using CSS variables)
+            document.documentElement.style.setProperty('--highlight-color', hlHighlight);
+            // Apply Solid Colors
+            document.getElementById('brand-area').style.backgroundColor = footerBg;
+            document.getElementById('ad-area').style.backgroundColor = adBg;
+        }
+
+        // 6. Toggle and Resize Comment Text
+        function toggleCommentText() {
+            const isChecked = document.getElementById('comment-toggle').checked;
+            const commentBox = document.getElementById('comment-text-box');
+            if (isChecked) {
+                commentBox.style.display = 'flex';
+            } else {
+                commentBox.style.display = 'none';
+            }
+        }
+        
+        // Dynamically change font size of the comment text
+        function updateCommentSize(size) {
+            document.getElementById('comment-text-box').style.fontSize = size + 'px';
+        }
+
+        // 7. Toggle Ad Banner
+        function toggleAdBanner() {
+            const isChecked = document.getElementById('ad-toggle').checked;
+            const adArea = document.getElementById('ad-area');
+            const adControls = document.getElementById('ad-controls');
+            const photoArea = document.getElementById('photo-area');
+
+            if (isChecked) {
+                adArea.style.display = 'flex';
+                adControls.style.display = 'block';
+                photoArea.style.height = '500px'; 
+            } else {
+                adArea.style.display = 'none';
+                adControls.style.display = 'none';
+                photoArea.style.height = '700px'; 
+            }
+        }
+
+        // 8. Download HD Image
+        function downloadImage() {
+            const card = document.getElementById('news-card');
+            const wrapper = document.getElementById('preview-wrapper');
+            
+            // Remove scaling for HD 1080p capture
+            card.style.transform = 'scale(1)';
+            wrapper.style.width = '1080px';
+            wrapper.style.height = '1080px';
+            
+            html2canvas(card, {
+                scale: 1, 
+                useCORS: true, 
+                backgroundColor: '#ffffff'
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'fb_news_card_1080p.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+                
+                // Restore preview scaling
+                card.style.transform = 'scale(0.5)';
+                wrapper.style.width = '540px';
+                wrapper.style.height = '540px';
+            });
+        }
+    </script>
+</body>
+</html>
